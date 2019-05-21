@@ -14,18 +14,18 @@ public class CustomAdapter extends BaseAdapter {
 
     Context context;
     int layout;
-    List<Company> companyList;
+    List<WorkRequirement> requirementList;
 
-    public CustomAdapter(Context context, int layout, List<Company> companyList) {
+    public CustomAdapter(Context context, int layout, List<WorkRequirement> requirementList) {
         this.context = context;
         this.layout = layout;
-        this.companyList = companyList;
+        this.requirementList = requirementList;
     }
 
 
     @Override
     public int getCount() {
-        return companyList.size();
+        return requirementList.size();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        ImageView company_logo;
+        ImageView companyLogo;
         TextView requirePos;
         TextView companyName;
         TextView area;
@@ -52,7 +52,22 @@ public class CustomAdapter extends BaseAdapter {
         if(convertView == null){
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(layout, null);
+            holder.companyLogo = convertView.findViewById(R.id.companyLogo);
+            holder.requirePos = convertView.findViewById(R.id.requirePos);
+            holder.companyName = convertView.findViewById(R.id.compName);
+            holder.area = convertView.findViewById(R.id.area);
+            holder.salary = convertView.findViewById(R.id.salary);
+            convertView.setTag(holder);
         }
-        return null;
+        else
+            holder = (ViewHolder)convertView.getTag();
+        WorkRequirement requirement = requirementList.get(position);
+        holder.companyLogo.setImageResource(R.mipmap.ic_launcher);
+        holder.companyName.setText(requirement.getCompanyName());
+        holder.requirePos.setText(requirement.getWorkPos());
+        holder.area.setText(requirement.getArea());
+        holder.salary.setText(requirement.getSalary());
+        return convertView;
     }
 }
