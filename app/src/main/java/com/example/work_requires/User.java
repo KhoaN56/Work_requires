@@ -1,8 +1,9 @@
 package com.example.work_requires;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     String username;
     String password;
     int type;
@@ -12,9 +13,9 @@ public class User {
     String fax;
     String address;
     String area;
-    Date date_birth;
+    String major;
 
-    public User(String username, String password, int type, String name, String email, String phone, String fax, String address, String area, Date date_birth) {
+    public User(String username, String password, int type, String name, String email, String phone, String fax, String address, String area, String major) {
         this.username = username;
         this.password = password;
         this.type = type;
@@ -24,7 +25,7 @@ public class User {
         this.fax = fax;
         this.address = address;
         this.area = area;
-        this.date_birth = date_birth;
+        this.major= major;
     }
 
     public String getUsername() {
@@ -63,8 +64,8 @@ public class User {
         return area;
     }
 
-    public Date getDate_birth() {
-        return date_birth;
+    public String getMajor() {
+        return major;
     }
 
     public void setUsername(String username) {
@@ -103,7 +104,7 @@ public class User {
         this.area = area;
     }
 
-    public void setDate_birth(Date date_birth) {
-        this.date_birth = date_birth;
+    public void setMajor(String major) {
+        this.major = major;
     }
 }

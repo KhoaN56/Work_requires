@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         searchButton = findViewById(R.id.searchButton);
         requireListView = findViewById(R.id.requireListView);
         adapter = new CustomAdapter(MainActivity.this, R.layout.requires_item, requirementList);
-        while()
         if(requirementList.get(0).getEndDate().equals(currentDate)){
 
         }

@@ -18,19 +18,20 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         return getWritableDatabase().rawQuery(sqlQuery,null);
     }
     public void insertUser (User user){
-        SQLiteDatabase database= getWritableDatabase();
-        String sql="INSERT INTO User VALUES ("+user.username+",?,?,?,?,?,?,?,?,?)";
+        SQLiteDatabase database= this.getWritableDatabase();
+        String sql="INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?)";
         SQLiteStatement statement = database.compileStatement(sql);
         statement.clearBindings();
-        statement.bindString(1, user.password);
-        statement.bindString(2, String.valueOf(user.type));
-        statement.bindString(3, user.name);
-        statement.bindString(4, user.email);
-        statement.bindString(5, user.phone);
-        statement.bindString(6, user.fax);
-        statement.bindString(7, user.address);
-        statement.bindString(8, user.area);
-        statement.bindString(9, String.valueOf(user.date_birth));
+        statement.bindString(1, user.username);
+        statement.bindString(2, user.password);
+        statement.bindDouble(3, user.type);
+        statement.bindString(4, user.name);
+        statement.bindString(5, user.email);
+        statement.bindString(6, user.phone);
+        statement.bindString(7, user.fax);
+        statement.bindString(8, user.address);
+        statement.bindString(9, user.area);
+        statement.bindString(10, user.major);
         statement.executeInsert();
     }
     @Override
