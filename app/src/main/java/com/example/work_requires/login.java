@@ -3,8 +3,10 @@ package com.example.work_requires;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -82,40 +84,42 @@ public class Login extends AppCompatActivity {
         text_pass = findViewById(R.id.password);
         managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
         managementDatabse.queryData("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY," +
-                "Type INTERGER(2), Pass VARCHAR(20), Name NVARCHAR(50), Email VARCHAR(50)," +
+                "Type INTERGER(2), Password VARCHAR(20), Name NVARCHAR(50), Email VARCHAR(50)," +
                 "Phone VARCHAR(10), Fax VARCHAR(20), Address NVARCHAR(100), Area NVARCHAR(20), Major NVARCHAR(50))");
 
     }
     public void checkLogin()
     {
-        username= text_pass.getText().toString();
+        username= text_username.getText().toString();
         pass= text_pass.getText().toString();
         String pass_true="";
         User user;
-        int type;
+        String type;
         Cursor cursor = managementDatabse.getDatasql("select * from user where username='"+username+"'");
         if(cursor.moveToNext())
         {
             pass_true= cursor.getString(2);
-            type= cursor.getInt(3);
+            type= cursor.getString(1);
+            Log.d("user", "user:" + username+ ", pass: "+ pass+ ", pass_true:"+pass_true+", type:" +type);
             if(pass.equals(pass_true))
             {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                user= new User(cursor.getString(0),cursor.getString(1), cursor.getInt(2),
+                user= new User(cursor.getString(0),cursor.getString(1), cursor.getString(2),
                         cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
                         cursor.getString(7),cursor.getString(8),cursor.getString(9));
-                if(type==1)
+                if(type.equals("1"))
                 {
                     //chuyển màn hình chính của nhà tuyển dụng
                 }
                 else
                 {
+                    Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     //chuyển màn hình chính của người tìm việc
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("user",user);
-                    Intent intent = new Intent();
-                    intent.putExtra("user",bundle);
-                    startActivity(intent);
+//                    Intent intent = new Intent();
+//                    intent.putExtra("user",bundle);
+//                    startActivity(intent);
                 }
             }
             else
