@@ -12,7 +12,7 @@ public class User {
     String fax;
     String address;
     String area;
-    Date date_birth;
+    Date dateOfBirth;
 
     public User(String username, String password, int type, String name, String email, String phone, String fax, String address, String area, Date date_birth) {
         this.username = username;
@@ -24,7 +24,7 @@ public class User {
         this.fax = fax;
         this.address = address;
         this.area = area;
-        this.date_birth = date_birth;
+        this.dateOfBirth = date_birth;
     }
 
     public String getUsername() {
@@ -63,8 +63,8 @@ public class User {
         return area;
     }
 
-    public Date getDate_birth() {
-        return date_birth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public void setUsername(String username) {
@@ -103,7 +103,7 @@ public class User {
         this.area = area;
     }
 
-    public void setDate_birth(Date date_birth) {
-        this.date_birth = date_birth;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

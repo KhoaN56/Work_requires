@@ -13,6 +13,19 @@ public class WorkRequirement {
     Date startDate;
     Date endDate;
 
+    public WorkRequirement(String companyName, String major, String area, String salary, String degree,
+                           String workPos, int experience, Date startDate, Date endDate) {
+        this.companyName = companyName;
+        this.major = major;
+        this.area = area;
+        this.salary = salary;
+        this.degree = degree;
+        this.workPos = workPos;
+        this.experience = experience;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public String getCompanyName() {
         return companyName;
     }

@@ -30,8 +30,12 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.bindString(6, user.fax);
         statement.bindString(7, user.address);
         statement.bindString(8, user.area);
-        statement.bindString(9, String.valueOf(user.date_birth));
+        statement.bindString(9, String.valueOf(user.dateOfBirth));
         statement.executeInsert();
+    }
+
+    public void insertRequirement(WorkRequirement requirement){
+
     }
     @Override
     public void onCreate(SQLiteDatabase db){
