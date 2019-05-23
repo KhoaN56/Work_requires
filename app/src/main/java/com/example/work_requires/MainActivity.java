@@ -49,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Start_Date DATE, End_Date DATE");
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("user");
-        User user = (User)bundle.getSerializable("user");
+        User user = (User) bundle.getSerializable("user");
         Cursor cursor =workRequireDatabase.getDatasql("SELECT * FROM Requirements WHERE " +
                 "Major ='"+user.getMajor()+"'");
-        while(cursor.moveToNext()){
-            requirementList.add(new WorkRequirement(cursor.getString()))
-        }
+//        while(cursor.moveToNext()){
+//            requirementList.add(new WorkRequirement(cursor.getString()));
+//        }
         adapter = new CustomAdapter(MainActivity.this, R.layout.requires_item, requirementList);
         if(requirementList.get(0).getEndDate().equals(currentDate)){
 
