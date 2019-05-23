@@ -6,17 +6,16 @@ import java.util.Date;
 public class User implements Serializable {
     String username;
     String password;
-    int type;
+    String type;
     String name;
     String email;
     String phone;
     String fax;
     String address;
     String area;
-    Date dateOfBirth;
     String major;
 
-    public User(String username, String password, int type, String name, String email, String phone, String fax, String address, String area, String major) {
+    public User(String username, String password, String type, String name, String email, String phone, String fax, String address, String area, String major) {
         this.username = username;
         this.password = password;
         this.type = type;
@@ -37,7 +36,7 @@ public class User implements Serializable {
         return password;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
@@ -65,9 +64,6 @@ public class User implements Serializable {
         return area;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
     public String getMajor(){
         return major;
     }
@@ -80,7 +76,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -107,9 +103,7 @@ public class User implements Serializable {
     public void setArea(String area) {
         this.area = area;
     }
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+
     public void setMajor(String major) {
         this.major = major;
     }

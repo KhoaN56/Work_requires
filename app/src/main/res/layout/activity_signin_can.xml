@@ -141,7 +141,9 @@
         android:layout_width="274dp"
         android:layout_height="22dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/txt_addr"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txt_pass_2"
         app:layout_constraintTop_toBottomOf="@+id/txt_addr" />
 
     <TextView
@@ -161,11 +163,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="@+id/area"
+        app:layout_constraintStart_toStartOf="@+id/txt_pass_2"
         app:layout_constraintTop_toBottomOf="@+id/area" />
 
     <TextView
@@ -188,7 +190,7 @@
         android:inputType="phone"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txt_email"
+        app:layout_constraintStart_toStartOf="@+id/txt_pass_2"
         app:layout_constraintTop_toBottomOf="@+id/txt_email" />
 
 
@@ -223,8 +225,10 @@
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="Ngành nghề"
         app:layout_constraintBottom_toBottomOf="@+id/major"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/major"
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="15dp" />
@@ -236,7 +240,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txt_phone"
+        app:layout_constraintStart_toStartOf="@+id/txt_pass_2"
         app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
 
 </android.support.constraint.ConstraintLayout>

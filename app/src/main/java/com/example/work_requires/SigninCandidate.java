@@ -18,7 +18,8 @@ public class SigninCandidate extends AppCompatActivity {
 
     EditText txt_username, txt_pass, txt_pass_2, txt_name, txt_address, txt_email, txt_phone;
     Spinner spn_area, spn_major;
-    String username="", pass="", pass2="", name="", address="", email="", phone="", area="", major="";
+    String username="", pass="", pass2="", name="", address="", email="", phone="", area="", major="", fax= "";
+    Integer type=2;
     SQLiteManagement sqLiteManagement;
     Button btnSignin;
     @Override
@@ -93,9 +94,9 @@ public class SigninCandidate extends AppCompatActivity {
         }
 
         sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-        User user = new User(username, pass,2,name, email,phone,"",address, area, major);
+        User user = new User(username, pass,"2",name, email,phone,"",address, area, major);
         sqLiteManagement.insertUser(user);
-
+        errorAlert("Đăng ký thành công!!");
     }
 
     private void errorAlert(String error) {
