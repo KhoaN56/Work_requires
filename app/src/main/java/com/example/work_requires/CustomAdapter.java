@@ -54,7 +54,7 @@ public class CustomAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout, null);
             holder.companyLogo = convertView.findViewById(R.id.companyLogo);
-            holder.requirePos = convertView.findViewById(R.id.requirePos);
+            holder.requirePos = convertView.findViewById(R.id.title);
             holder.companyName = convertView.findViewById(R.id.compName);
             holder.area = convertView.findViewById(R.id.area);
             holder.salary = convertView.findViewById(R.id.salary);
@@ -65,7 +65,7 @@ public class CustomAdapter extends BaseAdapter {
         WorkRequirement requirement = requirementList.get(position);
         holder.companyLogo.setImageResource(R.mipmap.ic_launcher);
         holder.companyName.setText(requirement.getCompanyName());
-        holder.requirePos.setText(requirement.getWorkPos());
+        holder.requirePos.setText(requirement.getJobName());
         holder.area.setText(requirement.getArea());
         holder.salary.setText(requirement.getSalary());
         return convertView;

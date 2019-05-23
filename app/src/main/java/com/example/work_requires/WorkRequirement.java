@@ -1,8 +1,7 @@
 package com.example.work_requires;
 
-import java.util.Date;
-
 public class WorkRequirement {
+    String jobName;
     String companyName;
     String major;
     String area;
@@ -10,11 +9,12 @@ public class WorkRequirement {
     String degree;
     String workPos;
     int experience;
-    Date startDate;
-    Date endDate;
+    String startDate;
+    String endDate;
 
-    public WorkRequirement(String companyName, String major, String area, String salary, String degree,
-                           String workPos, int experience, Date startDate, Date endDate) {
+    public WorkRequirement(String jobName, String companyName, String major, String area, String salary, String degree,
+                           String workPos, int experience, String startDate, String endDate) {
+        this.jobName = jobName;
         this.companyName = companyName;
         this.major = major;
         this.area = area;
@@ -25,6 +25,15 @@ public class WorkRequirement {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
 
     public String getCompanyName() {
         return companyName;
@@ -82,19 +91,19 @@ public class WorkRequirement {
         this.experience = experience;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 }
