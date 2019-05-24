@@ -57,19 +57,17 @@ public class MainActivity extends AppCompatActivity {
                 "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, End_Date CHAR(8))");
         Intent intent = getIntent();
         User user = (User)intent.getSerializableExtra("user");
-        Cursor cursor =workRequireDatabase.getDatasql("SELECT * INTO #TAM FROM Requirements WHERE " +
-                "Major ='"+user.getMajor()+"'" +
-                "SELECT JobName, Name, Major, Area, Salary, Degree, Position, Experience, Start_Date, End_Date" +
-                " FROM USER INNERJOIN #TAM ON USER.Username = TAM.Username");
+        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM REQUIREMENT AS A, USER AS B " +
+                "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
         while(cursor.moveToNext()){
             //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
             if(!cursor.getString(9).equals(currentDate))
                 requirementList.add(new WorkRequirement(
-                        cursor.getString(0),cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3),
-                        cursor.getLong(4), cursor.getString(5),
-                        cursor.getString(6), cursor.getInt(7),
-                        cursor.getString(8)
+                        cursor.getString(2),cursor.getString(3),
+                        cursor.getString(4), cursor.getLong(5),
+                        cursor.getString(6), cursor.getString(7),
+                        cursor.getInt(8), cursor.getString(9),
+                        cursor.getString(10)
                 ));
         }
         adapter = new CustomAdapter(MainActivity.this, R.layout.requires_item, requirementList);

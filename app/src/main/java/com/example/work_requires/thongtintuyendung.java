@@ -139,14 +139,14 @@ public class thongtintuyendung extends AppCompatActivity {
                 User user = (User)bundle.getSerializable("user");
                 requirement = new WorkRequirement(
                         tenCongviec.getText().toString(),
-                        tenCongty.getText().toString(),
                         nganh.getSelectedItem().toString(),
                         khuvuc.getSelectedItem().toString(),
-                        luong.getText().toString(),
+                        Long.parseLong(luong.getText().toString()),
                         bangcap.getSelectedItem().toString(),
                         vitri.getSelectedItem().toString(),
                         Integer.parseInt(kinhNghiem.getText().toString()),
-                        ngayKt.getText().toString());
+                        ngayKt.getText().toString(),
+                        tenCongty.getText().toString());
 
             }
         });

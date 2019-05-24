@@ -11,8 +11,8 @@ public class WorkRequirement {
     int experience;
     String endDate;
 
-    public WorkRequirement(String jobName, String companyName, String major, String area, long salary, String degree,
-                           String workPos, int experience, String endDate) {
+    public WorkRequirement(String jobName, String major, String area, long salary, String degree,
+                           String workPos, int experience, String endDate, String companyName) {
         this.jobName = jobName;
         this.companyName = companyName;
         this.major = major;
