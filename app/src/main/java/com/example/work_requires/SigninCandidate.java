@@ -1,5 +1,7 @@
 package com.example.work_requires;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -89,14 +91,11 @@ public class SigninCandidate extends AppCompatActivity {
     }
     public void signIn(){
         if(checked()){
-            errorAlert("Bạn chưa nhập đủ thông tin!!");
-            return;
+            sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
+            User user = new User(username, pass,"2",name, email,phone,"",address, area, major);
+            sqLiteManagement.insertUser(user);
+            errorAlert("Đăng ký thành công!!");
         }
-
-        sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-        User user = new User(username, pass,"2",name, email,phone,"",address, area, major);
-        sqLiteManagement.insertUser(user);
-        errorAlert("Đăng ký thành công!!");
     }
 
     private void errorAlert(String error) {
@@ -104,20 +103,33 @@ public class SigninCandidate extends AppCompatActivity {
     }
 
     private boolean checked() {
-        username= txt_username.getText().toString();
-        pass= txt_pass.getText().toString();
-        pass2= txt_pass_2.getText().toString();
-        if(pass.equals(pass2)==false)
-        {
+        int count = 0;
+        username = txt_username.getText().toString();
+        sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
+        Cursor cursor = sqLiteManagement.getDatasql("select count(*) from user where username='" + username + "'");
+        if (cursor.moveToNext()) {
+            count = cursor.getInt(0);
+            if (count != 0) {
+                errorAlert("Tên đăng nhập đã tồn tại, xin kiểm tra lại");
+                return false;
+            }
+        }
+        pass = txt_pass.getText().toString();
+        pass2 = txt_pass_2.getText().toString();
+        if (pass.equals(pass2) == false) {
             errorAlert("Mật khẩu không trùng khớp, xin kiểm tra lại");
             return false;
         }
-        name= txt_name.getText().toString();
-        address= txt_address.getText().toString();
-        email= txt_email.getText().toString();
-        phone= txt_phone.getText().toString();
-        return(username.equals("")|| pass.equals("")|| pass2.equals("")|| name.equals("")||
-                address.equals("")||email.equals("")||phone.equals("")||area.equals("")||major.equals(""));
-
+        name = txt_name.getText().toString();
+        address = txt_address.getText().toString();
+        email = txt_email.getText().toString();
+        phone = txt_phone.getText().toString();
+        if (username.equals("") || pass.equals("") || pass2.equals("") || name.equals("") ||
+                address.equals("") || email.equals("") || phone.equals("") || area.equals("") || major.equals(""))
+        {
+            errorAlert("Bạn chưa nhập đủ thông tin!!");
+            return false;
+        }
+        return true;
     }
 }
