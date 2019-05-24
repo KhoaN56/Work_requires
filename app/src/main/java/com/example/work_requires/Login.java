@@ -117,9 +117,9 @@ public class Login extends AppCompatActivity {
                     //chuyển màn hình chính của người tìm việc
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("user",user);
-//                    Intent intent = new Intent();
-//                    intent.putExtra("user",bundle);
-//                    startActivity(intent);
+                    Intent intent = new Intent();
+                    intent.putExtra("user",bundle);
+                    startActivity(intent);
                 }
             }
             else

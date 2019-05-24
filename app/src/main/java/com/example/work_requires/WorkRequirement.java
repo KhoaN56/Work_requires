@@ -5,15 +5,14 @@ public class WorkRequirement {
     String companyName;
     String major;
     String area;
-    String salary;
+    long salary;
     String degree;
     String workPos;
     int experience;
-    String startDate;
     String endDate;
 
-    public WorkRequirement(String jobName, String companyName, String major, String area, String salary, String degree,
-                           String workPos, int experience, String startDate, String endDate) {
+    public WorkRequirement(String jobName, String companyName, String major, String area, long salary, String degree,
+                           String workPos, int experience, String endDate) {
         this.jobName = jobName;
         this.companyName = companyName;
         this.major = major;
@@ -22,7 +21,6 @@ public class WorkRequirement {
         this.degree = degree;
         this.workPos = workPos;
         this.experience = experience;
-        this.startDate = startDate;
         this.endDate = endDate;
     }
 
@@ -33,7 +31,6 @@ public class WorkRequirement {
     public void setJobName(String jobName) {
         this.jobName = jobName;
     }
-
 
     public String getCompanyName() {
         return companyName;
@@ -59,11 +56,11 @@ public class WorkRequirement {
         this.area = area;
     }
 
-    public String getSalary() {
+    public long getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(long salary) {
         this.salary = salary;
     }
 
@@ -89,14 +86,6 @@ public class WorkRequirement {
 
     public void setExperience(int experience) {
         this.experience = experience;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
     }
 
     public String getEndDate() {

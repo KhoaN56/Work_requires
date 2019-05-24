@@ -1,16 +1,17 @@
 package com.example.work_requires;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class CustomAdapter extends BaseAdapter {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     Context context;
     int layout;
@@ -22,52 +23,51 @@ public class CustomAdapter extends BaseAdapter {
         this.requirementList = requirementList;
     }
 
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View itemView = inflater.inflate(R.layout.requires_item, viewGroup, false);
+        return new ViewHolder(itemView);
+    }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        viewHolder.setter(requirementList.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
         return requirementList.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    private class ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView companyLogo;
         TextView requirePos;
         TextView companyName;
         TextView area;
         TextView salary;
-    }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if(convertView == null){
-            holder = new ViewHolder();
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(layout, null);
-            holder.companyLogo = convertView.findViewById(R.id.companyLogo);
-            holder.requirePos = convertView.findViewById(R.id.title);
-            holder.companyName = convertView.findViewById(R.id.compName);
-            holder.area = convertView.findViewById(R.id.area);
-            holder.salary = convertView.findViewById(R.id.salary);
-            convertView.setTag(holder);
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            companyLogo = itemView.findViewById(R.id.companyLogo);
+            requirePos = itemView.findViewById(R.id.title);
+            companyName = itemView.findViewById(R.id.compName);
+            area = itemView.findViewById(R.id.area);
+            salary = itemView.findViewById(R.id.salary);
         }
-        else
-            holder = (ViewHolder)convertView.getTag();
-        WorkRequirement requirement = requirementList.get(position);
-        holder.companyLogo.setImageResource(R.mipmap.ic_launcher);
-        holder.companyName.setText(requirement.getCompanyName());
-        holder.requirePos.setText(requirement.getJobName());
-        holder.area.setText(requirement.getArea());
-        holder.salary.setText(requirement.getSalary());
-        return convertView;
+
+        public void setter(WorkRequirement requirement){
+            this.salary.setText(String.valueOf(requirement.getSalary()));
+            this.area.setText(requirement.getArea());
+            this.companyName.setText(requirement.getCompanyName());
+            this.requirePos.setText(requirement.getJobName());
+            this.companyLogo.setImageResource(R.mipmap.ic_launcher);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 }
