@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
         text_username = findViewById(R.id.txt_username);
         text_pass = findViewById(R.id.password);
         managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-        managementDatabse.queryData("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY," +
+        managementDatabse.queryData("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY NOT NULL," +
                 "Type INTERGER(2), Password VARCHAR(20), Name NVARCHAR(50), Email VARCHAR(50)," +
                 "Phone VARCHAR(10), Fax VARCHAR(20), Address NVARCHAR(100), Area NVARCHAR(20), Major NVARCHAR(50))");
 
@@ -107,25 +107,30 @@ public class Login extends AppCompatActivity {
                 user= new User(cursor.getString(0),cursor.getString(1), cursor.getString(2),
                         cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
                         cursor.getString(7),cursor.getString(8),cursor.getString(9));
+                Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 if(type.equals("1"))
                 {
                     //chuyển màn hình chính của nhà tuyển dụng
+//                    Intent intent = new Intent(Login.this, MainActivity.class);
+//                    intent.putExtra("user", user);
+//                    startActivity(intent);
                 }
                 else
                 {
-                    Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     //chuyển màn hình chính của người tìm việc
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("user",user);
-                    Intent intent = new Intent();
-                    intent.putExtra("user",bundle);
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    intent.putExtra("user", user);
                     startActivity(intent);
                 }
             }
             else
             {
-                Toast.makeText(this, "Tên đăng nhập hoặc mật khẩu không đúng. Xin kiểm tra lại", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mật khẩu không chính xác. Xin kiểm tra lại", Toast.LENGTH_SHORT).show();
             }
+        }
+        else
+        {
+            Toast.makeText(this, "Thông tin đăng nhập không tồn tại. Xin kiểm tra lại", Toast.LENGTH_SHORT).show();
         }
     }
 }
