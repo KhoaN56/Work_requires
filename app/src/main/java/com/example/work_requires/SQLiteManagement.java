@@ -41,7 +41,7 @@ public class SQLiteManagement extends SQLiteOpenHelper {
 
     public void insert(WorkRequirement requirement, User user){
         SQLiteDatabase database = getWritableDatabase();
-        String sql ="INSERT INTO Requirement VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql ="INSERT INTO Requirement VALUES(NULL,?,?,?,?,?,?,?,?,?)";
         SQLiteStatement statement = database.compileStatement(sql);
         statement.clearBindings();
         statement.bindString(1, user.getUsername());
