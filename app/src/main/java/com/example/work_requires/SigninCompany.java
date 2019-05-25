@@ -91,7 +91,7 @@ public class SigninCompany extends AppCompatActivity {
         if(checked()){
             sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
             User user = new User(username, pass,"1",name, email,phone,fax,address, area, major);
-            sqLiteManagement.insertUser(user);
+            sqLiteManagement.insert(user);
             errorAlert("Đăng ký thành công!!");
         }
     }

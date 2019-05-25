@@ -19,7 +19,7 @@ public class SQLiteManagement extends SQLiteOpenHelper {
     public Cursor getDatasql (String sqlQuery){
         return getWritableDatabase().rawQuery(sqlQuery,null);
     }
-    public void insertUser (User user){
+    public void insert(User user){
         SQLiteDatabase database= this.getWritableDatabase();
         String sql="INSERT INTO User (username, type, Password, name, email, phone, fax, address, area, major ) VALUES (?,?,?,?,?,?,?,?,?,?)";
         Log.d("type", user.getType()+"");
@@ -37,19 +37,23 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.bindString(10, user.major);
         statement.executeInsert();
         Log.d("type", user.getType()+"");
-        //       ContentValues values= new ContentValues();
-//        values.put("username", user.getUsername());
-//        values.put("type", user.getType());
-//        values.put("password", user.getPassword());
-//        values.put("name", user.getName());
-//        values.put("email", user.getEmail());
-//        values.put("phone", user.getPhone());
-//        values.put("fax", user.getFax());
-//        values.put("address", user.getAddress());
-//        values.put("area", user.getArea());
-//        values.put("major", user.getMajor());
-//        database.insert("user", null, values);
-//        database.close();
+    }
+
+    public void insert(WorkRequirement requirement, User user){
+        SQLiteDatabase database = getWritableDatabase();
+        String sql ="INSERT INTO Requirement VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindString(1, user.getUsername());
+        statement.bindString(2, requirement.getJobName());
+        statement.bindString(3, requirement.getMajor());
+        statement.bindString(4, requirement.getArea());
+        statement.bindLong(5, requirement.getSalary());
+        statement.bindString(6, requirement.getDegree());
+        statement.bindString(7, requirement.getWorkPos());
+        statement.bindLong(8, requirement.getExperience());
+        statement.bindString(9, requirement.getEndDate());
+        statement.executeInsert();
     }
 
     public void insertRequirement(WorkRequirement requirement){

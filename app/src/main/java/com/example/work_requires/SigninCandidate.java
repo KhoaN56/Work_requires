@@ -1,6 +1,5 @@
 package com.example.work_requires;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -93,7 +91,7 @@ public class SigninCandidate extends AppCompatActivity {
         if(checked()){
             sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
             User user = new User(username, pass,"2",name, email,phone,"",address, area, major);
-            sqLiteManagement.insertUser(user);
+            sqLiteManagement.insert(user);
             errorAlert("Đăng ký thành công!!");
         }
     }
