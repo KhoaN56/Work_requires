@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, End_Date CHAR(8))");
         Intent intent = getIntent();
         User user = (User)intent.getSerializableExtra("user");
-        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM REQUIREMENT AS A, USER AS B " +
+        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Requirements AS A, USER AS B " +
                 "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
         while(cursor.moveToNext()){
             //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
