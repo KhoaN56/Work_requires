@@ -53,7 +53,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             companyLogo = itemView.findViewById(R.id.companyLogo);
             requirePos = itemView.findViewById(R.id.title);
             companyName = itemView.findViewById(R.id.compName);
-            area = itemView.findViewById(R.id.area);
+            area = itemView.findViewById(R.id.sex);
             salary = itemView.findViewById(R.id.salary);
         }
 

@@ -3,7 +3,6 @@ package com.example.work_requires;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,7 +79,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void initialize(){
-        text_username = findViewById(R.id.txt_username);
+        text_username = findViewById(R.id.txt_jobPos);
         text_pass = findViewById(R.id.password);
         managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
         managementDatabse.queryData("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY NOT NULL," +

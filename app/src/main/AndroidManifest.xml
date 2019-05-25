@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".SigninCandidate"></activity>
+        <activity android:name=".OnlineCV"></activity>
+        <activity android:name=".SigninCandidate" />
         <activity android:name=".SigninCompany" />
         <activity
-            android:name="com.example.work_requires.Login"
-            android:label="@string/app_name" >
+            android:name=".Login"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

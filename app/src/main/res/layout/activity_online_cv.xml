@@ -14,21 +14,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Thông tin người tìm việc"
+                    android:text="Thông tin hồ sơ"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Tên đăng nhập"
+                    android:text="Vị trí cần ứng tuyển"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_jobPos"
                     app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +55,7 @@
                     android:inputType="textPersonName"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/txt_pass"
+                    app:layout_constraintStart_toStartOf="@+id/txt_exprience"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
                 <TextView
@@ -64,21 +63,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="23dp"
                     android:layout_marginStart="8dp"
-                    android:text="Mật khẩu"
+                    android:layout_marginBottom="8dp"
+                    android:text="Trình độ học vấn"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/txt_pass"
+                    app:layout_constraintBottom_toBottomOf="@+id/degree"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/txt_pass" />
+                    app:layout_constraintTop_toTopOf="@+id/degree" />
 
-                <EditText
-                    android:id="@+id/txt_pass"
+                <Spinner
+                    android:id="@+id/degree"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:ems="10"
-                    android:inputType="textPassword"
-                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/txt_exprience"
                     app:layout_constraintTop_toBottomOf="@+id/txt_jobPos" />
@@ -88,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Nhập lại mật khẩu"
+                    android:text="Số năm kinh nghiệm"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_exprience"
                     app:layout_constraintStart_toStartOf="parent"
@@ -98,22 +95,21 @@
                     android:id="@+id/txt_exprience"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
                     android:inputType="textPassword"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView10"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_pass" />
+                    app:layout_constraintStart_toStartOf="@+id/txt_school"
+                    app:layout_constraintTop_toBottomOf="@+id/degree" />
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Tên"
+                    android:text="Ngày sinh"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_date_of_birth"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txt_date_of_birth" />
@@ -125,7 +121,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="date"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/txt_exprience"
@@ -136,22 +132,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Địa chỉ"
-                    app:layout_constraintBottom_toBottomOf="@+id/txt_addr"
+                    android:layout_marginBottom="8dp"
+                    android:text="Quốc tịch"
+                    app:layout_constraintBottom_toBottomOf="@+id/country"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/txt_addr" />
+                    app:layout_constraintTop_toTopOf="@+id/country" />
 
-                <EditText
-                    android:id="@+id/txt_addr"
+                <Spinner
+                    android:id="@+id/country"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/txt_exprience"
+                    app:layout_constraintStart_toStartOf="@+id/txt_jobPos"
                     app:layout_constraintTop_toBottomOf="@+id/txt_date_of_birth" />
 
                 <TextView
@@ -159,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="23dp"
                     android:layout_marginStart="8dp"
-                    android:text="Khu vực"
+                    android:text="Giới tính"
                     app:layout_constraintBottom_toBottomOf="@+id/sex"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/sex" />
@@ -172,14 +166,14 @@
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/txt_exprience"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_addr" />
+                    app:layout_constraintTop_toBottomOf="@+id/country" />
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Email"
+                    android:text="Trường, cơ sở đào tạo"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_school"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txt_school" />
@@ -195,7 +189,7 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.505"
-                    app:layout_constraintStart_toStartOf="@+id/txt_exprience"
+                    app:layout_constraintStart_toStartOf="@+id/txt_major"
                     app:layout_constraintTop_toBottomOf="@+id/sex" />
 
                 <TextView
@@ -203,7 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Số điện thoại"
+                    android:text="Chuyên ngành đào tạo"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_major"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txt_major" />
@@ -212,13 +206,14 @@
                     android:id="@+id/txt_major"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
                     android:inputType="phone"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/txt_exprience"
+                    app:layout_constraintStart_toEndOf="@+id/textView6"
                     app:layout_constraintTop_toBottomOf="@+id/txt_school" />
 
                 <TextView
@@ -226,7 +221,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Ngành nghề"
+                    android:text="Xếp loại"
                     app:layout_constraintBottom_toBottomOf="@+id/classify"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/classify" />
@@ -238,7 +233,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/txt_exprience"
+                    app:layout_constraintStart_toStartOf="@+id/txt_major"
                     app:layout_constraintTop_toBottomOf="@+id/txt_major" />
 
                 <Button
@@ -253,6 +248,28 @@
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_detail_experience" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Kinh nghiệm làm việc"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_detail_experience"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txt_detail_experience" />
+
+                <EditText
+                    android:id="@+id/txt_detail_experience"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/classify"
                     app:layout_constraintTop_toBottomOf="@+id/classify" />
 
             </android.support.constraint.ConstraintLayout>

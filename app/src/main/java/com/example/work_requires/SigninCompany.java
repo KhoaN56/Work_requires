@@ -35,16 +35,16 @@ public class SigninCompany extends AppCompatActivity {
         });
     }
     public void initialize(){
-        txt_username = findViewById(R.id.txt_username);
+        txt_username = findViewById(R.id.txt_jobPos);
         txt_pass = findViewById(R.id.txt_pass);
-        txt_pass_2 = findViewById(R.id.txt_pass_2);
-        txt_name = findViewById(R.id.txt_name);
+        txt_pass_2 = findViewById(R.id.txt_exprience);
+        txt_name = findViewById(R.id.txt_date_of_birth);
         txt_address = findViewById(R.id.txt_addr);
-        spn_area = findViewById(R.id.area);
-        txt_email = findViewById(R.id.txt_email);
-        txt_phone = findViewById(R.id.txt_phone);
+        spn_area = findViewById(R.id.sex);
+        txt_email = findViewById(R.id.txt_school);
+        txt_phone = findViewById(R.id.txt_major);
         txt_fax = findViewById(R.id.txt_fax);
-        spn_major = findViewById(R.id.major);
+        spn_major = findViewById(R.id.classify);
         btnSignin = findViewById(R.id.btnSignin);
 
         final List<String> listArea = new ArrayList<>();
