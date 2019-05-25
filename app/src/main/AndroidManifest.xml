@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".OnlineCV"></activity>
+        <activity android:name=".MainActivityCompany"></activity>
         <activity android:name=".SigninCandidate" />
         <activity android:name=".SigninCompany" />
         <activity
