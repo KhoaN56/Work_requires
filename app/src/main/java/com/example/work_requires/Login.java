@@ -84,7 +84,7 @@ public class Login extends AppCompatActivity {
         managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
         managementDatabse.queryData("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY NOT NULL," +
                 "Type INTERGER(2), Password VARCHAR(20), Name NVARCHAR(50), Email VARCHAR(50)," +
-                "Phone VARCHAR(10), Fax VARCHAR(20), Address NVARCHAR(100), Area NVARCHAR(20), Major NVARCHAR(50))");
+                "Phone VARCHAR(10), Fax VARCHAR(20), Address NVARCHAR(100), Area NVARCHAR(20), Major NCHAR(50))");
 
     }
     public void checkLogin()

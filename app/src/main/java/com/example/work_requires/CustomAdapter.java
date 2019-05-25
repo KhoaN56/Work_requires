@@ -6,21 +6,51 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> implements Filterable {
 
-    Context context;
-    int layout;
-    List<WorkRequirement> requirementList;
+    private Context context;
+    private int layout;
+    private List<WorkRequirement> requirementList;
+    private List<WorkRequirement> requirementFullList;
+    private Filter requirementFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<WorkRequirement> filteredRequirement = new ArrayList<>();
+            if(constraint == null || constraint.length() == 0)
+                filteredRequirement.addAll(requirementFullList);
+            else {
+                String filter = constraint.toString().toLowerCase().trim();
+                for(WorkRequirement requirement:requirementFullList){
+                    if(requirement.getJobName().toLowerCase().contains(filter))
+                        filteredRequirement.add(requirement);
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredRequirement;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            requirementList.clear();
+            requirementList.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public CustomAdapter(Context context, int layout, List<WorkRequirement> requirementList) {
         this.context = context;
         this.layout = layout;
         this.requirementList = requirementList;
+        requirementFullList = new ArrayList<>(requirementList);
     }
 
     @NonNull
@@ -39,6 +69,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return requirementList.size();
+    }
+
+    public void updateList(){
+        notifyDataSetChanged();
+        requirementFullList = requirementList;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return requirementFilter;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

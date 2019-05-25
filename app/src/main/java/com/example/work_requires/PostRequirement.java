@@ -26,13 +26,13 @@ public class PostRequirement extends AppCompatActivity {
     EditText endDate;
     Button postButton;
     String salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", endDateTxt="", jobNameTxt;
-    SQLiteManagement database;
+    SQLiteManagement workRequireDatabase;
     User user;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thongtintuyendung);
+        setContentView(R.layout.activity_post_requirement);
         salary =findViewById(R.id.editText1);
         experience =findViewById(R.id.editText4);
         endDate = findViewById(R.id.editText6);
@@ -42,7 +42,10 @@ public class PostRequirement extends AppCompatActivity {
         workPos =findViewById(R.id.spinner4);
         postButton = findViewById(R.id.Dangtin);
         jobName = findViewById(R.id.editText7);
-        database = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
+        workRequireDatabase = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
+        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Requirements(Id_Requirement INTEGER " +
+                "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
+                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, End_Date CHAR(10))");
         user = (User)getIntent().getSerializableExtra("user");
 
         final List<String> listArea = new ArrayList<>();
@@ -59,12 +62,12 @@ public class PostRequirement extends AppCompatActivity {
         listMajor.add("Công nghệ thông tin");
         listMajor.add("Bán hàng");
 
-        final List <String> listWorkpos = new ArrayList<>();
-        listWorkpos.add("Thực tập và dự án");
-        listWorkpos.add("Nhân viên chính thức");
-        listWorkpos.add("Nhân viên thời vụ");
-        listWorkpos.add("Làm thêm ngoài giờ");
-        listWorkpos.add("Bán thời gian");
+        final List <String> listWorkPos = new ArrayList<>();
+        listWorkPos.add("Thực tập và dự án");
+        listWorkPos.add("Nhân viên chính thức");
+        listWorkPos.add("Nhân viên thời vụ");
+        listWorkPos.add("Làm thêm ngoài giờ");
+        listWorkPos.add("Bán thời gian");
 
 
         ArrayAdapter<String> adapterArea= new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listArea);
@@ -83,12 +86,12 @@ public class PostRequirement extends AppCompatActivity {
         });
 
         ArrayAdapter<String> adapterDegree= new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listDegree);
-        adapterArea.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        degree.setAdapter(adapterArea);
+        adapterDegree.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        degree.setAdapter(adapterDegree);
         degree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                degreeTxt = listArea.get(position).toString();
+                degreeTxt = listDegree.get(position);
             }
 
             @Override
@@ -112,13 +115,13 @@ public class PostRequirement extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> adapterWorkpos= new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listWorkpos);
-        adapterMajor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        workPos.setAdapter(adapterWorkpos);
+        ArrayAdapter<String> adapterWorkPos= new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listWorkPos);
+        adapterWorkPos.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        workPos.setAdapter(adapterWorkPos);
         workPos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                workPosTxt = listMajor.get(position);
+                workPosTxt = listWorkPos.get(position);
             }
 
             @Override
@@ -130,7 +133,7 @@ public class PostRequirement extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!kiemtra())
+                if(!checkNull())
                 {
                     Toast.makeText(PostRequirement.this, "Lỗi", Toast.LENGTH_SHORT).show();
                     return;
@@ -139,7 +142,7 @@ public class PostRequirement extends AppCompatActivity {
                 requirement = new WorkRequirement(
                         jobNameTxt, majorTxt, areaTxt, Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
                         Integer.parseInt(expTxt), endDateTxt, user.getName());
-                database.insert(requirement, user);
+                workRequireDatabase.insert(requirement, user);
                 confirmation();
             }
         });
@@ -167,7 +170,7 @@ public class PostRequirement extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private boolean kiemtra() {
+    private boolean checkNull() {
         jobNameTxt = jobName.getText().toString().trim();
         salaryTxt = salary.getText().toString().trim();
         expTxt = experience.getText().toString().trim();

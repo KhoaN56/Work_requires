@@ -1,5 +1,6 @@
 package com.example.work_requires;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,6 +94,9 @@ public class SigninCandidate extends AppCompatActivity {
             User user = new User(username, pass,"2",name, email,phone,"",address, area, major);
             sqLiteManagement.insert(user);
             errorAlert("Đăng ký thành công!!");
+            Intent intent = new Intent(SigninCandidate.this, MainActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
         }
     }
 
