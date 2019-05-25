@@ -19,14 +19,13 @@ import java.util.List;
 
 @SuppressLint("Registered")
 public class PostRequirement extends AppCompatActivity {
-    EditText companyName;
     EditText jobName;
     EditText salary;
     EditText experience;
     Spinner major, area, degree, workPos;
     EditText endDate;
     Button postButton;
-    String compName="", salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", endDateTxt="", jobNameTxt;
+    String salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", endDateTxt="", jobNameTxt;
     SQLiteManagement database;
     User user;
 
@@ -34,7 +33,6 @@ public class PostRequirement extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thongtintuyendung);
-        companyName =findViewById(R.id.editText);
         salary =findViewById(R.id.editText1);
         experience =findViewById(R.id.editText4);
         endDate = findViewById(R.id.editText6);
@@ -140,7 +138,7 @@ public class PostRequirement extends AppCompatActivity {
                 WorkRequirement requirement;
                 requirement = new WorkRequirement(
                         jobNameTxt, majorTxt, areaTxt, Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
-                        Integer.parseInt(expTxt), endDateTxt, compName);
+                        Integer.parseInt(expTxt), endDateTxt, user.getName());
                 database.insert(requirement, user);
                 confirmation();
             }
@@ -171,11 +169,10 @@ public class PostRequirement extends AppCompatActivity {
 
     private boolean kiemtra() {
         jobNameTxt = jobName.getText().toString().trim();
-        compName = companyName.getText().toString().trim();
         salaryTxt = salary.getText().toString().trim();
         expTxt = experience.getText().toString().trim();
         endDateTxt = endDate.getText().toString().trim();
-        return (!(jobNameTxt.equals("")||compName.equals("")||salaryTxt.equals("")||expTxt.equals("")||
+        return (!(jobNameTxt.equals("")||salaryTxt.equals("")||expTxt.equals("")||
                 endDateTxt.equals("")));
     }
 

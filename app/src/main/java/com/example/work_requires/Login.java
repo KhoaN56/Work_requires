@@ -110,9 +110,9 @@ public class Login extends AppCompatActivity {
                 if(type.equals("1"))
                 {
                     //chuyển màn hình chính của nhà tuyển dụng
-//                    Intent intent = new Intent(Login.this, MainActivity.class);
-//                    intent.putExtra("user", user);
-//                    startActivity(intent);
+                    Intent intent = new Intent(Login.this, MainActivityCompany.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
                 }
                 else
                 {

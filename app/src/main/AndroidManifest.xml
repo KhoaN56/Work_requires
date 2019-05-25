@@ -13,6 +13,7 @@
         <activity android:name=".MainActivityCompany"></activity>
         <activity android:name=".SigninCandidate" />
         <activity android:name=".SigninCompany" />
+        <activity android:name=".PostRequirement" />
         <activity
             android:name=".Login"
             android:label="@string/app_name">
