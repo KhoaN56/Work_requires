@@ -28,6 +28,7 @@ public class PostRequirement extends AppCompatActivity {
     Button postButton;
     String compName="", salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", endDateTxt="", jobNameTxt;
     SQLiteManagement database;
+    User user;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class PostRequirement extends AppCompatActivity {
         postButton = findViewById(R.id.Dangtin);
         jobName = findViewById(R.id.editText7);
         database = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
-
+        user = (User)getIntent().getSerializableExtra("user");
 
         final List<String> listArea = new ArrayList<>();
         listArea.add("Hồ Chí Minh");
@@ -137,8 +138,6 @@ public class PostRequirement extends AppCompatActivity {
                     return;
                 }
                 WorkRequirement requirement;
-                Intent intent = getIntent();
-                User user = (User)intent.getSerializableExtra("user");
                 requirement = new WorkRequirement(
                         jobNameTxt, majorTxt, areaTxt, Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
                         Integer.parseInt(expTxt), endDateTxt, compName);
@@ -162,6 +161,8 @@ public class PostRequirement extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent toMain = new Intent(PostRequirement.this, MainActivityCompany.class);
+                toMain.putExtra("user", user);
+                startActivity(toMain);
             }
         });
         AlertDialog alertDialog = builder.create();
