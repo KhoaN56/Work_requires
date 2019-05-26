@@ -20,7 +20,6 @@ public class SigninCandidate extends AppCompatActivity {
     EditText txt_username, txt_pass, txt_pass_2, txt_name, txt_address, txt_email, txt_phone;
     Spinner spn_area;
     String username="", pass="", pass2="", name="", address="", email="", phone="", area="", fax= "";
-    Integer type=2;
     SQLiteManagement sqLiteManagement;
     Button btnSignin;
     @Override
@@ -37,14 +36,14 @@ public class SigninCandidate extends AppCompatActivity {
         });
     }
     public void initialize(){
-        txt_username = findViewById(R.id.txt_jobPos);
+        txt_username = findViewById(R.id.txt_username);
         txt_pass = findViewById(R.id.txt_pass);
-        txt_pass_2 = findViewById(R.id.txt_exprience);
-        txt_name = findViewById(R.id.txt_date_of_birth);
+        txt_pass_2 = findViewById(R.id.txt_pass_2);
+        txt_name = findViewById(R.id.txt_name);
         txt_address = findViewById(R.id.txt_addr);
-        spn_area = findViewById(R.id.spn_sex);
-        txt_email = findViewById(R.id.txt_school);
-        txt_phone = findViewById(R.id.txt_major);
+        spn_area = findViewById(R.id.spn_area);
+        txt_email = findViewById(R.id.txt_mail);
+        txt_phone = findViewById(R.id.txt_phone);
         btnSignin = findViewById(R.id.btnSignin);
 
         final List <String> listArea = new ArrayList<>();
@@ -71,7 +70,7 @@ public class SigninCandidate extends AppCompatActivity {
     public void signIn(){
         if(checked()){
             sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-            User user = new User(username, pass,"2",name, email,phone,"",address, area);
+            User user = new User(username, pass, "2",name, email, phone, fax, address, area );
             sqLiteManagement.insert(user);
 
             Intent intent2 = new Intent(SigninCandidate.this, OnlineCV.class);

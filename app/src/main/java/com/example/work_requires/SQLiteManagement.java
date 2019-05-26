@@ -55,23 +55,24 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.executeInsert();
     }
 
-    public  void update (Info_CV info_cv, String username)
+    public  void update (String jobPos, String degree, int experience, String date_of_birth,
+                         String country, String sex, String school, String major, String classify, String detail_experience, String username)
     {
         SQLiteDatabase database= getWritableDatabase();
-        String sql="UPDATE USER SET JobPos = ?, degree=?, experience=?, date_of_birth=?, country=?, sex=?, school=?, major=?, " +
+        String sql="UPDATE USER SET JobPos = ?, degree=?, experience=?, DateOfBirth=?, country=?, sex=?, school=?, major=?, " +
                 "classify=?, detail_experience=? WHERE USERNAME= '"+username+"'";
         SQLiteStatement statement= database.compileStatement(sql);
         statement.clearBindings();
-        statement.bindString(1, info_cv.getJobPos());
-        statement.bindString(2, info_cv.getDegree());
-        statement.bindString(3, info_cv.getExperience());
-        statement.bindString(4, info_cv.getDate_of_birth());
-        statement.bindString(5, info_cv.getCountry());
-        statement.bindString(6, info_cv.getSex());
-        statement.bindString(7, info_cv.getSchool());
-        statement.bindString(8, info_cv.getMajor());
-        statement.bindString(9, info_cv.getClassify());
-        statement.bindString(10, info_cv.getDetail_experience());
+        statement.bindString(1, jobPos);
+        statement.bindString(2, degree);
+        statement.bindDouble(3, experience);
+        statement.bindString(4, date_of_birth);
+        statement.bindString(5, country);
+        statement.bindString(6, sex);
+        statement.bindString(7, school);
+        statement.bindString(8, major);
+        statement.bindString(9, classify);
+        statement.bindString(10, detail_experience);
         statement.executeUpdateDelete();
 
     }

@@ -79,13 +79,13 @@ public class Login extends AppCompatActivity {
     }
 
     public void initialize(){
-        text_username = findViewById(R.id.txt_jobPos);
+        text_username = findViewById(R.id.user_name);
         text_pass = findViewById(R.id.password);
         managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
         managementDatabse.queryData("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY NOT NULL," +
                 "Type VARCHAR(2), Password VARCHAR(20), Name NVARCHAR(50), Email VARCHAR(50)," +
                 "Phone VARCHAR(10), Fax VARCHAR(20), Address NVARCHAR(100), Area NVARCHAR(20), jobPos NVARCHAR(50), " +
-                "Degree NVARCHAR(50) Experience  INTEGER, DateOfBirth VARCHAR(10), Country NVARCHAR(30), Sex NVARCHAR(5), " +
+                "Degree NVARCHAR(50), Experience  INTEGER, DateOfBirth VARCHAR(10), Country NVARCHAR(30), Sex NVARCHAR(5), " +
                 "School NVARCHAR(100), Major NVARCHAR(50), Classify NVARCHAR(20), Detail_experience NVARCHAR(300), CheckLogin VARCHAR(2) DEFAULT '0' )");
 
     }

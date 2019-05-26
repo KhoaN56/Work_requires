@@ -1,7 +1,6 @@
 package com.example.work_requires;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +16,8 @@ import java.util.List;
 
 public class OnlineCV extends AppCompatActivity {
 
-    EditText txt_jobPos, txt_experience, txt_date_of_birth, txt_school, txt_major , txt_detial_experience;
-    Spinner spn_degree, spn_country, spn_sex, spn_classify;
+    EditText txt_jobPos, txt_experience, txt_date_of_birth, txt_school , txt_detial_experience;
+    Spinner spn_degree, spn_country, spn_sex, spn_classify, spn_major;
     Button btnDone;
     String jobPos,date_of_birth, school, major, detail_experience, degree, country, sex, classify;
     int experience;
@@ -29,30 +28,30 @@ public class OnlineCV extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_cv);
 
-        Intent intent = getIntent();
-        user = (User)intent.getSerializableExtra("user");
-
-        btnDone = findViewById(R.id.btnDone);
         initialize();
+        btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateInfo();
             }
         });
     }
 
     public void initialize(){
+        Intent intent = getIntent();
+        user = (User)intent.getSerializableExtra("user");
+
         txt_jobPos = findViewById(R.id.txt_jobPos);
         txt_detial_experience = findViewById(R.id.txt_detail_experience);
-        txt_major = findViewById(R.id.txt_major);
         txt_school = findViewById(R.id.txt_school);
         txt_date_of_birth = findViewById(R.id.txt_date_of_birth);
-        txt_experience = findViewById(R.id.txt_exprience);
+        txt_experience = findViewById(R.id.txt_experience);
         spn_country = findViewById(R.id.spn_country);
         spn_classify = findViewById(R.id.spn_classify);
         spn_degree = findViewById(R.id.spn_degree);
         spn_sex = findViewById(R.id.spn_sex);
+        spn_major = findViewById(R.id.spn_major);
 
 
         final List<String> listDegree = new ArrayList<>();
@@ -85,8 +84,8 @@ public class OnlineCV extends AppCompatActivity {
         listCountry.add("Nhật bản");
 
         ArrayAdapter<String> adapterCountry= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listCountry);
-        adapterDegree.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spn_country.setAdapter(adapterDegree);
+        adapterCountry.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spn_country.setAdapter(adapterCountry);
         spn_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener
                 () {
             @Override
@@ -119,6 +118,27 @@ public class OnlineCV extends AppCompatActivity {
             }
         });
 
+        final List <String> listMajor = new ArrayList<>();
+        listMajor.add("Thực phẩm");
+        listMajor.add("Xây dựng");
+        listMajor.add("Công nghệ thông tin");
+        listMajor.add("Bán hàng");
+
+        ArrayAdapter<String> adapterMajor= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listMajor);
+        adapterMajor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spn_major.setAdapter(adapterMajor);
+        spn_major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                major= listMajor.get(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                major="";
+            }
+        });
+
         final List <String> listClassify = new ArrayList<>();
         listClassify.add("Xuất sắc");
         listClassify.add("Giỏi");
@@ -126,9 +146,9 @@ public class OnlineCV extends AppCompatActivity {
         listClassify.add("Trung bình");
         listClassify.add("Yếu");
 
-        ArrayAdapter<String> adapterArea= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listClassify);
-        adapterArea.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spn_classify.setAdapter(adapterArea);
+        ArrayAdapter<String> adapterClassify= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listClassify);
+        adapterClassify.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spn_classify.setAdapter(adapterClassify);
         spn_classify.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -150,7 +170,6 @@ public class OnlineCV extends AppCompatActivity {
         jobPos = txt_jobPos.getText().toString();
         date_of_birth= txt_date_of_birth.getText().toString();
         school= txt_school.getText().toString();
-        major= txt_major.getText().toString();
         detail_experience= txt_detial_experience.getText().toString();
         experience= Integer.parseInt(txt_experience.getText().toString());
         if (jobPos.equals("") || date_of_birth.equals("") || school.equals("") || String.valueOf(experience).equals("") ||
@@ -167,10 +186,10 @@ public class OnlineCV extends AppCompatActivity {
         if(checked())
         {
             sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-            Info_CV info_cv= new Info_CV(jobPos, degree,experience, date_of_birth, country, sex, school, major, classify, detail_experience);
-            sqLiteManagement.update(info_cv, user.getUsername());
+            sqLiteManagement.update(jobPos, degree,experience, date_of_birth, country, sex, school, major, classify, detail_experience, user.getUsername());
             alert("Đăng ký thành công!!");
 
+            user.setUser(jobPos, degree, experience, date_of_birth, country, sex, school, major, classify, detail_experience);
             Intent intent2 = new Intent(OnlineCV.this, MainActivity.class);
             intent2.putExtra("user", user);
             startActivity(intent2);
