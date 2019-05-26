@@ -18,9 +18,8 @@ import java.util.List;
 public class SigninCandidate extends AppCompatActivity {
 
     EditText txt_username, txt_pass, txt_pass_2, txt_name, txt_address, txt_email, txt_phone;
-    Spinner spn_area, spn_major;
-    String username="", pass="", pass2="", name="", address="", email="", phone="", area="", major="", fax= "";
-    Integer type=2;
+    Spinner spn_area;
+    String username="", pass="", pass2="", name="", address="", email="", phone="", area="", fax= "";
     SQLiteManagement sqLiteManagement;
     Button btnSignin;
     @Override
@@ -37,26 +36,19 @@ public class SigninCandidate extends AppCompatActivity {
         });
     }
     public void initialize(){
-        txt_username = findViewById(R.id.txt_jobPos);
+        txt_username = findViewById(R.id.txt_username);
         txt_pass = findViewById(R.id.txt_pass);
-        txt_pass_2 = findViewById(R.id.txt_exprience);
-        txt_name = findViewById(R.id.txt_date_of_birth);
+        txt_pass_2 = findViewById(R.id.txt_pass_2);
+        txt_name = findViewById(R.id.txt_name);
         txt_address = findViewById(R.id.txt_addr);
-        spn_area = findViewById(R.id.area);
-        txt_email = findViewById(R.id.txt_school);
-        txt_phone = findViewById(R.id.txt_major);
-        spn_major = findViewById(R.id.classify);
+        spn_area = findViewById(R.id.spn_area);
+        txt_email = findViewById(R.id.txt_mail);
+        txt_phone = findViewById(R.id.txt_phone);
         btnSignin = findViewById(R.id.btnSignin);
 
         final List <String> listArea = new ArrayList<>();
         listArea.add("Hồ Chí Minh");
         listArea.add("Hà Nội");
-
-        final List <String> listMajor = new ArrayList<>();
-        listMajor.add("Thực phẩm");
-        listMajor.add("Xây dựng");
-        listMajor.add("Công nghệ thông tin");
-        listMajor.add("Bán hàng");
 
         ArrayAdapter<String> adapterArea= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listArea);
         adapterArea.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -73,30 +65,18 @@ public class SigninCandidate extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> adapterMajor= new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listMajor);
-        adapterMajor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spn_major.setAdapter(adapterMajor);
-        spn_major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                major= listMajor.get(position).toString();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                major="";
-            }
-        });
     }
     public void signIn(){
         if(checked()){
             sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-            User user = new User(username, pass,"2",name, email,phone,"",address, area, major);
+            User user = new User(username, pass, "2",name, email, phone, fax, address, area );
             sqLiteManagement.insert(user);
-            errorAlert("Đăng ký thành công!!");
-            Intent intent = new Intent(SigninCandidate.this, MainActivity.class);
-            intent.putExtra("user", user);
-            startActivity(intent);
+
+            Intent intent2 = new Intent(SigninCandidate.this, OnlineCV.class);
+            intent2.putExtra("user", user);
+            startActivity(intent2);
+
         }
     }
 
@@ -127,7 +107,7 @@ public class SigninCandidate extends AppCompatActivity {
         email = txt_email.getText().toString();
         phone = txt_phone.getText().toString();
         if (username.equals("") || pass.equals("") || pass2.equals("") || name.equals("") ||
-                address.equals("") || email.equals("") || phone.equals("") || area.equals("") || major.equals(""))
+                address.equals("") || email.equals("") || phone.equals("") || area.equals(""))
         {
             errorAlert("Bạn chưa nhập đủ thông tin!!");
             return false;

@@ -9,14 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RequirementDetail"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".OnlineCV" />
         <activity android:name=".MainActivityCompany" />
         <activity android:name=".SigninCandidate" />
@@ -37,6 +29,14 @@
             android:label="Thông tin tuyển dụng">
             <intent-filter>
                 <action android:name="com.example.work_requires.MAINACTIVITY" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".RequirementDetail"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

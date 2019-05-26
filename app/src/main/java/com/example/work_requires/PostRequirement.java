@@ -38,19 +38,20 @@ public class PostRequirement extends AppCompatActivity {
         salary =findViewById(R.id.editText1);
         experience =findViewById(R.id.editText4);
         endDate = findViewById(R.id.editText6);
-        major =findViewById(R.id.spinner);
-        area =findViewById(R.id.spinner2);
+        major =findViewById(R.id.spn_major);
+        area =findViewById(R.id.spn_area);
         degree =findViewById(R.id.spinner3);
         workPos =findViewById(R.id.spinner4);
         postButton = findViewById(R.id.Dangtin);
-        jobName = findViewById(R.id.editText7);
         requirement = findViewById(R.id.requirement);
         description = findViewById(R.id.description);
         benefit = findViewById(R.id.benefit);
+        jobName = findViewById(R.id.txt_title);
         workRequireDatabase = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
-        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Requirements(Id_Requirement INTEGER " +
+        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitments(Id_Requirement INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, End_Date CHAR(10))");
+                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Description VARCHAR, Requirement NVARCHAR, " +
+                "Benefit NVARCHAR, End_Date CHAR(10))");
         user = (User)getIntent().getSerializableExtra("user");
 
         final List<String> listArea = new ArrayList<>();
