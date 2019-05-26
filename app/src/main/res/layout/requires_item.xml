@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/sex"
+        android:id="@+id/area"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="@+id/title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/sex" />
+        app:layout_constraintTop_toBottomOf="@+id/area" />
 
     <TextView
         android:id="@+id/title"

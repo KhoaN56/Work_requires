@@ -41,7 +41,7 @@ public class SigninCompany extends AppCompatActivity {
         txt_pass_2 = findViewById(R.id.txt_exprience);
         txt_name = findViewById(R.id.txt_date_of_birth);
         txt_address = findViewById(R.id.txt_addr);
-        spn_area = findViewById(R.id.sex);
+        spn_area = findViewById(R.id.area);
         txt_email = findViewById(R.id.txt_school);
         txt_phone = findViewById(R.id.txt_major);
         txt_fax = findViewById(R.id.txt_fax);

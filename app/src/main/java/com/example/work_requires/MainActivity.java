@@ -7,14 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+
+import com.example.work_requires.R.id;
+import com.example.work_requires.R.layout;
+import com.example.work_requires.R.menu;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,9 +29,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    //Buttons
-    ImageButton menuButton, searchButton;
 
     //List items
     List<WorkRequirement> requirementList;
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_can);
+        setContentView(layout.activity_main_can);
         initialize();
     }
 
@@ -54,18 +58,18 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        MenuItem searchItem = menu.findItem(id.action_search);
+        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) searchItem.getActionView();
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(String s) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
                 return false;
             }
         });
@@ -76,9 +80,6 @@ public class MainActivity extends AppCompatActivity {
         Date today = new Date(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDate = dateFormat.format(today.getTime());
-        menuButton = findViewById(R.id.menuButton);
-        searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(search);
         requirementList = new ArrayList<>();
         workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
         workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Requirements(Id_Requirement INTEGER " +
@@ -106,22 +107,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        requireListView = findViewById(R.id.requireListView);
+        requireListView = findViewById(id.requireListView);
         requireListView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        adapter = new CustomAdapter(MainActivity.this, R.layout.requires_item, requirementList);
+        LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        adapter = new CustomAdapter(MainActivity.this, layout.requires_item, requirementList);
         requireListView.setLayoutManager(layoutManager);
         requireListView.setAdapter(adapter);
     }
-
-    View.OnClickListener search = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Dialog searchDialog = new Dialog(MainActivity.this);
-            searchDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            searchDialog.setContentView(R.layout.search_dialog);
-        }
-    };
 
     @Override
     protected void onDestroy() {
