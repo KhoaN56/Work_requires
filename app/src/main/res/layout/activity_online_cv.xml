@@ -66,12 +66,12 @@
                     android:layout_marginBottom="8dp"
                     android:text="Trình độ học vấn"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/degree"
+                    app:layout_constraintBottom_toBottomOf="@+id/degreeTV"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/degree" />
+                    app:layout_constraintTop_toTopOf="@+id/degreeTV" />
 
                 <Spinner
-                    android:id="@+id/degree"
+                    android:id="@+id/degreeTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -102,7 +102,7 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/txt_school"
-                    app:layout_constraintTop_toBottomOf="@+id/degree" />
+                    app:layout_constraintTop_toBottomOf="@+id/degreeTV" />
 
                 <TextView
                     android:id="@+id/textView13"

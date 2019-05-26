@@ -23,6 +23,7 @@ import com.example.work_requires.R.id;
 import com.example.work_requires.R.layout;
 import com.example.work_requires.R.menu;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     //Variables
     WorkRequirement dummyRequire;
+    String partten = "dd/MM/yyyy";
+
+    //Format
+    SimpleDateFormat dateFormat = new SimpleDateFormat(partten);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,32 +83,42 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialize() {
         Date today = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String currentDate = dateFormat.format(today.getTime());
         requirementList = new ArrayList<>();
         workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
-        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Requirements(Id_Requirement INTEGER " +
+        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitments(Id_Requirement INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, End_Date CHAR(10))");
+                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Description VARCHAR, Requirement NVARCHAR, " +
+                "Benefit NVARCHAR, End_Date CHAR(10))");
         Intent intent = getIntent();
         User user = (User)intent.getSerializableExtra("user");
-        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Requirements AS A, USER AS B " +
+        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitments AS A, USER AS B " +
                 "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
         while(cursor.moveToNext()){
             //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
-            if(!cursor.getString(9).equals(currentDate)){
-                Log.d("see cursor", "Job name: "+cursor.getString(2)+" company name: "+cursor.getString(10));
+            if(isStillValid(today, cursor.getString(12))){
                 requirementList.add(new WorkRequirement(
                         cursor.getString(2),cursor.getString(3),
                         cursor.getString(4), cursor.getLong(5),
                         cursor.getString(6), cursor.getString(7),
                         cursor.getInt(8), cursor.getString(9),
-                        cursor.getString(10)
+                        cursor.getString(10), cursor.getString(11),
+                        cursor.getString(12), cursor.getString(13)
                 ));
             }
         }
         setUpRecyclerView();
         adapter.notifyDataSetChanged();
+    }
+
+    private boolean isStillValid(Date today, String endDate){
+        try {
+            Date end = dateFormat.parse(endDate);
+            int check = today.compareTo(end);
+            return (check <=0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     private void setUpRecyclerView() {
@@ -113,6 +128,15 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter(MainActivity.this, layout.requires_item, requirementList);
         requireListView.setLayoutManager(layoutManager);
         requireListView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                Intent toDetail = new Intent(MainActivity.this, RequirementDetail.class);
+                toDetail.putExtra("requirement", requirementList.get(position));
+                startActivity(toDetail);
+            }
+        });
     }
 
     @Override

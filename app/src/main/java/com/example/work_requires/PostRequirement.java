@@ -24,8 +24,10 @@ public class PostRequirement extends AppCompatActivity {
     EditText experience;
     Spinner major, area, degree, workPos;
     EditText endDate;
+    EditText requirement, description, benefit;
     Button postButton;
-    String salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", endDateTxt="", jobNameTxt;
+    String salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="",
+            endDateTxt="", jobNameTxt="",requirementTxt="",descriptionTxt="",benefitTxt="";
     SQLiteManagement workRequireDatabase;
     User user;
 
@@ -42,6 +44,9 @@ public class PostRequirement extends AppCompatActivity {
         workPos =findViewById(R.id.spinner4);
         postButton = findViewById(R.id.Dangtin);
         jobName = findViewById(R.id.editText7);
+        requirement = findViewById(R.id.requirement);
+        description = findViewById(R.id.description);
+        benefit = findViewById(R.id.benefit);
         workRequireDatabase = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
         workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Requirements(Id_Requirement INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
@@ -141,7 +146,7 @@ public class PostRequirement extends AppCompatActivity {
                 WorkRequirement requirement;
                 requirement = new WorkRequirement(
                         jobNameTxt, majorTxt, areaTxt, Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
-                        Integer.parseInt(expTxt), endDateTxt, user.getName());
+                        Integer.parseInt(expTxt), descriptionTxt, requirementTxt, benefitTxt,endDateTxt, user.getName());
                 workRequireDatabase.insert(requirement, user);
                 confirmation();
             }
@@ -175,8 +180,11 @@ public class PostRequirement extends AppCompatActivity {
         salaryTxt = salary.getText().toString().trim();
         expTxt = experience.getText().toString().trim();
         endDateTxt = endDate.getText().toString().trim();
+        requirementTxt = requirement.getText().toString().trim();
+        descriptionTxt = description.getText().toString().trim();
+        benefitTxt = description.getText().toString().trim();
         return (!(jobNameTxt.equals("")||salaryTxt.equals("")||expTxt.equals("")||
-                endDateTxt.equals("")));
+                endDateTxt.equals("")||requirementTxt.equals("")||descriptionTxt.equals("")||benefitTxt.equals("")));
     }
 
 }

@@ -20,6 +20,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private int layout;
     private List<WorkRequirement> requirementList;
     private List<WorkRequirement> requirementFullList;
+    private OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener{
+        void onClick(int position);
+    }
     private Filter requirementFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -58,7 +63,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = inflater.inflate(R.layout.requires_item, viewGroup, false);
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, itemClickListener);
     }
 
     @Override
@@ -81,25 +86,35 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return requirementFilter;
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener){
+        itemClickListener = listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView companyLogo;
         TextView requirePos;
         TextView companyName;
-        TextView area;
-        TextView salary;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             companyLogo = itemView.findViewById(R.id.companyLogo);
             requirePos = itemView.findViewById(R.id.title);
             companyName = itemView.findViewById(R.id.compName);
-            area = itemView.findViewById(R.id.area);
-            salary = itemView.findViewById(R.id.salary);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onClick(position);
+                        }
+                    }
+                }
+            });
         }
 
         public void setter(WorkRequirement requirement){
-            this.salary.setText(String.valueOf(requirement.getSalary()));
-            this.area.setText(requirement.getArea());
             this.companyName.setText(requirement.getCompanyName());
             this.requirePos.setText(requirement.getJobName());
             this.companyLogo.setImageResource(R.mipmap.ic_launcher);

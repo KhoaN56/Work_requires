@@ -1,18 +1,24 @@
 package com.example.work_requires;
 
-public class WorkRequirement {
-    String jobName;
-    String companyName;
-    String major;
-    String area;
-    long salary;
-    String degree;
-    String workPos;
-    int experience;
-    String endDate;
+import java.io.Serializable;
+
+public class WorkRequirement implements Serializable {
+    private String jobName;
+    private String companyName;
+    private String major;
+    private String area;
+    private long salary;
+    private String degree;
+    private String workPos;
+    private int experience;
+    private String requirement;
+    private String benefit;
+    private String description;
+    private String endDate;
 
     public WorkRequirement(String jobName, String major, String area, long salary, String degree,
-                           String workPos, int experience, String endDate, String companyName) {
+                           String workPos, int experience, String description,String requirement,
+                           String benefit,String endDate, String companyName) {
         this.jobName = jobName;
         this.companyName = companyName;
         this.major = major;
@@ -22,6 +28,34 @@ public class WorkRequirement {
         this.workPos = workPos;
         this.experience = experience;
         this.endDate = endDate;
+        this.requirement = requirement;
+        this.benefit = benefit;
+        this.description = description;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getRequirement() {
+        return requirement;
+    }
+
+    public void setRequirement(String requirement) {
+        this.requirement = requirement;
+    }
+
+    public String getBenefit() {
+        return benefit;
+    }
+
+    public void setBenefit(String benefit) {
+        this.benefit = benefit;
     }
 
     public String getJobName() {
