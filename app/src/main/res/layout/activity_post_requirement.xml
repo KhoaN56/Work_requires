@@ -23,7 +23,7 @@
                     android:id="@+id/editText7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
                     android:inputType="textPersonName"
@@ -131,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Tên công việc:"
+                    android:text="Tiêu đề"
                     app:layout_constraintBottom_toBottomOf="@+id/editText7"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/editText7" />

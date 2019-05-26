@@ -21,7 +21,7 @@ public class SQLiteManagement extends SQLiteOpenHelper {
     }
     public void insert(User user){
         SQLiteDatabase database= this.getWritableDatabase();
-        String sql="INSERT INTO User (username, type, Password, name, email, phone, fax, address, area, major ) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String sql="INSERT INTO User (username, type, Password, name, email, phone, fax, address, area ) VALUES (?,?,?,?,?,?,?,?,?)";
         Log.d("type", user.getType()+"");
         SQLiteStatement statement = database.compileStatement(sql);
         statement.clearBindings();
@@ -34,7 +34,6 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.bindString(7, user.fax);
         statement.bindString(8, user.address);
         statement.bindString(9, user.area);
-        statement.bindString(10, user.major);
         statement.executeInsert();
         Log.d("type", user.getType()+"");
     }
@@ -56,6 +55,26 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.executeInsert();
     }
 
+    public  void update (Info_CV info_cv, String username)
+    {
+        SQLiteDatabase database= getWritableDatabase();
+        String sql="UPDATE USER SET JobPos = ?, degree=?, experience=?, date_of_birth=?, country=?, sex=?, school=?, major=?, " +
+                "classify=?, detail_experience=? WHERE USERNAME= '"+username+"'";
+        SQLiteStatement statement= database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindString(1, info_cv.getJobPos());
+        statement.bindString(2, info_cv.getDegree());
+        statement.bindString(3, info_cv.getExperience());
+        statement.bindString(4, info_cv.getDate_of_birth());
+        statement.bindString(5, info_cv.getCountry());
+        statement.bindString(6, info_cv.getSex());
+        statement.bindString(7, info_cv.getSchool());
+        statement.bindString(8, info_cv.getMajor());
+        statement.bindString(9, info_cv.getClassify());
+        statement.bindString(10, info_cv.getDetail_experience());
+        statement.executeUpdateDelete();
+
+    }
     public void insertRequirement(WorkRequirement requirement){
 
     }
