@@ -62,9 +62,11 @@ public class MainActivityCompany extends AppCompatActivity {
                     cursor.getString(10), cursor.getString( 11),
                     cursor.getString(12), cursor.getString(13),user.getName()));
         cursor.close();
-//        for(WorkRequirement requirement:workRequirementList){
-//
-//        }
+        for(WorkRequirement requirement:workRequirementList){
+            cursor = database.getDatasql("SELECT COUNT (*) FROM DETAIL WHERE Id_Recruitment = "+requirement.getId());
+            cursor.moveToNext();
+
+        }
         postedRecycleView = findViewById(R.id.postedRecycleView);
         adapter = new CustomAdapter(MainActivityCompany.this, R.layout.posted_item, workRequirementList);
         postedRecycleView.setAdapter(adapter);

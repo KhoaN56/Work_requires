@@ -169,6 +169,7 @@ public class PostRequirement extends AppCompatActivity {
                     });
                     AlertDialog alert = builder.create();
                     alert.show();
+                    return;
                 }
                 WorkRequirement requirement;
                 requirement = new WorkRequirement(id,
