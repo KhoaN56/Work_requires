@@ -40,7 +40,7 @@ public class SQLiteManagement extends SQLiteOpenHelper {
 
     public void insert(WorkRequirement requirement, User user){
         SQLiteDatabase database = getWritableDatabase();
-        String sql ="INSERT INTO Recruitment VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql ="INSERT INTO Recruitment VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         SQLiteStatement statement = database.compileStatement(sql);
         statement.clearBindings();
         statement.bindString(1, user.getUsername());
@@ -51,10 +51,11 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.bindString(6, requirement.getDegree());
         statement.bindString(7, requirement.getWorkPos());
         statement.bindLong(8, requirement.getExperience());
-        statement.bindString(9, requirement.getDescription());
-        statement.bindString(10, requirement.getRequirement());
-        statement.bindString(11, requirement.getBenefit());
-        statement.bindString(12, requirement.getEndDate());
+        statement.bindLong(9,requirement.getAmount());
+        statement.bindString(10, requirement.getDescription());
+        statement.bindString(11, requirement.getRequirement());
+        statement.bindString(12, requirement.getBenefit());
+        statement.bindString(13, requirement.getEndDate());
         statement.executeInsert();
     }
 

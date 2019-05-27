@@ -91,8 +91,8 @@ public class Login extends AppCompatActivity {
     }
     public void checkLogin()
     {
-        username= text_username.getText().toString();
-        pass= text_pass.getText().toString();
+        username= text_username.getText().toString().trim();
+        pass= text_pass.getText().toString().trim();
         String pass_true="";
         User user;
         String type;

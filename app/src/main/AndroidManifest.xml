@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".OnlineCV" />
-        <activity android:name=".MainActivityCompany" />
+        <activity android:name=".MainActivityCompany"
+            android:label="Các tin đã đăng"/>
         <activity android:name=".SignUpCandidate" />
         <activity android:name=".SignUpCompany" />
         <activity android:name=".PostRequirement"

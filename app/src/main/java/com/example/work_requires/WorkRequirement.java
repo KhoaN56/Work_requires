@@ -16,9 +16,10 @@ public class WorkRequirement implements Serializable {
     private String benefit;
     private String description;
     private String endDate;
+    private int amount;
 
     public WorkRequirement(int id, String jobName, String major, String area, long salary, String degree,
-                           String workPos, int experience, String description,String requirement,
+                           String workPos, int experience, int amount,String description,String requirement,
                            String benefit,String endDate, String companyName) {
         this.id = id;
         this.jobName = jobName;
@@ -33,8 +34,16 @@ public class WorkRequirement implements Serializable {
         this.requirement = requirement;
         this.benefit = benefit;
         this.description = description;
+        this.amount = amount;
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 
     public int getId() {
         return id;

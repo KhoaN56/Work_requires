@@ -1,6 +1,5 @@
 package com.example.work_requires;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -8,20 +7,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.ImageButton;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 
 import com.example.work_requires.R.id;
 import com.example.work_requires.R.layout;
-import com.example.work_requires.R.menu;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     List<WorkRequirement> requirementList;
 
     //RecycleView
-    RecyclerView requireListView;
+    RecyclerView requireRecycleView;
     CustomAdapter adapter;
 
     //Database
@@ -49,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     String partten = "dd/MM/yyyy";
 
     //Format
-    SimpleDateFormat dateFormat = new SimpleDateFormat(partten);
+    SimpleDateFormat dateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-
+        dateFormat = new SimpleDateFormat(partten);
         MenuItem searchItem = menu.findItem(id.action_search);
         android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) searchItem.getActionView();
 
@@ -87,22 +78,23 @@ public class MainActivity extends AppCompatActivity {
         workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
         workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Description VARCHAR, Requirement NVARCHAR, " +
-                "Benefit NVARCHAR, End_Date CHAR(10))");
+                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER" +
+                "Description VARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10))");
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
         Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitment AS A, USER AS B " +
                 "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
         while(cursor.moveToNext()){
             //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
-            if(isStillValid(today, cursor.getString(12))){
+            if(isStillValid(today, cursor.getString(13))){
                 requirementList.add(new WorkRequirement(cursor.getInt(0),
                         cursor.getString(2),cursor.getString(3),
                         cursor.getString(4), cursor.getLong(5),
                         cursor.getString(6), cursor.getString(7),
-                        cursor.getInt(8), cursor.getString(9),
-                        cursor.getString(10), cursor.getString(11),
-                        cursor.getString(12), cursor.getString(13)
+                        cursor.getInt(8), cursor.getInt(9),
+                        cursor.getString(10), cursor.getString( 11),
+                        cursor.getString(12), cursor.getString(13),
+                        cursor.getString(14)
                 ));
             }
         }
@@ -122,12 +114,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        requireListView = findViewById(id.requireListView);
-        requireListView.setHasFixedSize(true);
+        requireRecycleView = findViewById(id.requireRecycleView);
+        requireRecycleView.setHasFixedSize(true);
         LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         adapter = new CustomAdapter(MainActivity.this, layout.requires_item, requirementList);
-        requireListView.setLayoutManager(layoutManager);
-        requireListView.setAdapter(adapter);
+        requireRecycleView.setLayoutManager(layoutManager);
+        requireRecycleView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
             @Override

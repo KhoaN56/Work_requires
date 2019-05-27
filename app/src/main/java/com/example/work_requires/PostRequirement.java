@@ -15,26 +15,35 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Formattable;
 import java.util.List;
 
 @SuppressLint("Registered")
 public class PostRequirement extends AppCompatActivity {
     EditText jobName;
     EditText salary;
-    EditText experience;
+    EditText experience, amount;
     Spinner major, area, degree, workPos;
     EditText endDate;
     EditText requirement, description, benefit;
     Button postButton;
     String salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="",
-            endDateTxt="", jobNameTxt="",requirementTxt="",descriptionTxt="",benefitTxt="";
+            endDateTxt="", jobNameTxt="",requirementTxt="",descriptionTxt="",benefitTxt="", amountTxt="";
     SQLiteManagement workRequireDatabase;
     User user;
+    Date today;
+    final String pattern = "dd/MM/yyyy";
+    SimpleDateFormat dateFormat;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        today = new Date(System.currentTimeMillis());
+        dateFormat = new SimpleDateFormat(pattern);
         setContentView(R.layout.activity_post_requirement);
         salary =findViewById(R.id.editText1);
         experience =findViewById(R.id.editText4);
@@ -48,11 +57,12 @@ public class PostRequirement extends AppCompatActivity {
         description = findViewById(R.id.description);
         benefit = findViewById(R.id.benefit);
         jobName = findViewById(R.id.txt_title);
+        amount = findViewById(R.id.amount);
         workRequireDatabase = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
         workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Description VARCHAR, Requirement NVARCHAR, " +
-                "Benefit NVARCHAR, End_Date CHAR(10))");
+                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER" +
+                "Description VARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10))");
         Cursor cursor = workRequireDatabase.getDatasql("SELECT Id_Recruitment FROM Recruitment");
         final int id = cursor.getCount() + 1;
         user = (User)getIntent().getSerializableExtra("user");
@@ -142,6 +152,20 @@ public class PostRequirement extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!checkDate(endDate.getText().toString().trim())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PostRequirement.this);
+                    builder.setTitle("Nhắc nhở");
+                    builder.setMessage("Ngày bạn nhập đã qua hoặc đang là ngày hôm nay, nên nhập sau ngày" +
+                            "hôm nay ít nhất 1 đến 2 ngày");
+                    builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            PostRequirement.this.onResume();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
                 if(!checkNull())
                 {
                     Toast.makeText(PostRequirement.this, "Lỗi", Toast.LENGTH_SHORT).show();
@@ -150,11 +174,22 @@ public class PostRequirement extends AppCompatActivity {
                 WorkRequirement requirement;
                 requirement = new WorkRequirement(id,
                         jobNameTxt, majorTxt, areaTxt, Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
-                        Integer.parseInt(expTxt), descriptionTxt, requirementTxt, benefitTxt,endDateTxt, user.getName());
+                        Integer.parseInt(expTxt), Integer.parseInt(amountTxt),descriptionTxt,
+                        requirementTxt, benefitTxt, endDateTxt, user.getName());
                 workRequireDatabase.insert(requirement, user);
                 confirmation();
             }
         });
+    }
+
+    private boolean checkDate(String inputDate) {
+        try{
+            Date iDate = dateFormat.parse(inputDate);
+            return (today.compareTo(iDate) < 0);    // < 0 la han dang ky sau ngay hien tai
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void confirmation() {
@@ -164,6 +199,7 @@ public class PostRequirement extends AppCompatActivity {
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                resetView();
                 onRestart();
             }
         });
@@ -179,6 +215,17 @@ public class PostRequirement extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private void resetView() {
+        salary.setText("");
+        experience.setText("");
+        endDate.setText("");
+        postButton.setText("");
+        requirement.setText("");
+        description.setText("");
+        benefit.setText("");
+        jobName.setText("");
+    }
+
     private boolean checkNull() {
         jobNameTxt = jobName.getText().toString().trim();
         salaryTxt = salary.getText().toString().trim();
@@ -187,7 +234,8 @@ public class PostRequirement extends AppCompatActivity {
         requirementTxt = requirement.getText().toString().trim();
         descriptionTxt = description.getText().toString().trim();
         benefitTxt = benefit.getText().toString().trim();
-        return (!(jobNameTxt.equals("")||salaryTxt.equals("")||expTxt.equals("")||
+        amountTxt = amount.getText().toString().trim();
+        return (!(jobNameTxt.equals("")||salaryTxt.equals("")||expTxt.equals("")|| amountTxt.equals("") ||
                 endDateTxt.equals("")||requirementTxt.equals("")||descriptionTxt.equals("")||benefitTxt.equals("")));
     }
 

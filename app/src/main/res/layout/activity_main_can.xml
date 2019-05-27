@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/requireListView"
+        android:id="@+id/requireRecycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/darker_gray"
