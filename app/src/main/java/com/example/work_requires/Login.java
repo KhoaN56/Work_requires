@@ -48,7 +48,6 @@ public class Login extends AppCompatActivity {
         typeDialog.setContentView(R.layout.type_dialog);
 
         final RadioGroup radioGroup = typeDialog.findViewById(R.id.radioGroup);
-        final RadioButton checkedButton;
 
         Button btnNext = typeDialog.findViewById(R.id.btnNext);
         Button btnCancel = typeDialog.findViewById(R.id.btnCancel);
@@ -82,12 +81,6 @@ public class Login extends AppCompatActivity {
         text_username = findViewById(R.id.user_name);
         text_pass = findViewById(R.id.password);
         managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-        managementDatabse.queryData("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY NOT NULL," +
-                "Type VARCHAR(2), Password VARCHAR(20), Name NVARCHAR(50), Email VARCHAR(50)," +
-                "Phone VARCHAR(10), Fax VARCHAR(20), Address NVARCHAR(100), Area NVARCHAR(20), jobPos NVARCHAR(50), " +
-                "Degree NVARCHAR(50), Experience  INTEGER, DateOfBirth VARCHAR(10), Country NVARCHAR(30), Sex NVARCHAR(5), " +
-                "School NVARCHAR(100), Major NVARCHAR(50), Classify NVARCHAR(20), Detail_experience NVARCHAR(300), CheckLogin VARCHAR(2) DEFAULT '0' )");
-
     }
     public void checkLogin()
     {
@@ -108,7 +101,6 @@ public class Login extends AppCompatActivity {
                 user= new User(cursor.getString(0),cursor.getString(2), cursor.getString(1),
                         cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
                         cursor.getString(7),cursor.getString(8),cursor.getString(16));
-                Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 if(type.equals("1"))
                 {
                     //chuyển màn hình chính của nhà tuyển dụng

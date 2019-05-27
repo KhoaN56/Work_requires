@@ -76,13 +76,9 @@ public class MainActivity extends AppCompatActivity {
         dateFormat = new SimpleDateFormat(partten);
         requirementList = new ArrayList<>();
         workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
-        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
-                "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER," +
-                "Description VARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10))");
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
-        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitment AS A, USER AS B " +
+        Cursor cursor = workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitment AS A, USER AS B " +
                 "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
         while(cursor.moveToNext()){
             //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
@@ -94,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getInt(8), cursor.getInt(9),
                         cursor.getString(10), cursor.getString( 11),
                         cursor.getString(12), cursor.getString(13),
-                        cursor.getString(14)
+                        cursor.getString(14), cursor.getInt(15)
                 ));
             }
         }
@@ -118,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         requireRecycleView = findViewById(id.requireRecycleView);
         requireRecycleView.setHasFixedSize(true);
         LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        adapter = new CustomAdapter(MainActivity.this, layout.requires_item, requirementList);
+        adapter = new CustomAdapter(requirementList);
         requireRecycleView.setLayoutManager(layoutManager);
         requireRecycleView.setAdapter(adapter);
 

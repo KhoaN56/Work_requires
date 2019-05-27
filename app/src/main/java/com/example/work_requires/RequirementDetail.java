@@ -43,8 +43,6 @@ public class RequirementDetail extends AppCompatActivity {
         requirement = (WorkRequirement) info.getSerializableExtra("requirement");
         user = (User) info.getSerializableExtra("user");
         database = new SQLiteManagement(RequirementDetail.this, "Work_Requirement.sqlite", null, 1);
-        database.queryData("CREATE TABLE IF NOT EXISTS DETAIL (ID_DETAIL INTEGER PRIMARY KEY" +
-                " AUTOINCREMENT, Username CHAR(20), Id_Recruitment INTEGER)");
         cursor = database.getDatasql("SELECT * FROM DETAIL WHERE USERNAME = " +
                 "'"+user.getUsername()+"' AND Id_Recruitment = '"+requirement.getId()+"'");
         if(cursor.getCount() > 0)
@@ -83,6 +81,9 @@ public class RequirementDetail extends AppCompatActivity {
                 else {
                     database.insert(requirement.getId(), user.getUsername());
                     Toast.makeText(RequirementDetail.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    //Thêm người đăng ký xin việc
+                    requirement.setApplied(requirement.getApplied() + 1);
+                    database.update(requirement.getApplied(), requirement);
                     state = REGISTERED;
                 }
             }

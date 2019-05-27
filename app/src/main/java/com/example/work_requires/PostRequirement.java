@@ -175,9 +175,10 @@ public class PostRequirement extends AppCompatActivity {
                 requirement = new WorkRequirement(id,
                         jobNameTxt, majorTxt, areaTxt, Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
                         Integer.parseInt(expTxt), Integer.parseInt(amountTxt),descriptionTxt,
-                        requirementTxt, benefitTxt, endDateTxt, user.getName());
+                        requirementTxt, benefitTxt, endDateTxt, user.getName(),0);
                 workRequireDatabase.insert(requirement, user);
-                confirmation();
+                Toast.makeText(PostRequirement.this, "Đăng tin thành công!!", Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
         });
         cursor.close();
@@ -193,29 +194,6 @@ public class PostRequirement extends AppCompatActivity {
         return false;
     }
 
-    private void confirmation() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(PostRequirement.this);
-        builder.setMessage("Đăng tin thành công! Bạn có muốn tiếp tục không?");
-        builder.setTitle("Xác nhận");
-        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                resetView();
-                onRestart();
-            }
-        });
-        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent toMain = new Intent(PostRequirement.this, MainActivityCompany.class);
-                toMain.putExtra("user", user);
-                startActivity(toMain);
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
     private void resetView() {
         salary.setText("");
         experience.setText("");
@@ -224,6 +202,8 @@ public class PostRequirement extends AppCompatActivity {
         description.setText("");
         benefit.setText("");
         jobName.setText("");
+        amount.setText("");
+        jobName.requestFocus();
     }
 
     private boolean checkNull() {

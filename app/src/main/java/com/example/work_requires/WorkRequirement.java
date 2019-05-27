@@ -17,10 +17,11 @@ public class WorkRequirement implements Serializable {
     private String description;
     private String endDate;
     private int amount;
+    private int applied;
 
     public WorkRequirement(int id, String jobName, String major, String area, long salary, String degree,
                            String workPos, int experience, int amount,String description,String requirement,
-                           String benefit,String endDate, String companyName) {
+                           String benefit,String endDate, String companyName, int applied) {
         this.id = id;
         this.jobName = jobName;
         this.companyName = companyName;
@@ -35,6 +36,15 @@ public class WorkRequirement implements Serializable {
         this.benefit = benefit;
         this.description = description;
         this.amount = amount;
+        this.applied = applied;
+    }
+
+    public int getApplied() {
+        return applied;
+    }
+
+    public void setApplied(int applied) {
+        this.applied = applied;
     }
 
     public int getAmount() {
