@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".RequirementDetail">
 
     <ImageView
@@ -25,6 +26,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -37,6 +41,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/jobName"
@@ -47,6 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -63,22 +69,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
                 android:text="Lĩnh vực:"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.023"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/majorTV"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/majorTV"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/majorTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/textView23"
-                app:layout_constraintTop_toTopOf="@+id/textView23" />
+                app:layout_constraintStart_toStartOf="@+id/experienceTV"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -87,6 +92,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Khu vực: "
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/areaTV"
                 app:layout_constraintStart_toStartOf="@+id/textView23"
                 app:layout_constraintTop_toTopOf="@+id/areaTV"
@@ -106,6 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lương"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/salaryTV"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
                 app:layout_constraintTop_toTopOf="@+id/salaryTV" />
@@ -124,6 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trình độ"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/degreeTV"
                 app:layout_constraintStart_toStartOf="@+id/textView28"
                 app:layout_constraintTop_toTopOf="@+id/degreeTV" />
@@ -142,6 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vị trí"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/workPosTV"
                 app:layout_constraintStart_toStartOf="@+id/textView31"
                 app:layout_constraintTop_toTopOf="@+id/workPosTV" />
@@ -160,6 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Kinh nghiệm"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/experienceTV"
                 app:layout_constraintStart_toStartOf="@+id/textView33"
                 app:layout_constraintTop_toTopOf="@+id/experienceTV" />
@@ -168,9 +178,10 @@
                 android:id="@+id/experienceTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/workPosTV"
+                app:layout_constraintStart_toEndOf="@+id/textView35"
                 app:layout_constraintTop_toBottomOf="@+id/workPosTV" />
 
             <TextView
@@ -178,6 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mô tả"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/descriptionTV"
                 app:layout_constraintStart_toStartOf="@+id/textView35"
                 app:layout_constraintTop_toTopOf="@+id/descriptionTV" />
@@ -196,6 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Yêu cầu"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/requirementTV"
                 app:layout_constraintStart_toStartOf="@+id/textView37"
                 app:layout_constraintTop_toTopOf="@+id/requirementTV" />
@@ -223,6 +236,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quyền lợi"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/benefitTV"
                 app:layout_constraintStart_toStartOf="@+id/textView39"
                 app:layout_constraintTop_toTopOf="@+id/benefitTV" />
@@ -232,6 +246,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hạn đăng ký"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/endDateTV"
                 app:layout_constraintStart_toStartOf="@+id/textView42"
                 app:layout_constraintTop_toTopOf="@+id/endDateTV" />
@@ -250,11 +265,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
-                android:background="@color/colorPrimaryDark"
+                android:layout_marginBottom="8dp"
+                android:background="@color/colorPrimary"
                 android:text="Đăng ký"
                 android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/endDateTV" />

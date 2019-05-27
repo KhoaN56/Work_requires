@@ -58,11 +58,11 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.radioComp:
-                        Intent intent = new Intent(Login.this, SigninCompany.class);
+                        Intent intent = new Intent(Login.this, SignUpCompany.class);
                         startActivity(intent);
                          break;
                     case R.id.radioCan:
-                        Intent intent2 = new Intent(Login.this, SigninCandidate.class);
+                        Intent intent2 = new Intent(Login.this, SignUpCandidate.class);
                         startActivity(intent2);
                         break;
                 }

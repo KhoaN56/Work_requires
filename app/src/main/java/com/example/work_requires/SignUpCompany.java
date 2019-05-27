@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SigninCompany extends AppCompatActivity {
+public class SignUpCompany extends AppCompatActivity {
 
     EditText txt_username, txt_pass, txt_pass_2, txt_name, txt_address, txt_email, txt_phone, txt_fax;
     Spinner spn_area, spn_major;
@@ -25,7 +25,7 @@ public class SigninCompany extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin_comp);
+        setContentView(R.layout.activity_sign_up_comp);
 
         initialize();
         btnSignin.setOnClickListener(new View.OnClickListener() {
@@ -94,14 +94,14 @@ public class SigninCompany extends AppCompatActivity {
             User user = new User(username, pass,"1",name, email,phone,fax,address, area, major);
             sqLiteManagement.insert(user);
             errorAlert("Đăng ký thành công!!");
-            Intent intent = new Intent(SigninCompany.this, MainActivityCompany.class);
+            Intent intent = new Intent(SignUpCompany.this, MainActivityCompany.class);
             intent.putExtra("user", user);
             startActivity(intent);
         }
     }
 
     private void errorAlert(String error) {
-        Toast.makeText(SigninCompany.this, error, Toast.LENGTH_LONG).show();
+        Toast.makeText(SignUpCompany.this, error, Toast.LENGTH_LONG).show();
     }
 
     private boolean checked() {

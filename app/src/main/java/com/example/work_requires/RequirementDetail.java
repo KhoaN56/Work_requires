@@ -1,24 +1,35 @@
 package com.example.work_requires;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RequirementDetail extends AppCompatActivity {
+
+    //State
+    final boolean REGISTERED = true;
+    final boolean UNREGISTERED = false;
+    boolean state = UNREGISTERED;
 
     //Requirement
     WorkRequirement requirement;
 
+    //User
+    User user;
+
     //Component
     TextView majorTV, areaTV, salaryTV, degreeTV, workPosTV, expTV, descriptionTV, requireTV, benefitTV,
-    endDateTV;
+    endDateTV, jobName, compName;
     Button subscribe;
 
     //Database
     SQLiteManagement database;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +39,20 @@ public class RequirementDetail extends AppCompatActivity {
     }
 
     private void initialize() {
-        database = new SQLiteManagement(RequirementDetail.this, "Work_Requirement.sqlite", null, 1);
-        database.queryData("CREATE TABLE IF NOT EXISTS DETAIL (ID_DETAIL INTEGER PRIMARY KEY" +
-                " AUTOINCREMENT, Username CHAR(20), Id_Requirement INTEGER)");
         Intent info = getIntent();
         requirement = (WorkRequirement) info.getSerializableExtra("requirement");
+        user = (User) info.getSerializableExtra("user");
+        database = new SQLiteManagement(RequirementDetail.this, "Work_Requirement.sqlite", null, 1);
+        database.queryData("CREATE TABLE IF NOT EXISTS DETAIL (ID_DETAIL INTEGER PRIMARY KEY" +
+                " AUTOINCREMENT, Username CHAR(20), Id_Recruitment INTEGER)");
+        cursor = database.getDatasql("SELECT * FROM DETAIL WHERE USERNAME = " +
+                "'"+user.getUsername()+"' AND Id_Recruitment = '"+requirement.getId()+"'");
+        if(cursor.getCount() > 0)
+            state = REGISTERED;
+        jobName = findViewById(R.id.jobName);
+        jobName.setText(requirement.getJobName());
+        compName = findViewById(R.id.compName);
+        compName.setText(requirement.getCompanyName());
         majorTV = findViewById(R.id.majorTV);
         majorTV.setText(requirement.getMajor());
         areaTV = findViewById(R.id.areaTV);
@@ -44,7 +64,7 @@ public class RequirementDetail extends AppCompatActivity {
         workPosTV = findViewById(R.id.workPosTV);
         workPosTV.setText(requirement.getWorkPos());
         expTV = findViewById(R.id.experienceTV);
-        expTV.setText(requirement.getExperience());
+        expTV.setText(String.valueOf(requirement.getExperience()));
         descriptionTV = findViewById(R.id.descriptionTV);
         descriptionTV.setText(requirement.getDescription());
         requireTV = findViewById(R.id.requirementTV);
@@ -57,7 +77,14 @@ public class RequirementDetail extends AppCompatActivity {
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(state == REGISTERED)
+                    Toast.makeText(RequirementDetail.this, "Bạn đã đăng ký công việc này rồi!!",
+                            Toast.LENGTH_SHORT).show();
+                else {
+                    database.insert(requirement.getId(), user.getUsername());
+                    Toast.makeText(RequirementDetail.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    state = REGISTERED;
+                }
             }
         });
     }

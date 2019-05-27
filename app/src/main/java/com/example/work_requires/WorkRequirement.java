@@ -3,6 +3,7 @@ package com.example.work_requires;
 import java.io.Serializable;
 
 public class WorkRequirement implements Serializable {
+    private int id;
     private String jobName;
     private String companyName;
     private String major;
@@ -16,9 +17,10 @@ public class WorkRequirement implements Serializable {
     private String description;
     private String endDate;
 
-    public WorkRequirement(String jobName, String major, String area, long salary, String degree,
+    public WorkRequirement(int id, String jobName, String major, String area, long salary, String degree,
                            String workPos, int experience, String description,String requirement,
                            String benefit,String endDate, String companyName) {
+        this.id = id;
         this.jobName = jobName;
         this.companyName = companyName;
         this.major = major;
@@ -33,6 +35,14 @@ public class WorkRequirement implements Serializable {
         this.description = description;
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;

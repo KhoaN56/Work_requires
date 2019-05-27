@@ -11,8 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".OnlineCV" />
         <activity android:name=".MainActivityCompany" />
-        <activity android:name=".SigninCandidate" />
-        <activity android:name=".SigninCompany" />
+        <activity android:name=".SignUpCandidate" />
+        <activity android:name=".SignUpCompany" />
         <activity android:name=".PostRequirement"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity

@@ -85,18 +85,18 @@ public class MainActivity extends AppCompatActivity {
         Date today = new Date(System.currentTimeMillis());
         requirementList = new ArrayList<>();
         workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
-        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitments(Id_Requirement INTEGER " +
+        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
                 "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Description VARCHAR, Requirement NVARCHAR, " +
                 "Benefit NVARCHAR, End_Date CHAR(10))");
         Intent intent = getIntent();
-        User user = (User)intent.getSerializableExtra("user");
-        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitments AS A, USER AS B " +
+        user = (User)intent.getSerializableExtra("user");
+        Cursor cursor =workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitment AS A, USER AS B " +
                 "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
         while(cursor.moveToNext()){
             //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
             if(isStillValid(today, cursor.getString(12))){
-                requirementList.add(new WorkRequirement(
+                requirementList.add(new WorkRequirement(cursor.getInt(0),
                         cursor.getString(2),cursor.getString(3),
                         cursor.getString(4), cursor.getLong(5),
                         cursor.getString(6), cursor.getString(7),
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(int position) {
                 Intent toDetail = new Intent(MainActivity.this, RequirementDetail.class);
                 toDetail.putExtra("requirement", requirementList.get(position));
+                toDetail.putExtra("user", user);
                 startActivity(toDetail);
             }
         });

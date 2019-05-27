@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SigninCandidate extends AppCompatActivity {
+public class SignUpCandidate extends AppCompatActivity {
 
     EditText txt_username, txt_pass, txt_pass_2, txt_name, txt_address, txt_email, txt_phone;
     Spinner spn_area;
@@ -25,7 +25,7 @@ public class SigninCandidate extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin_can);
+        setContentView(R.layout.activity_sign_up_can);
 
         initialize();
         btnSignin.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +73,7 @@ public class SigninCandidate extends AppCompatActivity {
             User user = new User(username, pass, "2",name, email, phone, fax, address, area );
             sqLiteManagement.insert(user);
 
-            Intent intent2 = new Intent(SigninCandidate.this, OnlineCV.class);
+            Intent intent2 = new Intent(SignUpCandidate.this, OnlineCV.class);
             intent2.putExtra("user", user);
             startActivity(intent2);
 
@@ -81,7 +81,7 @@ public class SigninCandidate extends AppCompatActivity {
     }
 
     private void errorAlert(String error) {
-        Toast.makeText(SigninCandidate.this, error, Toast.LENGTH_LONG).show();
+        Toast.makeText(SignUpCandidate.this, error, Toast.LENGTH_LONG).show();
     }
 
     private boolean checked() {

@@ -3,6 +3,7 @@ package com.example.work_requires;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,10 +49,12 @@ public class PostRequirement extends AppCompatActivity {
         benefit = findViewById(R.id.benefit);
         jobName = findViewById(R.id.txt_title);
         workRequireDatabase = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
-        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitments(Id_Requirement INTEGER " +
+        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
                 "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Description VARCHAR, Requirement NVARCHAR, " +
                 "Benefit NVARCHAR, End_Date CHAR(10))");
+        Cursor cursor = workRequireDatabase.getDatasql("SELECT Id_Recruitment FROM Recruitment");
+        final int id = cursor.getCount() + 1;
         user = (User)getIntent().getSerializableExtra("user");
 
         final List<String> listArea = new ArrayList<>();
@@ -145,7 +148,7 @@ public class PostRequirement extends AppCompatActivity {
                     return;
                 }
                 WorkRequirement requirement;
-                requirement = new WorkRequirement(
+                requirement = new WorkRequirement(id,
                         jobNameTxt, majorTxt, areaTxt, Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
                         Integer.parseInt(expTxt), descriptionTxt, requirementTxt, benefitTxt,endDateTxt, user.getName());
                 workRequireDatabase.insert(requirement, user);
@@ -183,7 +186,7 @@ public class PostRequirement extends AppCompatActivity {
         endDateTxt = endDate.getText().toString().trim();
         requirementTxt = requirement.getText().toString().trim();
         descriptionTxt = description.getText().toString().trim();
-        benefitTxt = description.getText().toString().trim();
+        benefitTxt = benefit.getText().toString().trim();
         return (!(jobNameTxt.equals("")||salaryTxt.equals("")||expTxt.equals("")||
                 endDateTxt.equals("")||requirementTxt.equals("")||descriptionTxt.equals("")||benefitTxt.equals("")));
     }
