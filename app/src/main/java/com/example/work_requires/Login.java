@@ -100,14 +100,14 @@ public class Login extends AppCompatActivity {
         if(cursor.moveToNext())
         {
             pass_true= cursor.getString(2);
-            type= cursor.getString(1);
+            type = cursor.getString(1);
             Log.d("user", "user:" + username+ ", pass: "+ pass+ ", pass_true:"+pass_true+", type:" +type);
             if(pass.equals(pass_true))
             {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                user= new User(cursor.getString(0),cursor.getString(1), cursor.getString(2),
+                user= new User(cursor.getString(0),cursor.getString(2), cursor.getString(1),
                         cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
-                        cursor.getString(7),cursor.getString(8),cursor.getString(9));
+                        cursor.getString(7),cursor.getString(8),cursor.getString(16));
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 if(type.equals("1"))
                 {
