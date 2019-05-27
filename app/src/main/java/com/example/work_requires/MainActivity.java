@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
         workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER" +
+                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER," +
                 "Description VARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10))");
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setUpRecyclerView();
         adapter.notifyDataSetChanged();
+        cursor.close();
     }
 
     private boolean isStillValid(Date today, String endDate){

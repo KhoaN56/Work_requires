@@ -61,7 +61,7 @@ public class PostRequirement extends AppCompatActivity {
         workRequireDatabase = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
         workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER" +
+                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER," +
                 "Description VARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10))");
         Cursor cursor = workRequireDatabase.getDatasql("SELECT Id_Recruitment FROM Recruitment");
         final int id = cursor.getCount() + 1;
@@ -152,12 +152,16 @@ public class PostRequirement extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!checkNull())
+                {
+                    Toast.makeText(PostRequirement.this, "Bạn chưa nhập thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(!checkDate(endDate.getText().toString().trim())){
                     AlertDialog.Builder builder = new AlertDialog.Builder(PostRequirement.this);
                     builder.setTitle("Nhắc nhở");
-                    builder.setMessage("Ngày bạn nhập đã qua hoặc đang là ngày hôm nay, nên nhập sau ngày" +
-                            "hôm nay ít nhất 1 đến 2 ngày");
-                    builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setMessage("Ngày kết thúc phải lớn hơn ngày hiện tại");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             PostRequirement.this.onResume();
@@ -165,11 +169,6 @@ public class PostRequirement extends AppCompatActivity {
                     });
                     AlertDialog alert = builder.create();
                     alert.show();
-                }
-                if(!checkNull())
-                {
-                    Toast.makeText(PostRequirement.this, "Lỗi", Toast.LENGTH_SHORT).show();
-                    return;
                 }
                 WorkRequirement requirement;
                 requirement = new WorkRequirement(id,
@@ -180,6 +179,7 @@ public class PostRequirement extends AppCompatActivity {
                 confirmation();
             }
         });
+        cursor.close();
     }
 
     private boolean checkDate(String inputDate) {
@@ -219,7 +219,6 @@ public class PostRequirement extends AppCompatActivity {
         salary.setText("");
         experience.setText("");
         endDate.setText("");
-        postButton.setText("");
         requirement.setText("");
         description.setText("");
         benefit.setText("");

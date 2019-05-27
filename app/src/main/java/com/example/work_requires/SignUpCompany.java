@@ -132,6 +132,7 @@ public class SignUpCompany extends AppCompatActivity {
             errorAlert("Bạn chưa nhập đủ thông tin!!");
             return false;
         }
+        cursor.close();
         return true;
     }
 }

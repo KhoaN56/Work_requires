@@ -133,5 +133,6 @@ public class Login extends AppCompatActivity {
         {
             Toast.makeText(this, "Thông tin đăng nhập không tồn tại. Xin kiểm tra lại", Toast.LENGTH_SHORT).show();
         }
+        cursor.close();
     }
 }

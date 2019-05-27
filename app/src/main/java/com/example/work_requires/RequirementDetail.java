@@ -87,5 +87,6 @@ public class RequirementDetail extends AppCompatActivity {
                 }
             }
         });
+        cursor.close();
     }
 }
