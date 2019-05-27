@@ -1,6 +1,7 @@
 package com.example.work_requires;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +16,7 @@ public class MainActivityCompany extends AppCompatActivity {
     //Recycle View
     RecyclerView recruitmentRecyclerView;
     CustomAdapter adapter;
-
-
-
-    Button btn_insertReq;
+    FloatingActionButton btn_insertReq;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

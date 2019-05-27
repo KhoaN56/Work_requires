@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
         while(cursor.moveToNext()){
             //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
-            if(isStillValid(today, cursor.getString(13))){
+            if(isStillValid(today, cursor.getString(12))){
                 requirementList.add(new WorkRequirement(cursor.getInt(0),
                         cursor.getString(2),cursor.getString(3),
                         cursor.getString(4), cursor.getLong(5),
