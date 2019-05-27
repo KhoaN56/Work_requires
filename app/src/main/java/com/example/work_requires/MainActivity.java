@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-        dateFormat = new SimpleDateFormat(partten);
         MenuItem searchItem = menu.findItem(id.action_search);
         android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) searchItem.getActionView();
 
@@ -74,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialize() {
         Date today = new Date(System.currentTimeMillis());
+        dateFormat = new SimpleDateFormat(partten);
         requirementList = new ArrayList<>();
         workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
         workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
