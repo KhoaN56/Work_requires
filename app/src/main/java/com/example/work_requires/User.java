@@ -25,6 +25,7 @@ public class User implements Serializable {
     String classify;
     String detail_experience;
 
+    //Nguoi tim viec
     public User(String username, String password, String type, String name, String email, String phone, String fax, String address, String area) {
         this.username = username;
         this.password = password;
@@ -37,6 +38,8 @@ public class User implements Serializable {
         this.area = area;
     }
 
+
+    //Nha tuyen dung
     public User(String username, String password, String type, String name, String email, String phone, String fax, String address, String area, String major) {
         this.username = username;
         this.password = password;
@@ -50,6 +53,7 @@ public class User implements Serializable {
         this.major = major;
     }
 
+    //CV nguoi dang ky
     public User(String jobPos, String degree, Integer experience, String date_of_birth, String country,
                 String sex, String school, String major, String classify, String detail_experience) {
         this.jobPos = jobPos;

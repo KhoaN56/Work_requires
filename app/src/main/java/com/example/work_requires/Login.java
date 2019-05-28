@@ -82,6 +82,7 @@ public class Login extends AppCompatActivity {
         text_pass = findViewById(R.id.password);
         managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
     }
+
     public void checkLogin()
     {
         username= text_username.getText().toString().trim();
