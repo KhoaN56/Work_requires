@@ -50,14 +50,12 @@ public class ViewCandidateList extends AppCompatActivity {
             userList.add(new User(cursor.getString(0),cursor.getString(2), cursor.getString(1),
                     cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
                     cursor.getString(7),cursor.getString(8),cursor.getString(16)));
-        userRecycleView = findViewById(R.id.userRecycleView);
         setUpRecyclerView();
     }
 
     private void setUpRecyclerView() {
-        userRecycleView = findViewById(R.id.postedRecycleView);
+        userRecycleView = findViewById(R.id.userRecycleView);
         userRecycleView.setHasFixedSize(true);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewCandidateList.this);
         adapter = new CustomAdapter3(userList, ViewCandidateList.this);
         userRecycleView.setLayoutManager(layoutManager);
