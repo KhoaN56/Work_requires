@@ -91,7 +91,32 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.executeUpdateDelete();
 
     }
+    public  void update (WorkRequirement workRequirement)
+    {
+        //db.execSQL("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
+        //                "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
+        //                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER," +
+        //                "Description NVARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10), Applied INTEGER)");
+        SQLiteDatabase database= getWritableDatabase();
+        String sql="UPDATE Recruitment SET Jobname = ?, Major=?, Area=?, Salary=?, Degree=?, Position=?, Experience=?, Amount=?, " +
+                "Description=?, Requirement=? , Benefit=?,End_Date=? WHERE Id_Recruitment= '"+workRequirement.getId()+"'";
+        SQLiteStatement statement= database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindString(1, workRequirement.getJobName());
+        statement.bindString(2, workRequirement.getMajor());
+        statement.bindString(3, workRequirement.getArea());
+        statement.bindDouble(4, workRequirement.getSalary());
+        statement.bindString(5, workRequirement.getDegree());
+        statement.bindString(6, workRequirement.getWorkPos());
+        statement.bindDouble(7, workRequirement.getExperience());
+        statement.bindDouble(8, workRequirement.getAmount());
+        statement.bindString(9, workRequirement.getDescription());
+        statement.bindString(10, workRequirement.getRequirement());
+        statement.bindString(11, workRequirement.getBenefit());
+        statement.bindString(12, workRequirement.getEndDate());
+        statement.executeUpdateDelete();
 
+    }
     @Override
     public void onCreate(SQLiteDatabase db){
         db.execSQL("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +

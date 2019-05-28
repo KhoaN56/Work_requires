@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".UpdateRequirement"></activity>
         <activity
             android:name=".ViewCandidateList"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".OnlineCV"
             android:label="Hồ sơ xin việc" />
-        <activity android:name=".DetailCV" />
+        <activity android:name=".DetailCV"
+            android:label="Sửa tin tuyển dụng"/>
         <activity
             android:name=".MainActivityCompany"
             android:label="Các tin đã đăng" />
