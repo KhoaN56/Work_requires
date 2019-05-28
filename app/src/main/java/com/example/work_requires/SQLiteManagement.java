@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-import java.sql.Statement;
-
 public class SQLiteManagement extends SQLiteOpenHelper {
     SQLiteManagement(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
         super (context, name, factory, version);
@@ -124,6 +122,13 @@ public class SQLiteManagement extends SQLiteOpenHelper {
                 "WHERE Id_Recruitment = '"+requirement.getId()+"'");
         statement.clearBindings();
         statement.bindLong(1, applied);
+        statement.executeUpdateDelete();
+    }
+
+    public void delete(User user, int idRequirement){
+        SQLiteDatabase database = getWritableDatabase();
+        SQLiteStatement statement = database.compileStatement("DELETE FROM DETAIL WHERE " +
+                "Id_Recruitment = '"+idRequirement+"' AND Username = '"+user.getUsername()+"'");
         statement.executeUpdateDelete();
     }
 }

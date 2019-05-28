@@ -1,9 +1,7 @@
 package com.example.work_requires;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Formattable;
 import java.util.List;
 
 @SuppressLint("Registered")

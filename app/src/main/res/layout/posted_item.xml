@@ -48,22 +48,22 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="@+id/deleteButton"
-            app:layout_constraintEnd_toStartOf="@+id/deleteButton"
-            app:layout_constraintTop_toTopOf="@+id/deleteButton"
+            app:layout_constraintBottom_toBottomOf="@+id/deletePostedRequireBtn"
+            app:layout_constraintEnd_toStartOf="@+id/deletePostedRequireBtn"
+            app:layout_constraintTop_toTopOf="@+id/deletePostedRequireBtn"
             app:srcCompat="@drawable/ic_edit_light_orange" />
 
         <ImageButton
-            android:id="@+id/deleteButton"
+            android:id="@+id/deletePostedRequireBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/numberOfCandidateTV"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/postedJobName"
             app:srcCompat="@drawable/ic_delete_gray" />
 
     </android.support.constraint.ConstraintLayout>

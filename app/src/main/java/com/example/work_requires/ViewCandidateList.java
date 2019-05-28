@@ -1,13 +1,20 @@
 package com.example.work_requires;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewCandidateList extends AppCompatActivity {
+
+    //Title
+    TextView title;
 
     //Database
     SQLiteManagement database;
@@ -19,6 +26,10 @@ public class ViewCandidateList extends AppCompatActivity {
     //Requirement
     WorkRequirement requirement;
 
+    //Recycle View
+    RecyclerView userRecycleView;
+    CustomAdapter3 adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +40,8 @@ public class ViewCandidateList extends AppCompatActivity {
     private void initialize() {
         user = (User)getIntent().getSerializableExtra("user");
         requirement = (WorkRequirement)getIntent().getSerializableExtra("requirement");
+        title = findViewById(R.id.title);
+        title.setText(requirement.getJobName());
         database = new SQLiteManagement(ViewCandidateList.this, "Work_Requirement.sqlite",null, 1);
         userList = new ArrayList<>();
         Cursor cursor = database.getDatasql("SELECT USER.* FROM USER, DETAIL WHERE DETAIL.ID_RECRUITMENT = " +
@@ -37,6 +50,31 @@ public class ViewCandidateList extends AppCompatActivity {
             userList.add(new User(cursor.getString(0),cursor.getString(2), cursor.getString(1),
                     cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
                     cursor.getString(7),cursor.getString(8),cursor.getString(16)));
+        userRecycleView = findViewById(R.id.userRecycleView);
+        setUpRecyclerView();
+    }
 
+    private void setUpRecyclerView() {
+        userRecycleView = findViewById(R.id.postedRecycleView);
+        userRecycleView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewCandidateList.this);
+        adapter = new CustomAdapter3(userList, ViewCandidateList.this);
+        userRecycleView.setLayoutManager(layoutManager);
+        userRecycleView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new CustomAdapter3.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                Intent toCandidateDetail = new Intent(ViewCandidateList.this, DetailCV.class);
+                toCandidateDetail.putExtra("user", userList.get(position));
+                startActivity(toCandidateDetail);
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    public void deleteCandidate(int position) {
+        database.delete(userList.get(position), requirement.getId());
+        adapter.notifyDataSetChanged();
     }
 }

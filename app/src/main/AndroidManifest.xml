@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewCandidateList"></activity>
+        <activity android:name=".ViewCandidateList"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".OnlineCV"
             android:label="Hồ sơ xin việc"/>
         <activity

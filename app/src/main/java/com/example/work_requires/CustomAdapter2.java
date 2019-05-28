@@ -95,7 +95,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
             jobName = itemView.findViewById(R.id.postedJobName);
             numberOfApplied = itemView.findViewById(R.id.numberOfCandidateTV);
             editButton = itemView.findViewById(R.id.editButton);
-            deleteButton = itemView.findViewById(R.id.deleteButton);
+            deleteButton = itemView.findViewById(R.id.deletePostedRequireBtn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
