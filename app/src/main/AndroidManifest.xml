@@ -13,17 +13,20 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".OnlineCV"
             android:label="Hồ sơ xin việc"/>
+        <activity android:name=".DetailCV"></activity>
         <activity
             android:name=".MainActivityCompany"
-            android:label="Các tin đã đăng"/>
-        <activity android:name=".SignUpCandidate"
-            android:label="Thông tin người tìm việc"/>
-        <activity android:name=".SignUpCompany"
-            android:label="Thông tin nhà tuyển dụng"/>
+            android:label="Các tin đã đăng" />
+        <activity
+            android:name=".SignUpCandidate"
+            android:label="Thông tin người tìm việc" />
+        <activity
+            android:name=".SignUpCompany"
+            android:label="Thông tin nhà tuyển dụng" />
         <activity
             android:name=".PostRequirement"
-            android:theme="@style/AppTheme"
-            android:label="Thông tin tuyển dụng"/>
+            android:label="Thông tin tuyển dụng"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Login"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
