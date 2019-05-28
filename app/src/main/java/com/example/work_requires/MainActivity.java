@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getInt(8), cursor.getInt(9),
                         cursor.getString(10), cursor.getString( 11),
                         cursor.getString(12), cursor.getString(13),
-                        cursor.getString(14), cursor.getInt(15)
+                        cursor.getString(15), cursor.getInt(14)
                 ));
             }
         }

@@ -16,7 +16,7 @@ import java.util.List;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> implements Filterable {
     private List<WorkRequirement> requirementList;
     private List<WorkRequirement> requirementFullList;
-    private OnItemClickListener itemClickListener;
+    private CustomAdapter.OnItemClickListener itemClickListener;
 
     public interface OnItemClickListener{
         void onClick(int position);
@@ -57,11 +57,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = inflater.inflate(R.layout.requires_item, viewGroup, false);
-        return new ViewHolder(itemView, itemClickListener);
+        return new CustomAdapter.ViewHolder(itemView, itemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder viewHolder, int position) {
         viewHolder.setter(requirementList.get(position));
     }
 
