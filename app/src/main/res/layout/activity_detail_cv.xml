@@ -127,10 +127,12 @@
                 android:id="@+id/textView31"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Email"
                 android:textColor="@color/black"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="121dp" />
+                app:layout_constraintBottom_toBottomOf="@+id/emailTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/emailTV" />
 
             <TextView
                 android:id="@+id/emailTV"
