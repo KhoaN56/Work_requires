@@ -37,10 +37,14 @@ public class MainActivityCompany extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_company);
-
-        initialize();
     }
 
+    //Để đảm bảo khi quay lại activity này thì dữ liệu được cập nhật
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initialize();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

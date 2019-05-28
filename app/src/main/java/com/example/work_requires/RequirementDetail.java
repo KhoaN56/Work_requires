@@ -62,7 +62,7 @@ public class RequirementDetail extends AppCompatActivity {
         workPosTV = findViewById(R.id.workPosTV);
         workPosTV.setText(requirement.getWorkPos());
         expTV = findViewById(R.id.experienceTV);
-        expTV.setText(String.valueOf(requirement.getExperience()));
+        expTV.setText(requirement.getExperience()==0?"Chưa có kinh nghiệm" :requirement.getExperience()+ " năm");
         descriptionTV = findViewById(R.id.descriptionTV);
         descriptionTV.setText(requirement.getDescription());
         requireTV = findViewById(R.id.requirementTV);

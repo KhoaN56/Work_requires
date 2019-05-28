@@ -10,12 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ViewCandidateList"></activity>
-        <activity android:name=".OnlineCV" />
+        <activity android:name=".OnlineCV"
+            android:label="Hồ sơ xin việc"/>
         <activity
             android:name=".MainActivityCompany"
-            android:label="Các tin đã đăng" />
-        <activity android:name=".SignUpCandidate" />
-        <activity android:name=".SignUpCompany" />
+            android:label="Các tin đã đăng"/>
+        <activity android:name=".SignUpCandidate"
+            android:label="Thông tin người tìm việc"/>
+        <activity android:name=".SignUpCompany"
+            android:label="Thông tin nhà tuyển dụng"/>
         <activity
             android:name=".PostRequirement"
             android:theme="@style/AppTheme"

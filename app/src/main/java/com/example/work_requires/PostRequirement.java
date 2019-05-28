@@ -1,6 +1,7 @@
 package com.example.work_requires;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -42,9 +43,11 @@ public class PostRequirement extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_post_requirement);
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
         today = new Date(System.currentTimeMillis());
         dateFormat = new SimpleDateFormat(pattern);
-        setContentView(R.layout.activity_post_requirement);
         salary =findViewById(R.id.editText1);
         experience =findViewById(R.id.editText4);
         endDate = findViewById(R.id.editText6);

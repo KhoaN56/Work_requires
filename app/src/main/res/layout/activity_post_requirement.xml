@@ -32,6 +32,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
+                    android:hint="Nhập tên công việc cần tuyển"
                     android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -62,14 +63,13 @@
                     android:id="@+id/editText4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
+                    android:hint="Nhập số năm kinh nghiệm yêu cầu"
                     android:inputType="number"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/KinhNghiem"
+                    app:layout_constraintStart_toStartOf="@+id/description"
                     app:layout_constraintTop_toBottomOf="@+id/requirement" />
                 app:layout_constraintStart_toEndOf="@+id/KinhNghiem"
                 app:layout_constraintTop_toBottomOf="@+id/spinner4" />
@@ -81,7 +81,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
-                    android:inputType="numberDecimal"
+                    android:hint="Nhập số tiền lương / trợ cấp"
+                    android:inputType="number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/spinner3"
@@ -92,6 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:hint="dd/mm/yyyy"
                     android:text="Ngày kết thúc:"
                     app:layout_constraintBottom_toBottomOf="@+id/editText6"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,13 +101,11 @@
 
                 <TextView
                     android:id="@+id/Nganh"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
                     android:text="Ngành nghề:"
                     app:layout_constraintBottom_toBottomOf="@+id/spn_major"
-                    app:layout_constraintEnd_toStartOf="@+id/spn_major"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/spn_major" />
 
@@ -116,6 +116,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
+                    android:hint="dd/mm/yyyy"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -191,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Số năm kinh nghiệm"
+                    android:text="Kinh nghiệm"
                     app:layout_constraintBottom_toBottomOf="@+id/editText4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/editText4" />
@@ -208,13 +209,10 @@
 
                 <TextView
                     android:id="@+id/BangCap1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:text="Bằng cấp:"
                     app:layout_constraintBottom_toBottomOf="@+id/spinner3"
-                    app:layout_constraintEnd_toStartOf="@+id/spinner3"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/Luong"
                     app:layout_constraintTop_toTopOf="@+id/spinner3" />
 
@@ -235,6 +233,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
+                    android:hint="Yêu cầu công việc"
                     android:inputType="textMultiLine"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -255,12 +254,13 @@
                     android:id="@+id/description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
                     android:inputType="textMultiLine"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/editText4"
+                    app:layout_constraintStart_toEndOf="@+id/textView19"
                     app:layout_constraintTop_toBottomOf="@+id/editText4" />
 
                 <TextView
@@ -302,6 +302,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
+                    android:hint="Nhập số lượng cần tuyển"
                     android:inputType="number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

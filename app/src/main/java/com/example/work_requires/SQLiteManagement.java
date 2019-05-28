@@ -99,12 +99,12 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
                 "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER," +
-                "Description VARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10), Applied INTEGER)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS USER (Username VARCHAR(20) PRIMARY KEY NOT NULL," +
-                "Type VARCHAR(2), Password VARCHAR(20), Name NVARCHAR(50), Email VARCHAR(50)," +
-                "Phone VARCHAR(10), Fax VARCHAR(20), Address NVARCHAR(100), Area NVARCHAR(20), jobPos NVARCHAR(50), " +
-                "Degree NVARCHAR(50), Experience  INTEGER, DateOfBirth VARCHAR(10), Country NVARCHAR(30), Sex NVARCHAR(5), " +
-                "School NVARCHAR(100), Major NVARCHAR(50), Classify NVARCHAR(20), Detail_experience NVARCHAR(300), CheckLogin VARCHAR(2) DEFAULT '0' )");
+                "Description NVARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10), Applied INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS USER (Username CHAR(20) PRIMARY KEY NOT NULL," +
+                "Type CHAR(2), Password CHAR(20), Name NCHAR(50), Email CHAR(50)," +
+                "Phone CHAR(10), Fax CHAR(20), Address NCHAR(100), Area NCHAR(20), jobPos NCHAR(50), " +
+                "Degree NCHAR(50), Experience INTEGER, DateOfBirth CHAR(10), Country NCHAR(30), Sex NCHAR(5), " +
+                "School NCHAR(100), Major NCHAR(50), Classify NCHAR(20), Detail_experience NVARCHAR, CheckLogin INTEGER DEFAULT 0)");
         db.execSQL("CREATE TABLE IF NOT EXISTS DETAIL (ID_DETAIL INTEGER PRIMARY KEY" +
                 " AUTOINCREMENT, Username CHAR(20), Id_Recruitment INTEGER)");
     }

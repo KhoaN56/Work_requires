@@ -13,14 +13,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHolder> implements Filterable {
+public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHolder> implements Filterable {
     private List<WorkRequirement> requirementList;
     private List<WorkRequirement> requirementFullList;
-    private CustomAdapter2.OnItemClickListener itemClickListener;
+    private CustomAdapter3.OnItemClickListener itemClickListener;
 
     public interface OnItemClickListener{
         void onClick(int position);
     }
+
     private Filter requirementFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -47,21 +48,21 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         }
     };
 
-    public CustomAdapter2(List<WorkRequirement> requirementList) {
+    public CustomAdapter3(List<WorkRequirement> requirementList) {
         this.requirementList = requirementList;
         requirementFullList = new ArrayList<>(requirementList);
     }
 
     @NonNull
     @Override
-    public CustomAdapter2.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public CustomAdapter3.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = inflater.inflate(R.layout.posted_item, viewGroup, false);
-        return new CustomAdapter2.ViewHolder(itemView, itemClickListener);
+        return new CustomAdapter3.ViewHolder(itemView, itemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter2.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapter3.ViewHolder viewHolder, int position) {
         viewHolder.setter(requirementList.get(position));
     }
 
@@ -80,21 +81,19 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         return requirementFilter;
     }
 
-    public void setOnItemClickListener(CustomAdapter2.OnItemClickListener listener){
+    public void setOnItemClickListener(CustomAdapter3.OnItemClickListener listener){
         itemClickListener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView jobName;
         TextView numberOfApplied;
-        ImageButton editButton;
         ImageButton deleteButton;
 
-        public ViewHolder(@NonNull View itemView, final CustomAdapter2.OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView, final CustomAdapter3.OnItemClickListener listener) {
             super(itemView);
             jobName = itemView.findViewById(R.id.postedJobName);
             numberOfApplied = itemView.findViewById(R.id.numberOfCandidateTV);
-            editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
 
             itemView.setOnClickListener(new View.OnClickListener() {
