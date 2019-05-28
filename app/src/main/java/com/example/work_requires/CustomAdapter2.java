@@ -17,6 +17,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
     private List<WorkRequirement> requirementList;
     private List<WorkRequirement> requirementFullList;
     private CustomAdapter2.OnItemClickListener itemClickListener;
+    private MainActivityCompany context;
 
     public interface OnItemClickListener{
         void onClick(int position);
@@ -47,9 +48,10 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         }
     };
 
-    public CustomAdapter2(List<WorkRequirement> requirementList) {
+    public CustomAdapter2(List<WorkRequirement> requirementList, MainActivityCompany context) {
         this.requirementList = requirementList;
         requirementFullList = new ArrayList<>(requirementList);
+        this.context = context;
     }
 
     @NonNull
@@ -96,6 +98,18 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
             numberOfApplied = itemView.findViewById(R.id.numberOfCandidateTV);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deletePostedRequireBtn);
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.editRequirement(getAdapterPosition());
+                }
+            });
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.deleteRequirement(getAdapterPosition());
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,7 +125,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         }
 
         private void setter(WorkRequirement requirement){
-            this.numberOfApplied.setText(String.valueOf(requirement.getApplied()));
+            this.numberOfApplied.setText("Số người nôp hồ sơ: "+requirement.getApplied());
             this.jobName.setText(requirement.getJobName());
         }
 

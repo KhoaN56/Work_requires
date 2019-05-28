@@ -1,8 +1,11 @@
 package com.example.work_requires;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +104,7 @@ public class MainActivityCompany extends AppCompatActivity {
         postedRecycleView = findViewById(R.id.postedRecycleView);
         postedRecycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivityCompany.this);
-        adapter = new CustomAdapter2(workRequirementList);
+        adapter = new CustomAdapter2(workRequirementList, MainActivityCompany.this);
         postedRecycleView.setLayoutManager(layoutManager);
         postedRecycleView.setAdapter(adapter);
         adapter.setOnItemClickListener(new CustomAdapter2.OnItemClickListener() {
@@ -113,5 +117,32 @@ public class MainActivityCompany extends AppCompatActivity {
             }
         });
         adapter.notifyDataSetChanged();
+    }
+
+    public void deleteRequirement(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityCompany.this);
+        builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                database.delete(workRequirementList.get(position));
+                workRequirementList.remove(position);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(MainActivityCompany.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onResume();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void editRequirement(final int position) {
+        Intent edit = new Intent(MainActivityCompany.this, UpdateRequirement.class);
+        edit.putExtra("work", workRequirementList.get(position));
+        startActivity(edit);
     }
 }

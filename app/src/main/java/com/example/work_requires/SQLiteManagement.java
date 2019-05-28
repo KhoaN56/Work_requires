@@ -131,4 +131,11 @@ public class SQLiteManagement extends SQLiteOpenHelper {
                 "Id_Recruitment = '"+idRequirement+"' AND Username = '"+user.getUsername()+"'");
         statement.executeUpdateDelete();
     }
+
+    public void delete(WorkRequirement requirement) {
+        SQLiteDatabase database = getWritableDatabase();
+        SQLiteStatement statement = database.compileStatement("DELETE FROM Recruitment WHERE " +
+                "Id_Recruitment = "+requirement.getId());
+        statement.executeUpdateDelete();
+    }
 }

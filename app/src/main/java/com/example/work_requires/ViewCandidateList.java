@@ -1,12 +1,15 @@
 package com.example.work_requires;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +74,26 @@ public class ViewCandidateList extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public void deleteCandidate(int position) {
-        database.delete(userList.get(position), requirement.getId());
-        adapter.notifyDataSetChanged();
+    public void deleteCandidate(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ViewCandidateList.this);
+        builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                database.delete(userList.get(position), requirement.getId());
+                requirement.setApplied(requirement.getApplied()-1);
+                database.update(requirement.getApplied(),requirement);
+                userList.remove(position);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(ViewCandidateList.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onResume();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
