@@ -2,6 +2,7 @@ package com.example.work_requires;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     //List items
     List<WorkRequirement> requirementList;
 

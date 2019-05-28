@@ -56,7 +56,6 @@ public class MainActivityCompany extends AppCompatActivity {
         inflater.inflate(R.menu.search_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) searchItem.getActionView();
-
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -141,8 +140,8 @@ public class MainActivityCompany extends AppCompatActivity {
     }
 
     public void editRequirement(final int position) {
-        Intent edit = new Intent(MainActivityCompany.this, UpdateRequirement.class);
-        edit.putExtra("work", workRequirementList.get(position));
-        startActivity(edit);
+//        Intent edit = new Intent(MainActivityCompany.this, UpdateRequirement.class);
+//        edit.putExtra("work", workRequirementList.get(position));
+//        startActivity(edit);
     }
 }
