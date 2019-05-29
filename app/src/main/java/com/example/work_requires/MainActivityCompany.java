@@ -120,6 +120,8 @@ public class MainActivityCompany extends AppCompatActivity {
 
     public void deleteRequirement(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityCompany.this);
+        builder.setTitle("Cảnh báo");
+        builder.setMessage("Bạn có chắc muốn xóa tin này?");
         builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -140,8 +142,8 @@ public class MainActivityCompany extends AppCompatActivity {
     }
 
     public void editRequirement(final int position) {
-//        Intent edit = new Intent(MainActivityCompany.this, UpdateRequirement.class);
-//        edit.putExtra("work", workRequirementList.get(position));
-//        startActivity(edit);
+        Intent edit = new Intent(MainActivityCompany.this, UpdateRequirement.class);
+        edit.putExtra("work", workRequirementList.get(position));
+        startActivity(edit);
     }
 }

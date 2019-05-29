@@ -124,7 +124,7 @@ public class SQLiteManagement extends SQLiteOpenHelper {
                 "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER," +
                 "Description NVARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10), Applied INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS USER (Username CHAR(20) PRIMARY KEY NOT NULL," +
-                "Type CHAR(2), Password CHAR(20), Name NCHAR(50), Email CHAR(50)," +
+                "Type CHAR(2), Password CHAR(20), Name NCHAR(50) , Email CHAR(50)," +
                 "Phone CHAR(10), Fax CHAR(20), Address NCHAR(100), Area NCHAR(20), jobPos NCHAR(50), " +
                 "Degree NCHAR(50), Experience INTEGER, DateOfBirth CHAR(10), Country NCHAR(30), Sex NCHAR(5), " +
                 "School NCHAR(100), Major NCHAR(50), Classify NCHAR(20), Detail_experience NVARCHAR, CheckLogin INTEGER DEFAULT 0)");

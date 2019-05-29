@@ -156,18 +156,18 @@ public class UpdateRequirement extends AppCompatActivity {
         major.setSelection(listMajor.indexOf(workRequirement.getMajor()));
 
         title.setText(workRequirement.getJobName());
-        salary.setText(workRequirement.getSalary()+"");
-        amount.setText(workRequirement.getAmount()+"");
+        salary.setText(String.valueOf(workRequirement.getSalary()));
+        amount.setText(String.valueOf(workRequirement.getAmount()));
         requirement.setText(workRequirement.getRequirement());
-        experience.setText(workRequirement.getExperience()+"");
+        experience.setText(String.valueOf(workRequirement.getExperience()));
         description.setText(workRequirement.getDescription());
         benifit.setText(workRequirement.getBenefit());
         end_date.setText(workRequirement.getEndDate());
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!checkNull()) {
-                    Toast.makeText(UpdateRequirement.this, "Bạn chưa nhập thông tin", Toast.LENGTH_SHORT).show();
+                if(!checkNull()){
+                    Toast.makeText(UpdateRequirement.this, "Bạn có thông tin chưa nhập", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!checkDate(end_date.getText().toString().trim())) {
@@ -182,25 +182,42 @@ public class UpdateRequirement extends AppCompatActivity {
                     });
                     AlertDialog alert = builder.create();
                     alert.show();
-                    return;
+                    end_date.requestFocus();
                 }
-                workRequirement.setJobName(jobNameTxt);
-                workRequirement.setMajor(majorTxt);
-                workRequirement.setArea(areaTxt);
-                workRequirement.setSalary(Integer.valueOf(salaryTxt));
-                workRequirement.setDegree(degreeTxt);
-                workRequirement.setWorkPos(workPosTxt);
-                workRequirement.setAmount(Integer.valueOf(amountTxt));
-                workRequirement.setRequirement(requirementTxt);
-                workRequirement.setExperience(Integer.valueOf(expTxt));
-                workRequirement.setDescription(descriptionTxt);
-                workRequirement.setBenefit(benefitTxt);
-                workRequirement.setEndDate(endDateTxt);
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateRequirement.this);
+                builder.setTitle("Xác nhận");
+                builder.setMessage("Bạn có muốn lưu thay đổi không?");
+                builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        workRequirement.setJobName(jobNameTxt);
+                        workRequirement.setMajor(majorTxt);
+                        workRequirement.setArea(areaTxt);
+                        workRequirement.setSalary(Long.parseLong(salaryTxt));
+                        workRequirement.setDegree(degreeTxt);
+                        workRequirement.setWorkPos(workPosTxt);
+                        workRequirement.setAmount(Integer.parseInt(amountTxt));
+                        workRequirement.setRequirement(requirementTxt);
+                        workRequirement.setExperience(Integer.parseInt(expTxt));
+                        workRequirement.setDescription(descriptionTxt);
+                        workRequirement.setBenefit(benefitTxt);
+                        workRequirement.setEndDate(endDateTxt);
 
-                management= new SQLiteManagement(UpdateRequirement.this, "Work_Requirement.sqlite", null, 1);
-                management.update(workRequirement);
-                Toast.makeText(UpdateRequirement.this, "Sửa tin thành công!!", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                        management= new SQLiteManagement(UpdateRequirement.this, "Work_Requirement.sqlite", null, 1);
+                        management.update(workRequirement);
+                        Toast.makeText(UpdateRequirement.this, "Sửa tin thành công!!", Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                    }
+                });
+                builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
             }
         });
     }

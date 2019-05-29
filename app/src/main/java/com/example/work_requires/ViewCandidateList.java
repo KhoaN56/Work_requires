@@ -76,6 +76,8 @@ public class ViewCandidateList extends AppCompatActivity {
 
     public void deleteCandidate(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ViewCandidateList.this);
+        builder.setTitle("Cảnh báo");
+        builder.setMessage("Bạn có chắc muốn người này?");
         builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

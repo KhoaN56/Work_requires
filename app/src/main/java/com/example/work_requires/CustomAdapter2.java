@@ -123,15 +123,12 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
                 }
             });
         }
-
         private void setter(WorkRequirement requirement){
             this.numberOfApplied.setText("Số người nộp hồ sơ: "+requirement.getApplied());
             this.jobName.setText(requirement.getJobName());
         }
-
         @Override
         public void onClick(View v) {
-
         }
     }
 }

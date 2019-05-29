@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UpdateRequirement"></activity>
+        <activity android:name=".UpdateRequirement"
+            android:label="Sửa tin tuyển dụng"/>
         <activity
             android:name=".ViewCandidateList"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -17,7 +18,7 @@
             android:name=".OnlineCV"
             android:label="Hồ sơ xin việc" />
         <activity android:name=".DetailCV"
-            android:label="Sửa tin tuyển dụng"/>
+            android:label="Chi tiết người ứng tuyển"/>
         <activity
             android:name=".MainActivityCompany"
             android:label="Các tin đã đăng" />
@@ -29,7 +30,7 @@
             android:label="Thông tin nhà tuyển dụng" />
         <activity
             android:name=".PostRequirement"
-            android:label="Thông tin tuyển dụng"
+            android:label="Đăng tin tuyển dụng"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Login"
