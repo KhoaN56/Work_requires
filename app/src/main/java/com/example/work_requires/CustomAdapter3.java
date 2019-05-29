@@ -78,7 +78,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
         }
 
         private void setter(User user){
-            this.experience.setText(String.valueOf(user.getExperience()));
+            this.experience.setText(user.getExperience() == 0?"Chưa có kinh nghiệm":user.getExperience()+" năm kinh nghiệm");
             this.candidateName.setText(user.getName());
         }
 
