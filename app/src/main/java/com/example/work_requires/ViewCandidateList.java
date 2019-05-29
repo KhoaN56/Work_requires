@@ -54,13 +54,13 @@ public class ViewCandidateList extends AppCompatActivity {
             userList.add(new User(cursor.getString(0),cursor.getString(2), cursor.getString(1),
                     cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
                     cursor.getString(7),cursor.getString(8),cursor.getString(16)));
-            dummyUser = userList.get(userList.size());
+            dummyUser = userList.get(userList.size()-1);
             dummyUser.setUser(cursor.getString(10), cursor.getString(11),
                     cursor.getInt(12), cursor.getString(13),
                     cursor.getString(14),cursor.getString(15),
                     cursor.getString(16),cursor.getString(17),
                     cursor.getString(18), cursor.getString(19));
-            userList.set(userList.size(),dummyUser);
+            userList.set(userList.size()-1,dummyUser);
         }
         setUpRecyclerView();
     }
@@ -85,7 +85,7 @@ public class ViewCandidateList extends AppCompatActivity {
 
     public void deleteCandidate(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ViewCandidateList.this);
-        builder.setTitle("Cảnh báo");
+        builder.setTitle("Xác nhận");
         builder.setMessage("Bạn có chắc muốn người này?");
         builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
             @Override

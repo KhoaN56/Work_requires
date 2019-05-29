@@ -120,7 +120,7 @@ public class MainActivityCompany extends AppCompatActivity {
 
     public void deleteRequirement(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityCompany.this);
-        builder.setTitle("Cảnh báo");
+        builder.setTitle("Xác nhận");
         builder.setMessage("Bạn có chắc muốn xóa tin này?");
         builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
             @Override
