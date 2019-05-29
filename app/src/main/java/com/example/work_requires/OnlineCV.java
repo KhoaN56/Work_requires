@@ -195,4 +195,10 @@ public class OnlineCV extends AppCompatActivity {
             startActivity(intent2);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        sqLiteManagement.close();
+        super.onDestroy();
+    }
 }

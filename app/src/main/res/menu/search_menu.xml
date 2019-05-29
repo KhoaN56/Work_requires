@@ -10,7 +10,6 @@
         android:id="@+id/signOut"
         android:icon="@drawable/ic_more_vert"
         android:title="Sign out"
-        android:visible="true"
         app:actionViewClass="android.support.v7.view.menu.ActionMenuItemView"
-        app:showAsAction="always" />
+        app:showAsAction="always|withText" />
 </menu>

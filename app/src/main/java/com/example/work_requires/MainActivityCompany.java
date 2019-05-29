@@ -146,4 +146,10 @@ public class MainActivityCompany extends AppCompatActivity {
         edit.putExtra("work", workRequirementList.get(position));
         startActivity(edit);
     }
+
+    @Override
+    protected void onDestroy() {
+        database.close();
+        super.onDestroy();
+    }
 }

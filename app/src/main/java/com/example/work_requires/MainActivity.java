@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        MenuItem signOut = menu.findItem(id.signOut);
+
         return true;
     }
 
