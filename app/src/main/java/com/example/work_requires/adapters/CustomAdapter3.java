@@ -1,4 +1,4 @@
-package com.example.work_requires;
+package com.example.work_requires.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.work_requires.R;
+import com.example.work_requires.User;
+import com.example.work_requires.ViewCandidateList;
+
 import java.util.List;
 
 public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHolder>{

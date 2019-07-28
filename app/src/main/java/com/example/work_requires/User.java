@@ -2,6 +2,7 @@ package com.example.work_requires;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class User implements Serializable {
     String username;
@@ -24,6 +25,7 @@ public class User implements Serializable {
     String major;
     String classify;
     String detail_experience;
+    List<Integer>jobSavedID;
 
     //Nguoi tim viec
     public User(String username, String password, String type, String name, String email, String phone, String fax, String address, String area) {

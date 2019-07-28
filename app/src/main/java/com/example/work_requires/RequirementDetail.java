@@ -14,7 +14,10 @@ public class RequirementDetail extends AppCompatActivity {
     //State
     final boolean REGISTERED = true;
     final boolean UNREGISTERED = false;
-    boolean state = UNREGISTERED;
+    final boolean SAVED = true;
+    final boolean UNSAVED = false;
+    boolean registerState;
+    boolean saveState;
 
     //Requirement
     WorkRequirement requirement;
@@ -25,11 +28,10 @@ public class RequirementDetail extends AppCompatActivity {
     //Component
     TextView majorTV, areaTV, salaryTV, degreeTV, workPosTV, expTV, descriptionTV, requireTV, benefitTV,
     endDateTV, jobName, compName;
-    Button subscribe;
+    Button subscribe, saveBtn;
 
     //Database
     SQLiteManagement database;
-    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,18 @@ public class RequirementDetail extends AppCompatActivity {
         requirement = (WorkRequirement) info.getSerializableExtra("requirement");
         user = (User) info.getSerializableExtra("user");
         database = new SQLiteManagement(RequirementDetail.this, "Work_Requirement.sqlite", null, 1);
-        cursor = database.getDatasql("SELECT * FROM DETAIL WHERE USERNAME = " +
+        Cursor cursor = database.getDatasql("SELECT * FROM DETAIL WHERE USERNAME = " +
                 "'"+user.getUsername()+"' AND Id_Recruitment = '"+requirement.getId()+"'");
         if(cursor.getCount() > 0)
-            state = REGISTERED;
+            registerState = REGISTERED;
+        else
+            registerState = UNREGISTERED;
+        cursor = database.getDatasql("SELECT * FROM JOB_SAVED WHERE USERNAME = " +
+                "'"+user.getUsername()+"' AND Id_Recruitment = '"+requirement.getId()+"'");
+        if(cursor.getCount() > 0)
+            saveState = SAVED;
+        else
+            saveState = UNSAVED;
         jobName = findViewById(R.id.jobName);
         jobName.setText(requirement.getJobName());
         compName = findViewById(R.id.compName);
@@ -71,11 +81,13 @@ public class RequirementDetail extends AppCompatActivity {
         benefitTV.setText(requirement.getBenefit());
         endDateTV = findViewById(R.id.endDateTV);
         endDateTV.setText(requirement.getEndDate());
+        saveBtn = findViewById(R.id.saveBtn);
+        saveBtn.setOnClickListener(saveJob);
         subscribe = findViewById(R.id.subscribe);
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(state == REGISTERED)
+                if(registerState == REGISTERED)
                     Toast.makeText(RequirementDetail.this, "Bạn đã đăng ký công việc này rồi!!",
                             Toast.LENGTH_SHORT).show();
                 else {
@@ -84,10 +96,34 @@ public class RequirementDetail extends AppCompatActivity {
                     //Thêm người đăng ký xin việc
                     requirement.setApplied(requirement.getApplied() + 1);
                     database.update(requirement.getApplied(), requirement);
-                    state = REGISTERED;
+                    registerState = REGISTERED;
                 }
             }
         });
         cursor.close();
     }
+
+    private View.OnClickListener saveJob = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(saveState == SAVED)
+                Toast.makeText(RequirementDetail.this, "Bạn đã lưu công việc này rồi!!",
+                        Toast.LENGTH_SHORT).show();
+            else {
+                database.insertSaved (requirement.getId(), user.getUsername());
+                Toast.makeText(RequirementDetail.this, "Đã lưu vào danh sách", Toast.LENGTH_SHORT).show();
+                //Thêm công việc vào danh sách đã lưu
+                database.update(requirement.getApplied(), requirement);
+                registerState = SAVED;
+            }
+        }
+    };
+
+//    @Override
+//    public void onBackPressed() {
+//        Intent backToMain = new Intent(this, MainActivity.class);
+//        backToMain.putExtra("user", user);
+//        startActivity(backToMain);
+//        finish();
+//    }
 }

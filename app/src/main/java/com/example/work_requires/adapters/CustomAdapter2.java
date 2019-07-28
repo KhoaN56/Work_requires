@@ -1,4 +1,4 @@
-package com.example.work_requires;
+package com.example.work_requires.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,16 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.work_requires.MainActivityCompany;
+import com.example.work_requires.R;
+import com.example.work_requires.WorkRequirement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> implements Filterable {
+public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHolder> implements Filterable {
     private List<WorkRequirement> requirementList;
     private List<WorkRequirement> requirementFullList;
-    private CustomAdapter.OnItemClickListener itemClickListener;
+    private CustomAdapter2.OnItemClickListener itemClickListener;
+    private MainActivityCompany context;
 
     public interface OnItemClickListener{
         void onClick(int position);
@@ -47,21 +52,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     };
 
-    public CustomAdapter(List<WorkRequirement> requirementList) {
+    public CustomAdapter2(List<WorkRequirement> requirementList, MainActivityCompany context) {
         this.requirementList = requirementList;
         requirementFullList = new ArrayList<>(requirementList);
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public CustomAdapter2.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.requires_item, viewGroup, false);
-        return new CustomAdapter.ViewHolder(itemView, itemClickListener);
+        View itemView = inflater.inflate(R.layout.posted_item, viewGroup, false);
+        return new CustomAdapter2.ViewHolder(itemView, itemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull CustomAdapter2.ViewHolder viewHolder, int position) {
         viewHolder.setter(requirementList.get(position));
     }
 
@@ -80,20 +86,34 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return requirementFilter;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(CustomAdapter2.OnItemClickListener listener){
         itemClickListener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView companyLogo;
-        TextView requirePos;
-        TextView companyName;
+        TextView jobName;
+        TextView numberOfApplied;
+        ImageButton editButton;
+        ImageButton deleteButton;
 
-        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView, final CustomAdapter2.OnItemClickListener listener) {
             super(itemView);
-            companyLogo = itemView.findViewById(R.id.companyLogo);
-            requirePos = itemView.findViewById(R.id.title);
-            companyName = itemView.findViewById(R.id.compName);
+            jobName = itemView.findViewById(R.id.postedJobName);
+            numberOfApplied = itemView.findViewById(R.id.numberOfCandidateTV);
+            editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.deletePostedRequireBtn);
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.editRequirement(getAdapterPosition());
+                }
+            });
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.deleteRequirement(getAdapterPosition());
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,16 +127,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 }
             });
         }
-
-        public void setter(WorkRequirement requirement){
-            this.companyName.setText(requirement.getCompanyName());
-            this.requirePos.setText(requirement.getJobName());
-            this.companyLogo.setImageResource(R.mipmap.ic_launcher);
+        private void setter(WorkRequirement requirement){
+            this.numberOfApplied.setText("Số người nộp hồ sơ: "+requirement.getApplied());
+            this.jobName.setText(requirement.getJobName());
         }
-
         @Override
         public void onClick(View v) {
-
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.work_requires;
 import java.io.Serializable;
 
 public class WorkRequirement implements Serializable {
+
     private int id;
     private String jobName;
     private String companyName;
@@ -17,11 +18,11 @@ public class WorkRequirement implements Serializable {
     private String description;
     private String endDate;
     private int amount;
-    private int applied;
+    private int applied;    //Number of people who aplied for the job
 
     public WorkRequirement(int id, String jobName, String major, String area, long salary, String degree,
-                           String workPos, int experience, int amount,String description,String requirement,
-                           String benefit,String endDate, String companyName, int applied) {
+                           String workPos, int experience, int amount, String description, String requirement,
+                           String benefit, String endDate, String companyName, int applied) {
         this.id = id;
         this.jobName = jobName;
         this.companyName = companyName;

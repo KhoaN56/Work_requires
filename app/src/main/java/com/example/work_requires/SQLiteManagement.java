@@ -69,6 +69,16 @@ public class SQLiteManagement extends SQLiteOpenHelper {
         statement.executeInsert();
     }
 
+    public void insertSaved(int idJob, String username) {
+        SQLiteDatabase database = getWritableDatabase();
+        String sql = "INSERT INTO JOB_SAVED VALUES(NULL, ?, ?)";
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindString(1, username);
+        statement.bindLong(2, idJob);
+        statement.executeInsert();
+    }
+
     public  void update (String jobPos, String degree, int experience, String date_of_birth,
                          String country, String sex, String school, String major, String classify,
                          String detail_experience, String username)
@@ -129,6 +139,8 @@ public class SQLiteManagement extends SQLiteOpenHelper {
                 "Degree NCHAR(50), Experience INTEGER, DateOfBirth CHAR(10), Country NCHAR(30), Sex NCHAR(5), " +
                 "School NCHAR(100), Major NCHAR(50), Classify NCHAR(20), Detail_experience NVARCHAR, CheckLogin INTEGER DEFAULT 0)");
         db.execSQL("CREATE TABLE IF NOT EXISTS DETAIL (ID_DETAIL INTEGER PRIMARY KEY" +
+                " AUTOINCREMENT, Username CHAR(20), Id_Recruitment INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS JOB_SAVED (ID_SAVED INTEGER PRIMARY KEY" +
                 " AUTOINCREMENT, Username CHAR(20), Id_Recruitment INTEGER)");
     }
     @Override

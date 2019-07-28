@@ -1,24 +1,23 @@
 package com.example.work_requires;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.v4.widget.DrawerLayout;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.work_requires.R.id;
 import com.example.work_requires.R.layout;
+import com.example.work_requires.adapters.CustomAdapter;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
     //Format
     SimpleDateFormat dateFormat;
 
+    //View Pager
+    ViewPager mainViewPager;
+
+    //Tab Layout
+    TabLayout tabLayout;
+
+    JobsFragment frag1;
+    JobsSavedFrag frag2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                adapter.getFilter().filter(s);
+                frag1.getAdapter().getFilter().filter(s);
+                frag2.getAdapter().getFilter().filter(s);
                 return false;
             }
         });
@@ -74,66 +83,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        Date today = new Date(System.currentTimeMillis());
-        dateFormat = new SimpleDateFormat(partten);
-        requirementList = new ArrayList<>();
-        workRequireDatabase = new SQLiteManagement(MainActivity.this, "Work_Requirement.sqlite", null, 1);
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
-        Cursor cursor = workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitment AS A, USER AS B " +
-                "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
-        while(cursor.moveToNext()){
-            //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
-            if(isStillValid(today, cursor.getString(13))){
-                requirementList.add(new WorkRequirement(cursor.getInt(0),
-                        cursor.getString(2),cursor.getString(3),
-                        cursor.getString(4), cursor.getLong(5),
-                        cursor.getString(6), cursor.getString(7),
-                        cursor.getInt(8), cursor.getInt(9),
-                        cursor.getString(10), cursor.getString( 11),
-                        cursor.getString(12), cursor.getString(13),
-                        cursor.getString(15), cursor.getInt(14)
-                ));
-            }
-        }
-        setUpRecyclerView();
-        adapter.notifyDataSetChanged();
-        cursor.close();
+        mainViewPager = findViewById(id.mainPager);
+        tabLayout = (TabLayout) findViewById(id.tabMenu);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(),user);
+        frag1 = new JobsFragment();
+        frag1.setContext(MainActivity.this);
+        frag2 = new JobsSavedFrag();
+        frag2.setContext(MainActivity.this);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        frag1.setArguments(bundle);
+        frag2.setArguments(bundle);
+        pagerAdapter.addFragment(frag1);
+        pagerAdapter.addFragment(frag2);
+        mainViewPager.setAdapter(pagerAdapter);
+        mainViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//        tabLayout.setupWithViewPager(mainViewPager);
+        setUpTabLayout();
+
     }
 
-    private boolean isStillValid(Date today, String endDate){
-        try {
-            Date end = dateFormat.parse(endDate);
-            int check = today.compareTo(end);
-            return (check <=0);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-    private void setUpRecyclerView() {
-        requireRecycleView = findViewById(id.requireRecycleView);
-        requireRecycleView.setHasFixedSize(true);
-        LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        adapter = new CustomAdapter(requirementList);
-        requireRecycleView.setLayoutManager(layoutManager);
-        requireRecycleView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+    private void setUpTabLayout() {
+        tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(int position) {
-                Intent toDetail = new Intent(MainActivity.this, RequirementDetail.class);
-                toDetail.putExtra("requirement", requirementList.get(position));
-                toDetail.putExtra("user", user);
-                startActivity(toDetail);
+            public void onTabSelected(TabLayout.Tab tab) {
+                mainViewPager.setCurrentItem(tab.getPosition());
+                tab.getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(Color.parseColor("#CE000000"), PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        workRequireDatabase.close();
-        super.onDestroy();
     }
 }
