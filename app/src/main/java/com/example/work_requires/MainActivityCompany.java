@@ -1,54 +1,73 @@
 package com.example.work_requires;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
+//import android.content.DialogInterface;
+//import android.content.Intent;
+//import android.support.annotation.NonNull;
+//import android.support.annotation.Nullable;
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.v7.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+//import android.support.v7.widget.LinearLayoutManager;
+//import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+//import android.view.View;
+//import android.widget.Toast;
 
-import com.example.work_requires.adapters.CustomAdapter2;
+//import com.example.work_requires.adapters.CustomAdapter2;
+import com.example.work_requires.adapters.PagerAdapter;
+import com.example.work_requires.fragments.JobPostedFragment;
+//import com.example.work_requires.models.WorkRequirement;
+import com.example.work_requires.fragments.MenuFragment;
+import com.example.work_requires.models.Company;
+//import com.google.firebase.database.ChildEventListener;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+//import java.util.List;
 
-public class MainActivityCompany extends AppCompatActivity {
+public class MainActivityCompany extends AppCompatActivity implements Serializable {
 
     //Database
-    SQLiteManagement database;
+
 
     //Recycle View
-    RecyclerView postedRecycleView;
-    CustomAdapter2 adapter;
 
-    //List
-    List<WorkRequirement> workRequirementList;
+    //Fragments
+    JobPostedFragment frag1;
+    MenuFragment frag4;
 
-    //Buttons
-    FloatingActionButton btn_insertReq;
+    //Pager
+    ViewPager mainViewPager;
+
+    //Tab layout
+    TabLayout tabLayout;
 
     //User
-    User user;
+    Company user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_company);
+//        database = FirebaseDatabase.getInstance().getReference();
     }
 
     //Để đảm bảo khi quay lại activity này thì dữ liệu được cập nhật
     @Override
     protected void onResume() {
-        super.onResume();
         initialize();
+        super.onResume();
     }
 
     @Override
@@ -65,7 +84,7 @@ public class MainActivityCompany extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                adapter.getFilter().filter(s);
+                frag1.getAdapter().getFilter().filter(s);
                 return false;
             }
         });
@@ -73,84 +92,55 @@ public class MainActivityCompany extends AppCompatActivity {
     }
 
     private void initialize() {
-        user = (User)getIntent().getSerializableExtra("user");
-        database = new SQLiteManagement(MainActivityCompany.this, "Work_Requirement.sqlite", null, 1);
-        Cursor cursor = database.getDatasql("SELECT * FROM Recruitment WHERE Username = '"+user.getUsername()+"'");
-        workRequirementList = new ArrayList<>();
-        while (cursor.moveToNext())
-            workRequirementList.add(new WorkRequirement(cursor.getInt(0),
-                    cursor.getString(2),cursor.getString(3),
-                    cursor.getString(4), cursor.getLong(5),
-                    cursor.getString(6), cursor.getString(7),
-                    cursor.getInt(8), cursor.getInt(9),
-                    cursor.getString(10), cursor.getString( 11),
-                    cursor.getString(12), cursor.getString(13),
-                    user.getName(), cursor.getInt(14)
-            ));
-        cursor.close();
-        setUpRecyclerView();
-        btn_insertReq= findViewById(R.id.btn_insertReq);
-        btn_insertReq.setOnClickListener(new View.OnClickListener() {
+        user = (Company) getIntent().getSerializableExtra("user");
+        mainViewPager = findViewById(R.id.mainPager);
+        tabLayout = findViewById(R.id.tabMenu);
+        frag1 = new JobPostedFragment();
+        Bundle bundle1 = new Bundle();
+        bundle1.putSerializable("user", user);
+        frag1.setArguments(bundle1);
+        frag4 = new MenuFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        frag1.setArguments(bundle);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(frag1);
+        pagerAdapter.addFragment(frag4);
+        mainViewPager.setAdapter(pagerAdapter);
+        mainViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        setUpTabLayout();
+    }
+
+    private void setUpTabLayout() {
+        tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivityCompany.this, PostRequirement.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("Tab position", String.valueOf(tab.getPosition()));
+                mainViewPager.setCurrentItem(tab.getPosition());
+                tab.getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(Color.parseColor("#CE000000"), PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
 
-    private void setUpRecyclerView() {
-        postedRecycleView = findViewById(R.id.postedRecycleView);
-        postedRecycleView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivityCompany.this);
-        adapter = new CustomAdapter2(workRequirementList, MainActivityCompany.this);
-        postedRecycleView.setLayoutManager(layoutManager);
-        postedRecycleView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new CustomAdapter2.OnItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                Intent toViewCandidateList = new Intent(MainActivityCompany.this, ViewCandidateList.class);
-                toViewCandidateList.putExtra("requirement", workRequirementList.get(position));
-                toViewCandidateList.putExtra("user", user);
-                startActivity(toViewCandidateList);
-            }
-        });
-        adapter.notifyDataSetChanged();
-    }
 
-    public void deleteRequirement(final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityCompany.this);
-        builder.setTitle("Xác nhận");
-        builder.setMessage("Bạn có chắc muốn xóa tin này?");
-        builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                database.delete(workRequirementList.get(position));
-                workRequirementList.remove(position);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(MainActivityCompany.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onResume();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
 
-    public void editRequirement(final int position) {
-        Intent edit = new Intent(MainActivityCompany.this, UpdateRequirement.class);
-        edit.putExtra("work", workRequirementList.get(position));
-        startActivity(edit);
-    }
 
-    @Override
-    protected void onDestroy() {
-        database.close();
-        super.onDestroy();
-    }
+
+
+
+//    @Override
+//    public void onPointerCaptureChanged(boolean hasCapture) {
+//
+//    }
 }

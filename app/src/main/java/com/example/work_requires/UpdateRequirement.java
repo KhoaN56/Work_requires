@@ -2,6 +2,8 @@ package com.example.work_requires;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,18 +15,30 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.work_requires.models.WorkRequirement;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UpdateRequirement extends AppCompatActivity {
 
-    EditText title, salary, amount, requirement, experience, description, benifit, end_date;
-    Spinner major, area, degree,workPos ;
+    EditText title, salary, amount, requirement, experience, description, benefit, end_date;
+    Spinner major, city, spn_district, degree, workPos;
     WorkRequirement workRequirement;
-    String salaryTxt="", expTxt="", areaTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="",
+    String salaryTxt="", expTxt="", cityTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", district="",
             endDateTxt="", jobNameTxt="",requirementTxt="",descriptionTxt="",benefitTxt="", amountTxt="";
     
     Button btn_save;
@@ -32,7 +46,13 @@ public class UpdateRequirement extends AppCompatActivity {
     final String pattern = "dd/MM/yyyy";
     SimpleDateFormat dateFormat;
 
-    SQLiteManagement management;
+    //List of data
+    List<String>cityList;
+    List<String>districtList;
+    List<String>degreeList;
+    List<String>majorList;
+    List<String>workPosList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,101 +79,93 @@ public class UpdateRequirement extends AppCompatActivity {
         requirement= findViewById(R.id.requirement);
         experience= findViewById(R.id.experience);
         description= findViewById(R.id.description);
-        benifit= findViewById(R.id.benefit);
+        benefit = findViewById(R.id.benefit);
         end_date= findViewById(R.id.enddate);
 
         title = findViewById(R.id.title);
         major = findViewById(R.id.spn_major);
-        area = findViewById(R.id.spn_area);
+        city = findViewById(R.id.spn_city);
+        spn_district = findViewById(R.id.spn_district);
         degree = findViewById(R.id.spn_degree);
         workPos = findViewById(R.id.spn_jobPos);
         btn_save = findViewById(R.id.btn_save);
 
-        final List<String> listArea = new ArrayList<>();
-        listArea.add("Hồ Chí Minh");
-        listArea.add("Hà Nội");
+        cityList = getLists("/Areas/Cities", city, workRequirement.getCity());
 
-        final List<String> listDegree = new ArrayList<>();
-        listDegree.add("Trung cấp");
-        listDegree.add("Đại học");
+        degreeList = getLists("/Degree",degree, workRequirement.getDegree());
 
-        final List<String> listMajor = new ArrayList<>();
-        listMajor.add("Thực phẩm");
-        listMajor.add("Xây dựng");
-        listMajor.add("Công nghệ thông tin");
-        listMajor.add("Bán hàng");
+        majorList = getLists("/Major", major, workRequirement.getMajor());
 
-        final List<String> listWorkPos = new ArrayList<>();
-        listWorkPos.add("Thực tập và dự án");
-        listWorkPos.add("Nhân viên chính thức");
-        listWorkPos.add("Nhân viên thời vụ");
-        listWorkPos.add("Làm thêm ngoài giờ");
-        listWorkPos.add("Bán thời gian");
+        workPosList = getLists("/Position", workPos, workRequirement.getWorkPos());
 
+        final List<String> cityKeyList = getKeyLists();
 
-        ArrayAdapter<String> adapterArea = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listArea);
-        adapterArea.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        area.setAdapter(adapterArea);
-        area.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//        city.setSelection(cityList.indexOf(workRequirement.getCity()));
+        city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                areaTxt = listArea.get(position);
+                cityTxt = cityList.get(position);
+                districtList = getLists("/Areas/District/" + cityKeyList.get(position),
+                        spn_district, workRequirement.getDistrict());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                cityTxt = workRequirement.getCity();
+            }
+        });
+
+//        spn_district.setSelection(districtList.indexOf(workRequirement.getDistrict()));
+        spn_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                district = districtList.get(i);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                areaTxt = "";
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                district = workRequirement.getDistrict();
             }
         });
-        area.setSelection(listArea.indexOf(workRequirement.getArea()));
 
-        ArrayAdapter<String> adapterDegree = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listDegree);
-        adapterDegree.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        degree.setAdapter(adapterDegree);
+
+//        degree.setSelection(degreeList.indexOf(workRequirement.getDegree()));
         degree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                degreeTxt = listDegree.get(position);
+                degreeTxt = degreeList.get(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                degreeTxt = "";
+                degreeTxt = workRequirement.getDegree();
             }
         });
-        degree.setSelection(listDegree.indexOf(workRequirement.getDegree()));
 
-        ArrayAdapter<String> adapterWorkPos = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listWorkPos);
-        adapterWorkPos.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        workPos.setAdapter(adapterWorkPos);
+//        workPos.setSelection(workPosList.indexOf(workRequirement.getWorkPos()));
         workPos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                workPosTxt = listWorkPos.get(position);
+                workPosTxt = workPosList.get(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                workPosTxt = "";
+                workPosTxt = workRequirement.getWorkPos();
             }
         });
-        workPos.setSelection(listWorkPos.indexOf(workRequirement.getWorkPos()));
 
-        ArrayAdapter<String> adapterMajor = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, listMajor);
-        adapterMajor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        major.setAdapter(adapterMajor);
+//        major.setSelection(majorList.indexOf(workRequirement.getMajor()));
         major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                majorTxt = listMajor.get(position);
+                majorTxt = majorList.get(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                majorTxt = "";
+                majorTxt = workRequirement.getMajor();
             }
         });
-        major.setSelection(listMajor.indexOf(workRequirement.getMajor()));
 
         title.setText(workRequirement.getJobName());
         salary.setText(String.valueOf(workRequirement.getSalary()));
@@ -161,7 +173,7 @@ public class UpdateRequirement extends AppCompatActivity {
         requirement.setText(workRequirement.getRequirement());
         experience.setText(String.valueOf(workRequirement.getExperience()));
         description.setText(workRequirement.getDescription());
-        benifit.setText(workRequirement.getBenefit());
+        benefit.setText(workRequirement.getBenefit());
         end_date.setText(workRequirement.getEndDate());
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +204,8 @@ public class UpdateRequirement extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         workRequirement.setJobName(jobNameTxt);
                         workRequirement.setMajor(majorTxt);
-                        workRequirement.setArea(areaTxt);
+                        workRequirement.setCity(cityTxt);
+                        workRequirement.setDistrict(district);
                         workRequirement.setSalary(Long.parseLong(salaryTxt));
                         workRequirement.setDegree(degreeTxt);
                         workRequirement.setWorkPos(workPosTxt);
@@ -202,9 +215,25 @@ public class UpdateRequirement extends AppCompatActivity {
                         workRequirement.setDescription(descriptionTxt);
                         workRequirement.setBenefit(benefitTxt);
                         workRequirement.setEndDate(endDateTxt);
-
-                        management= new SQLiteManagement(UpdateRequirement.this, "Work_Requirement.sqlite", null, 1);
-                        management.update(workRequirement);
+                        Map<String, Object>jobItem = workRequirement.toJobItem();
+                        Map<String, Object> childUpdate = new HashMap<>();
+                        childUpdate.put("/Jobs/Job List/"+workRequirement.getId(),jobItem);
+                        childUpdate.put("/Jobs/Detail/"+workRequirement.getId(), workRequirement);
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                        reference.updateChildren(childUpdate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(UpdateRequirement.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(UpdateRequirement.this, "Xảy ra lỗi trong quá trình xử lí", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+//                        management= new SQLiteManagement(UpdateRequirement.this, "Work_Requirement.sqlite", null, 1);
+//                        management.update(workRequirement);
                         Toast.makeText(UpdateRequirement.this, "Sửa tin thành công!!", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
@@ -230,6 +259,61 @@ public class UpdateRequirement extends AppCompatActivity {
         }
         return false;
     }
+
+    private List<String> getLists(String path, final Spinner spinner, final String object){
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference(path);
+        final List<String>list = new ArrayList<>();
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot p : dataSnapshot.getChildren())
+                    list.add(p.getValue(String.class));
+                ArrayAdapter<String>adapter = new ArrayAdapter<>(UpdateRequirement.this,
+                        R.layout.support_simple_spinner_dropdown_item, list);
+                spinner.setAdapter(adapter);
+                spinner.setSelection(list.indexOf(object));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return list;
+    }
+
+    private List<String> getKeyLists(){
+        final List<String>keyList = new ArrayList<>();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("Areas").child("Cities").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                keyList.add(dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return keyList;
+    }
+
     private boolean checkNull() {
         jobNameTxt = title.getText().toString().trim();
         salaryTxt = salary.getText().toString().trim();
@@ -237,7 +321,7 @@ public class UpdateRequirement extends AppCompatActivity {
         endDateTxt = end_date.getText().toString().trim();
         requirementTxt = requirement.getText().toString().trim();
         descriptionTxt = description.getText().toString().trim();
-        benefitTxt = benifit.getText().toString().trim();
+        benefitTxt = benefit.getText().toString().trim();
         amountTxt = amount.getText().toString().trim();
         return (!(jobNameTxt.equals("")||salaryTxt.equals("")||expTxt.equals("")|| amountTxt.equals("") ||
                 endDateTxt.equals("")||requirementTxt.equals("")||descriptionTxt.equals("")||benefitTxt.equals("")));

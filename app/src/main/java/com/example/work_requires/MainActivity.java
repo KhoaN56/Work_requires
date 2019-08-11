@@ -4,42 +4,50 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
+//import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+//import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.work_requires.R.id;
 import com.example.work_requires.R.layout;
-import com.example.work_requires.adapters.CustomAdapter;
+//import com.example.work_requires.adapters.CustomAdapter;
+import com.example.work_requires.adapters.PagerAdapter;
+import com.example.work_requires.fragments.JobsFragment;
+import com.example.work_requires.fragments.JobsSavedFrag;
+import com.example.work_requires.fragments.MenuFragment;
+import com.example.work_requires.fragments.Notification;
+import com.example.work_requires.models.User;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
+//import java.text.SimpleDateFormat;
+//import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //List items
-    List<WorkRequirement> requirementList;
+//    List<WorkRequirement> requirementList;
 
     //RecycleView
-    RecyclerView requireRecycleView;
-    CustomAdapter adapter;
+//    RecyclerView requireRecycleView;
+//    CustomAdapter adapter;
 
     //Database
-    SQLiteManagement workRequireDatabase;
+//    SQLiteManagement workRequireDatabase;
 
     //User
     User user;
 
     //Variables
-    WorkRequirement dummyRequire;
-    String partten = "dd/MM/yyyy";
+//    WorkRequirement dummyRequire;
+//    String pattern = "dd/MM/yyyy";
 
     //Format
-    SimpleDateFormat dateFormat;
+//    SimpleDateFormat dateFormat;
 
     //View Pager
     ViewPager mainViewPager;
@@ -49,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     JobsFragment frag1;
     JobsSavedFrag frag2;
+    Notification frag3;
+    MenuFragment frag4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        MenuItem signOut = menu.findItem(id.signOut);
+//        MenuItem signOut = menu.findItem(id.signOut);
 
         return true;
     }
@@ -86,18 +96,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
         mainViewPager = findViewById(id.mainPager);
-        tabLayout = (TabLayout) findViewById(id.tabMenu);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(),user);
+        tabLayout = findViewById(id.tabMenu);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         frag1 = new JobsFragment();
         frag1.setContext(MainActivity.this);
         frag2 = new JobsSavedFrag();
         frag2.setContext(MainActivity.this);
+        frag4 = new MenuFragment();
+        frag3 = new Notification();
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
         frag1.setArguments(bundle);
         frag2.setArguments(bundle);
         pagerAdapter.addFragment(frag1);
         pagerAdapter.addFragment(frag2);
+        pagerAdapter.addFragment(frag3);
+        pagerAdapter.addFragment(frag4);
         mainViewPager.setAdapter(pagerAdapter);
         mainViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 //        tabLayout.setupWithViewPager(mainViewPager);
@@ -110,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("Tab position", String.valueOf(tab.getPosition()));
                 mainViewPager.setCurrentItem(tab.getPosition());
                 tab.getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
             }
@@ -124,5 +139,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        getApplication().onTerminate();
+        super.onBackPressed();
     }
 }

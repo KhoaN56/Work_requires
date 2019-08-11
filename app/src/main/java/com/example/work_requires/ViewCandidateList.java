@@ -1,17 +1,28 @@
 package com.example.work_requires;
 
-import android.content.DialogInterface;
+//import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.v7.app.AlertDialog;
+//import android.database.Cursor;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+//import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 import com.example.work_requires.adapters.CustomAdapter3;
+import com.example.work_requires.models.Company;
+import com.example.work_requires.models.WorkRequirement;
+import com.example.work_requires.models.User;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +33,13 @@ public class ViewCandidateList extends AppCompatActivity {
     TextView title;
 
     //Database
-    SQLiteManagement database;
+//    SQLiteManagement database;
 
     //User
-    User user;
-    User dummyUser;
+    Company user;
+//    User dummyUser;
     List<User> userList;
+    List<String> userIds;
 
     //Requirement
     WorkRequirement requirement;
@@ -44,27 +56,80 @@ public class ViewCandidateList extends AppCompatActivity {
     }
 
     private void initialize() {
-        user = (User)getIntent().getSerializableExtra("user");
+        user = (Company)getIntent().getSerializableExtra("user");
         requirement = (WorkRequirement)getIntent().getSerializableExtra("requirement");
         title = findViewById(R.id.title);
         title.setText(requirement.getJobName());
-        database = new SQLiteManagement(ViewCandidateList.this, "Work_Requirement.sqlite",null, 1);
+//        database = new SQLiteManagement(ViewCandidateList.this, "Work_Requirement.sqlite",null, 1);
         userList = new ArrayList<>();
-        Cursor cursor = database.getDatasql("SELECT USER.* FROM USER, DETAIL WHERE DETAIL.ID_RECRUITMENT = " +
-                "'"+requirement.getId()+"' AND USER.USERNAME = DETAIL.USERNAME");
-        while(cursor.moveToNext()){
-            userList.add(new User(cursor.getString(0),cursor.getString(2), cursor.getString(1),
-                    cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
-                    cursor.getString(7),cursor.getString(8),cursor.getString(16)));
-            dummyUser = userList.get(userList.size()-1);
-            dummyUser.setUser(cursor.getString(9), cursor.getString(10),
-                    cursor.getInt(11), cursor.getString(12),
-                    cursor.getString(13),cursor.getString(14),
-                    cursor.getString(15),cursor.getString(16),
-                    cursor.getString(17), cursor.getString(18));
-            userList.set(userList.size()-1,dummyUser);
-        }
+//        Cursor cursor = database.getDatasql("SELECT USER.* FROM USER, DETAIL WHERE DETAIL.ID_RECRUITMENT = " +
+//                "'"+requirement.getId()+"' AND USER.USERNAME = DETAIL.USERNAME");
         setUpRecyclerView();
+        userIds = new ArrayList<>();
+        DatabaseReference readUID = FirebaseDatabase.getInstance().getReference("/Jobs/Applied/"+requirement.getId());
+        readUID.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                userIds.add(dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                userIds.remove(dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference readUserList = FirebaseDatabase.getInstance().getReference("/Users/User List");
+        readUserList.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if(userIds.contains(dataSnapshot.getKey())){
+                    userList.add(dataSnapshot.getValue(User.class));
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if(userIds.contains(dataSnapshot.getKey())){
+                    userList.set(userIds.indexOf(dataSnapshot.getKey()),dataSnapshot.getValue(User.class));
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                if(userIds.contains(dataSnapshot.getKey())){
+                    userList.remove(dataSnapshot.getValue(User.class));
+                    userIds.remove(dataSnapshot.getKey());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setUpRecyclerView() {
@@ -77,36 +142,23 @@ public class ViewCandidateList extends AppCompatActivity {
         adapter.setOnItemClickListener(new CustomAdapter3.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                Intent toCandidateDetail = new Intent(ViewCandidateList.this, DetailCV.class);
-                toCandidateDetail.putExtra("user", userList.get(position));
-                startActivity(toCandidateDetail);
+                DatabaseReference getDetail = FirebaseDatabase.getInstance()
+                        .getReference("/Users/Detail/"+userList.get(position).getUserId());
+                getDetail.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Intent toCandidateDetail = new Intent(ViewCandidateList.this, DetailCV.class);
+                        toCandidateDetail.putExtra("user", dataSnapshot.getValue(User.class));
+                        startActivity(toCandidateDetail);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
         adapter.notifyDataSetChanged();
-    }
-
-    public void deleteCandidate(final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ViewCandidateList.this);
-        builder.setTitle("Xác nhận");
-        builder.setMessage("Bạn có chắc muốn người này?");
-        builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                database.delete(userList.get(position), requirement.getId());
-                requirement.setApplied(requirement.getApplied()-1);
-                database.update(requirement.getApplied(),requirement);
-                userList.remove(position);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(ViewCandidateList.this, "Xóa thành công!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onResume();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 }

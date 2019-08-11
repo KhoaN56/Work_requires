@@ -52,7 +52,7 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.0">
@@ -79,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/addressTV"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="@+id/schoolTV"
+                app:layout_constraintTop_toBottomOf="@+id/districtTV" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -88,21 +88,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Quốc tịch"
+                android:text="@string/City"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/countryTV"
+                app:layout_constraintBottom_toBottomOf="@+id/city"
                 app:layout_constraintStart_toStartOf="@+id/textView23"
-                app:layout_constraintTop_toTopOf="@+id/countryTV"
+                app:layout_constraintTop_toTopOf="@+id/city"
                 app:layout_constraintVertical_bias="0.437" />
 
             <TextView
-                android:id="@+id/countryTV"
+                android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/date_of_birthTV"
-                app:layout_constraintTop_toBottomOf="@+id/date_of_birthTV" />
+                app:layout_constraintStart_toStartOf="@+id/schoolTV"
+                app:layout_constraintTop_toBottomOf="@+id/classifyTV" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -120,8 +120,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/countryTV"
-                app:layout_constraintTop_toBottomOf="@+id/countryTV" />
+                app:layout_constraintStart_toStartOf="@+id/schoolTV"
+                app:layout_constraintTop_toBottomOf="@+id/date_of_birthTV" />
 
             <TextView
                 android:id="@+id/textView31"
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/phoneTV"
+                app:layout_constraintStart_toStartOf="@+id/schoolTV"
                 app:layout_constraintTop_toBottomOf="@+id/sexTV" />
 
             <TextView
@@ -158,7 +158,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/schoolTV"
                 app:layout_constraintTop_toBottomOf="@+id/emailTV" />
 
@@ -166,21 +168,20 @@
                 android:id="@+id/textView35"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Địa chỉ"
+                android:text="@string/district"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/addressTV"
+                app:layout_constraintBottom_toBottomOf="@+id/districtTV"
                 app:layout_constraintStart_toStartOf="@+id/textView33"
-                app:layout_constraintTop_toTopOf="@+id/addressTV" />
+                app:layout_constraintTop_toTopOf="@+id/districtTV" />
 
             <TextView
-                android:id="@+id/addressTV"
+                android:id="@+id/districtTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/textView42"
-                app:layout_constraintTop_toBottomOf="@+id/phoneTV" />
+                app:layout_constraintStart_toStartOf="@+id/schoolTV"
+                app:layout_constraintTop_toBottomOf="@+id/city" />
 
             <TextView
                 android:id="@+id/textView37"
@@ -198,8 +199,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/addressTV"
-                app:layout_constraintTop_toBottomOf="@+id/addressTV" />
+                app:layout_constraintStart_toStartOf="@+id/schoolTV"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView39"
@@ -217,16 +218,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/jobPosTV"
-                app:layout_constraintTop_toBottomOf="@+id/jobPosTV" />
+                app:layout_constraintStart_toStartOf="@+id/schoolTV"
+                app:layout_constraintTop_toBottomOf="@+id/experienceTV" />
 
             <TextView
                 android:id="@+id/schoolTV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/degreeTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView42"
                 app:layout_constraintTop_toBottomOf="@+id/degreeTV" />
 
             <TextView
@@ -278,29 +282,29 @@
                 android:layout_marginTop="16dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="@+id/schoolTV"
-                app:layout_constraintTop_toBottomOf="@+id/classifyTV" />
+                app:layout_constraintTop_toBottomOf="@+id/detail_experienceTV" />
 
             <TextView
                 android:id="@+id/textView32"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:text="Kinh nghiệm làm việc"
                 android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_experienceTV"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                app:layout_constraintTop_toTopOf="@+id/detail_experienceTV" />
 
             <TextView
                 android:id="@+id/detail_experienceTV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/schoolTV"
-                app:layout_constraintTop_toBottomOf="@+id/experienceTV" />
+                app:layout_constraintTop_toBottomOf="@+id/jobPosTV" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

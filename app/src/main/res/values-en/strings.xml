@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Work_requires</string>
+    <string name="birthday" translatable="false">Birthday</string>
+    <string name="City">City</string>
+    <string name="fullname">Full name</string>
+    <string name="email">Email</string>
+    <string name="district">District</string>
+    <string name="logout">Log out</string>
+    <string name="phoneNumber">Phone number</string>
+</resources>

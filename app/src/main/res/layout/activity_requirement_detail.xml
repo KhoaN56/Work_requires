@@ -55,7 +55,7 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.0">
@@ -68,7 +68,7 @@
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="24dp"
                 android:text="Lĩnh vực:"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/majorTV"
@@ -83,7 +83,7 @@
                 android:layout_marginTop="16dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="@+id/experienceTV"
-                app:layout_constraintTop_toBottomOf="@+id/benefitTV" />
+                app:layout_constraintTop_toBottomOf="@+id/degreeTV" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -91,15 +91,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Khu vực: "
+                android:text="@string/City"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/areaTV"
+                app:layout_constraintBottom_toBottomOf="@+id/cityTV"
                 app:layout_constraintStart_toStartOf="@+id/textView23"
-                app:layout_constraintTop_toTopOf="@+id/areaTV"
+                app:layout_constraintTop_toTopOf="@+id/cityTV"
                 app:layout_constraintVertical_bias="0.437" />
 
             <TextView
-                android:id="@+id/areaTV"
+                android:id="@+id/cityTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -123,8 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/areaTV"
-                app:layout_constraintTop_toBottomOf="@+id/areaTV" />
+                app:layout_constraintStart_toStartOf="@+id/cityTV"
+                app:layout_constraintTop_toBottomOf="@+id/benefitTV" />
 
             <TextView
                 android:id="@+id/textView31"
@@ -143,7 +143,7 @@
                 android:layout_marginTop="16dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="@+id/salaryTV"
-                app:layout_constraintTop_toBottomOf="@+id/salaryTV" />
+                app:layout_constraintTop_toBottomOf="@+id/experienceTV" />
 
             <TextView
                 android:id="@+id/textView33"
@@ -162,7 +162,7 @@
                 android:layout_marginTop="16dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="@+id/degreeTV"
-                app:layout_constraintTop_toBottomOf="@+id/degreeTV" />
+                app:layout_constraintTop_toBottomOf="@+id/salaryTV" />
 
             <TextView
                 android:id="@+id/textView35"
@@ -196,10 +196,12 @@
 
             <TextView
                 android:id="@+id/descriptionTV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/experienceTV"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -215,19 +217,23 @@
 
             <TextView
                 android:id="@+id/requirementTV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/descriptionTV"
                 app:layout_constraintTop_toBottomOf="@+id/descriptionTV" />
 
             <TextView
                 android:id="@+id/benefitTV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/requirementTV"
                 app:layout_constraintTop_toBottomOf="@+id/requirementTV" />
 
@@ -258,7 +264,7 @@
                 android:layout_marginTop="16dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="@+id/benefitTV"
-                app:layout_constraintTop_toBottomOf="@+id/experienceTV" />
+                app:layout_constraintTop_toBottomOf="@+id/districtTV" />
 
             <Button
                 android:id="@+id/subscribe"
@@ -280,13 +286,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@color/white"
+                android:background="@color/transparent"
                 android:text="Lưu lại"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="@+id/subscribe"
                 app:layout_constraintEnd_toStartOf="@+id/subscribe"
                 app:layout_constraintTop_toTopOf="@+id/subscribe"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/district"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/districtTV"
+                app:layout_constraintStart_toStartOf="@+id/textView25"
+                app:layout_constraintTop_toTopOf="@+id/districtTV" />
+
+            <TextView
+                android:id="@+id/districtTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="TextView"
+                app:layout_constraintStart_toStartOf="@+id/experienceTV"
+                app:layout_constraintTop_toBottomOf="@+id/cityTV" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

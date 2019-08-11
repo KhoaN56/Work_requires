@@ -16,11 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -44,10 +39,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Khu vực:"
-                    app:layout_constraintBottom_toBottomOf="@+id/spn_area"
+                    android:text="@string/City"
+                    app:layout_constraintBottom_toBottomOf="@+id/spn_city"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/spn_area" />
+                    app:layout_constraintTop_toTopOf="@+id/spn_city" />
 
                 <Spinner
                     android:id="@+id/spn_jobPos"
@@ -84,9 +79,9 @@
                     android:hint="Nhập số tiền lương / trợ cấp"
                     android:inputType="number"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/spn_degree"
-                    app:layout_constraintTop_toBottomOf="@+id/spn_area" />
+                    app:layout_constraintTop_toBottomOf="@+id/spn_district" />
 
                 <TextView
                     android:id="@+id/NgayKett"
@@ -170,7 +165,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/enddate" />
 
                 <Spinner
-                    android:id="@+id/spn_area"
+                    android:id="@+id/spn_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -183,7 +178,7 @@
                     android:layout_width="0dp"
                     android:layout_height="26dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/spn_area"
+                    app:layout_constraintEnd_toEndOf="@+id/spn_city"
                     app:layout_constraintStart_toStartOf="@+id/spn_jobPos"
                     app:layout_constraintTop_toBottomOf="@+id/salary" />
 
@@ -309,9 +304,26 @@
                     app:layout_constraintStart_toStartOf="@+id/spn_jobPos"
                     app:layout_constraintTop_toBottomOf="@+id/spn_jobPos" />
 
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/district"
+                    app:layout_constraintBottom_toBottomOf="@+id/spn_district"
+                    app:layout_constraintStart_toStartOf="@+id/khuvuc"
+                    app:layout_constraintTop_toTopOf="@+id/spn_district" />
+
+                <Spinner
+                    android:id="@+id/spn_district"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@+id/spn_city"
+                    app:layout_constraintStart_toStartOf="@+id/spn_city"
+                    app:layout_constraintTop_toBottomOf="@+id/spn_city" />
+
 
             </android.support.constraint.ConstraintLayout>
-        </LinearLayout>
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

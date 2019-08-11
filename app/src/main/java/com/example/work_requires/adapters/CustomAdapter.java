@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.work_requires.R;
-import com.example.work_requires.WorkRequirement;
+import com.example.work_requires.models.WorkRequirement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,12 +91,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         ImageView companyLogo;
         TextView requirePos;
         TextView companyName;
+        TextView salary;
+        TextView endDate;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             companyLogo = itemView.findViewById(R.id.companyLogo);
             requirePos = itemView.findViewById(R.id.title);
             companyName = itemView.findViewById(R.id.compName);
+            salary = itemView.findViewById(R.id.salary);
+            endDate = itemView.findViewById(R.id.endDateTV);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -115,6 +119,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             this.companyName.setText(requirement.getCompanyName());
             this.requirePos.setText(requirement.getJobName());
             this.companyLogo.setImageResource(R.mipmap.ic_launcher);
+            this.salary.setText(String.valueOf(requirement.getSalary()));
+            this.endDate.setText(requirement.getEndDate());
         }
 
         @Override

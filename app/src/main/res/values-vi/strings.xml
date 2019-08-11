@@ -1,12 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Work_requires</string>
-    <string name="birthday">Birthday</string>
-    <string name="fullname">Họ tên</string>
+    <string name="birthday">Ngày sinh</string>
     <string name="City">Thành phố</string>
+    <string name="fullname">Họ tên</string>
     <string name="email">Email</string>
     <string name="phoneNumber">Số điện thoại</string>
     <string name="district">Quận/Huyện</string>
     <string name="logout">Đăng xuất</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
 </resources>

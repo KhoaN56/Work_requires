@@ -9,8 +9,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.work_requires.R;
-import com.example.work_requires.User;
+import com.example.work_requires.models.User;
 import com.example.work_requires.ViewCandidateList;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.annotations.NotNull;
 
 import java.util.List;
 
@@ -38,6 +41,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter3.ViewHolder viewHolder, int position) {
+//        DatabaseReference
         viewHolder.setter(userList.get(position));
     }
 
@@ -53,19 +57,11 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView candidateName;
         TextView experience;
-        ImageButton deleteButton;
 
         public ViewHolder(@NonNull View itemView, final CustomAdapter3.OnItemClickListener listener) {
             super(itemView);
             candidateName = itemView.findViewById(R.id.name);
             experience = itemView.findViewById(R.id.experience);
-            deleteButton = itemView.findViewById(R.id.deleteCandidateBtn);
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.deleteCandidate(getAdapterPosition());
-                }
-            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,8 +76,9 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
             });
         }
 
-        private void setter(User user){
-            this.experience.setText(user.getExperience() == 0?"Chưa có kinh nghiệm":user.getExperience()+" năm kinh nghiệm");
+        private void setter(@NotNull User user){
+            this.experience.setText(user.getCv().getExperience() == 0?"Chưa có kinh nghiệm":
+                    user.getCv().getExperience()+" năm kinh nghiệm");
             this.candidateName.setText(user.getName());
         }
 

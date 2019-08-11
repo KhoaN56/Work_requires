@@ -1,33 +1,55 @@
-package com.example.work_requires;
+package com.example.work_requires.models;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 
 public class WorkRequirement implements Serializable {
 
-    private int id;
+    private String id;
     private String jobName;
+    private String idCompany;
     private String companyName;
     private String major;
-    private String area;
+    private String city;
+    private String district;
     private long salary;
     private String degree;
     private String workPos;
-    private int experience;
+    private long experience;
     private String requirement;
     private String benefit;
     private String description;
     private String endDate;
+    //Number of person who applied for the job
+    private int applied;
+    //Maximum of available position
     private int amount;
-    private int applied;    //Number of people who aplied for the job
 
-    public WorkRequirement(int id, String jobName, String major, String area, long salary, String degree,
-                           String workPos, int experience, int amount, String description, String requirement,
-                           String benefit, String endDate, String companyName, int applied) {
-        this.id = id;
+    private List<String>userID;     //List of users who applied for this job
+
+    public WorkRequirement() {
+    }
+
+    public WorkRequirement(String jobName, String companyName, String major, String endDate, int applied) {
         this.jobName = jobName;
         this.companyName = companyName;
         this.major = major;
-        this.area = area;
+        this.endDate = endDate;
+        this.applied = applied;
+    }
+
+    public WorkRequirement(String jobName, String major, String city, String district, long salary, String degree,
+                           String workPos, int experience, int amount, String description, String requirement,
+                           String benefit, String endDate, String companyName, String compID){//, int salary) {
+        this.jobName = jobName;
+        this.companyName = companyName;
+        this.major = major;
+        this.city = city;
+        this.district = district;
         this.salary = salary;
         this.degree = degree;
         this.workPos = workPos;
@@ -37,7 +59,30 @@ public class WorkRequirement implements Serializable {
         this.benefit = benefit;
         this.description = description;
         this.amount = amount;
-        this.applied = applied;
+        this.idCompany = compID;
+//        this.salary = salary;
+    }
+
+    public void postRequirement(){
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        this.id = database.child("Jobs").child("Detail").push().getKey();
+        database.child("Jobs").child("Detail").child(this.id).setValue(this);
+        HashMap<String, Object>childUpdate = this.toJobItem();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("/Jobs/Job List/"+this.id);
+        reference.updateChildren(childUpdate);
+    }
+
+    public HashMap<String, Object> toJobItem(){
+        HashMap<String, Object>jobItem = new HashMap<>();
+        jobItem.put("id", this.id);
+        jobItem.put("idCompany", this.idCompany);
+        jobItem.put("jobName", this.jobName);
+        jobItem.put("companyName", this.companyName);
+        jobItem.put("major", this.major);
+        jobItem.put("endDate", this.endDate);
+        jobItem.put("salary", this.salary);
+        jobItem.put("applied", this.applied);
+        return jobItem;
     }
 
     public int getApplied() {
@@ -56,12 +101,20 @@ public class WorkRequirement implements Serializable {
         this.amount = amount;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIdCompany() {
+        return idCompany;
+    }
+
+    public void setIdCompany(String idCompany) {
+        this.idCompany = idCompany;
     }
 
     public String getDescription() {
@@ -112,12 +165,20 @@ public class WorkRequirement implements Serializable {
         this.major = major;
     }
 
-    public String getArea() {
-        return area;
+    public String getCity() {
+        return city;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public long getSalary() {
@@ -144,7 +205,7 @@ public class WorkRequirement implements Serializable {
         this.workPos = workPos;
     }
 
-    public int getExperience() {
+    public Long getExperience() {
         return experience;
     }
 

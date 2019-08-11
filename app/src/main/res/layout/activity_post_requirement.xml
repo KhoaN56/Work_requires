@@ -44,10 +44,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Khu vực:"
-                    app:layout_constraintBottom_toBottomOf="@+id/spn_area"
+                    android:text="@string/City"
+                    app:layout_constraintBottom_toBottomOf="@+id/spn_city"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/spn_area" />
+                    app:layout_constraintTop_toTopOf="@+id/spn_city" />
 
                 <Spinner
                     android:id="@+id/spinner4"
@@ -86,7 +86,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/spinner3"
-                    app:layout_constraintTop_toBottomOf="@+id/spn_area" />
+                    app:layout_constraintTop_toBottomOf="@+id/spn_district" />
 
                 <TextView
                     android:id="@+id/NgayKett"
@@ -170,7 +170,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/editText6" />
 
                 <Spinner
-                    android:id="@+id/spn_area"
+                    android:id="@+id/spn_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -183,7 +183,7 @@
                     android:layout_width="0dp"
                     android:layout_height="26dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/spn_area"
+                    app:layout_constraintEnd_toEndOf="@+id/spn_city"
                     app:layout_constraintStart_toStartOf="@+id/spinner4"
                     app:layout_constraintTop_toBottomOf="@+id/editText1" />
 
@@ -308,6 +308,25 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/spinner4"
                     app:layout_constraintTop_toBottomOf="@+id/spinner4" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/district"
+                    app:layout_constraintBottom_toBottomOf="@+id/spn_district"
+                    app:layout_constraintStart_toStartOf="@+id/khuvuc"
+                    app:layout_constraintTop_toTopOf="@+id/spn_district" />
+
+                <Spinner
+                    android:id="@+id/spn_district"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@+id/spn_city"
+                    app:layout_constraintStart_toStartOf="@+id/spn_city"
+                    app:layout_constraintTop_toBottomOf="@+id/spn_city" />
 
 
             </android.support.constraint.ConstraintLayout>

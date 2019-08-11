@@ -1,8 +1,12 @@
-package com.example.work_requires;
+package com.example.work_requires.adapters;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.example.work_requires.fragments.JobsFragment;
+import com.example.work_requires.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,24 +14,24 @@ import java.util.List;
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     // Danh sách tab trong TabLayout
-    List<Fragment>tab;
+    private List<Fragment>tab;
 
     // Người dùng
-    User user; //0 là nhà tuyển dụng --- 1 là người tìm việc
+//    private User user;
 
     // Các fragment sử dụng
     JobsFragment fracment1;
 
-    public PagerAdapter(FragmentManager fm, User user) {
+    public PagerAdapter(FragmentManager fm) {
         super(fm);
 //        fracment1 = new JobsFragment();
 //        Bundle bundle = new Bundle();
-//        bundle.putSerializable("user", user);
+//        bundle.putSerializable("cv", cv);
 //        fracment1.setContext(context);
 //        fracment1.setArguments(bundle);
 //        tab.add(fracment1);
         tab = new ArrayList<>();
-        this.user = user;
+//        this.user = user;
     }
 
     public void addFragment(Fragment frag){
@@ -38,11 +42,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                if(user.getType().equals("2"))
-                    return tab.get(0);
-                else
-                    break;
+                return tab.get(position);
             case 1:
+                return tab.get(position);
+            case 2:
+                return tab.get(position);
+            case 3:
                 return tab.get(position);
         }
         return null;

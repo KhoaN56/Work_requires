@@ -31,19 +31,6 @@
             app:layout_constraintStart_toStartOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
-        <ImageButton
-            android:id="@+id/deleteCandidateBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/transparent"
-            app:layout_constraintBottom_toBottomOf="@+id/experience"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/name"
-            app:srcCompat="@drawable/ic_delete_gray" />
-
         <View
             android:id="@+id/divider3"
             android:layout_width="395dp"

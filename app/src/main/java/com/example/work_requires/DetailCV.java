@@ -1,26 +1,26 @@
 package com.example.work_requires;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+//import com.example.work_requires.models.WorkRequirement;
+import com.example.work_requires.models.CVInterview;
+import com.example.work_requires.models.User;
 
 public class DetailCV extends AppCompatActivity {
 
     //Requirement
-    WorkRequirement requirement;
-    SQLiteManagement managementDatabse;
+//    WorkRequirement requirement;
+//    SQLiteManagement managementDatabse;
 
     //User
     User user;
 
     //Component
-    TextView date_of_birth, country, sex, email, phone, address, jobPos, degree, school, classify, experience, detail_experience;
-    TextView name, major;
+    TextView date_of_birth, sex, email, phone, jobPos, degree, school, classify, experience,
+            detail_experience, name, major, city, district;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,47 +31,39 @@ public class DetailCV extends AppCompatActivity {
     private void initialize() {
         Intent info = getIntent();
         user = (User) info.getSerializableExtra("user");
-        managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-        Cursor cursor = managementDatabse.getDatasql("select * from user where username='"+user.getUsername()+"'");
-        if(cursor.moveToNext())
-        {
-            name = findViewById(R.id.name);
-            name.setText(cursor.getString(3));
-            major = findViewById(R.id.majorTV);
-            major.setText(cursor.getString(16));
-
-            date_of_birth = findViewById(R.id.date_of_birthTV);
-            date_of_birth.setText(cursor.getString(12));
-            country = findViewById(R.id.countryTV);
-            country.setText(cursor.getString(13));
-            sex = findViewById(R.id.sexTV);
-            sex.setText(cursor.getString(14));
-            email = findViewById(R.id.emailTV);
-            email.setText(cursor.getString(4));
-
-            phone = findViewById(R.id.phoneTV);
-            phone.setText(cursor.getString(5));
-            address = findViewById(R.id.addressTV);
-            address.setText(cursor.getString(7));
-            jobPos = findViewById(R.id.jobPosTV);
-            jobPos.setText(cursor.getString(9));
-            degree = findViewById(R.id.degreeTV);
-            degree.setText(cursor.getString(10));
-
-            school = findViewById(R.id.schoolTV);
-            school.setText(cursor.getString(15));
-            classify = findViewById(R.id.classifyTV);
-            classify.setText(cursor.getString(17));
-
-            experience = findViewById(R.id.experienceTV);
-            if(cursor.getDouble(11)==0)
-                experience.setText("Chưa có kinh nghiệm");
-            else
-                experience.setText(cursor.getInt(11)+" năm");
-
-            detail_experience = findViewById(R.id.detail_experienceTV);
-            detail_experience.setText(cursor.getString(18));
-        }
+//        managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
+//        Cursor cursor = managementDatabse.getDatasql("select * from user where str_email='"+user.getUsername()+"'");
+//        if(cursor.moveToNext())
+        CVInterview cv = user.getCv();
+        int exp = cv.getExperience();
+        name = findViewById(R.id.name);
+        name.setText(user.getName());
+        major = findViewById(R.id.majorTV);
+        major.setText(cv.getMajor());
+        date_of_birth = findViewById(R.id.date_of_birthTV);
+        date_of_birth.setText(cv.getBirthDay());
+        city = findViewById(R.id.city);
+        city.setText(user.getCity());
+        sex = findViewById(R.id.sexTV);
+        sex.setText(cv.getSex());
+        email = findViewById(R.id.emailTV);
+        email.setText(user.getEmail());
+        phone = findViewById(R.id.phoneTV);
+        phone.setText(user.getPhone());
+        district = findViewById(R.id.districtTV);
+        district.setText(user.getDistrict());
+        jobPos = findViewById(R.id.jobPosTV);
+        jobPos.setText(cv.getJobPos());
+        degree = findViewById(R.id.degreeTV);
+        degree.setText(cv.getDegree());
+        school = findViewById(R.id.schoolTV);
+        school.setText(cv.getSchool());
+        classify = findViewById(R.id.classifyTV);
+        classify.setText(cv.getClassify());
+        experience = findViewById(R.id.experienceTV);
+        experience.setText(exp == 0?"Chưa có kinh nghiệm":exp+" năm");
+        detail_experience = findViewById(R.id.detail_experienceTV);
+        detail_experience.setText(cv.getDetail_experience());
 
     }
 }

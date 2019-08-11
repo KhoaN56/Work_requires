@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.example.work_requires.MainActivityCompany;
 import com.example.work_requires.R;
-import com.example.work_requires.WorkRequirement;
+import com.example.work_requires.fragments.JobPostedFragment;
+import com.example.work_requires.models.WorkRequirement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
     private List<WorkRequirement> requirementList;
     private List<WorkRequirement> requirementFullList;
     private CustomAdapter2.OnItemClickListener itemClickListener;
-    private MainActivityCompany context;
+    private JobPostedFragment context;
 
     public interface OnItemClickListener{
         void onClick(int position);
@@ -52,7 +53,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         }
     };
 
-    public CustomAdapter2(List<WorkRequirement> requirementList, MainActivityCompany context) {
+    public CustomAdapter2(List<WorkRequirement> requirementList, JobPostedFragment context) {
         this.requirementList = requirementList;
         requirementFullList = new ArrayList<>(requirementList);
         this.context = context;
@@ -128,7 +129,8 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
             });
         }
         private void setter(WorkRequirement requirement){
-            this.numberOfApplied.setText("Số người nộp hồ sơ: "+requirement.getApplied());
+            String applied = "Số người nộp hồ sơ: "+requirement.getApplied();
+            this.numberOfApplied.setText(applied);
             this.jobName.setText(requirement.getJobName());
         }
         @Override

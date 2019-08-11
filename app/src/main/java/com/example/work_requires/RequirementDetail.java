@@ -1,13 +1,29 @@
 package com.example.work_requires;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.work_requires.models.WorkRequirement;
+import com.example.work_requires.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RequirementDetail extends AppCompatActivity {
 
@@ -26,35 +42,69 @@ public class RequirementDetail extends AppCompatActivity {
     User user;
 
     //Component
-    TextView majorTV, areaTV, salaryTV, degreeTV, workPosTV, expTV, descriptionTV, requireTV, benefitTV,
-    endDateTV, jobName, compName;
+    TextView majorTV, cityTV, salaryTV, degreeTV, workPosTV, expTV, descriptionTV, requireTV, benefitTV,
+    endDateTV, jobName, compName, districtTV;
     Button subscribe, saveBtn;
 
     //Database
-    SQLiteManagement database;
+//    SQLiteManagement database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requirement_detail);
-        initialize();
+        Intent info = getIntent();
+        requirement = (WorkRequirement) info.getSerializableExtra("requirement");
+        DatabaseReference getJob = FirebaseDatabase.getInstance().getReference("/Jobs/Detail/"+requirement.getId());
+        getJob.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                requirement = dataSnapshot.getValue(WorkRequirement.class);
+                user.loadSavedIdList();
+//                user.loadAppliedId();
+                initialize();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        user = (User) info.getSerializableExtra("user");
+
     }
 
     private void initialize() {
-        Intent info = getIntent();
-        requirement = (WorkRequirement) info.getSerializableExtra("requirement");
-        user = (User) info.getSerializableExtra("user");
-        database = new SQLiteManagement(RequirementDetail.this, "Work_Requirement.sqlite", null, 1);
-        Cursor cursor = database.getDatasql("SELECT * FROM DETAIL WHERE USERNAME = " +
-                "'"+user.getUsername()+"' AND Id_Recruitment = '"+requirement.getId()+"'");
-        if(cursor.getCount() > 0)
+        saveBtn = findViewById(R.id.saveBtn);
+        subscribe = findViewById(R.id.subscribe);
+//        final DatabaseReference readRef = FirebaseDatabase.getInstance().getReference("/Users/Saved/"+user.getUserId());
+//        readRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot p: dataSnapshot.getChildren()){
+//                    if(user.isSaved(p.getValue(String.class))){
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+        if(user.isApplied(requirement.getId())){
             registerState = REGISTERED;
+            subscribe.setTextColor(Color.parseColor("#8B8B8B"));
+            subscribe.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
         else
             registerState = UNREGISTERED;
-        cursor = database.getDatasql("SELECT * FROM JOB_SAVED WHERE USERNAME = " +
-                "'"+user.getUsername()+"' AND Id_Recruitment = '"+requirement.getId()+"'");
-        if(cursor.getCount() > 0)
+
+        if(user.isSaved(requirement.getId())){
             saveState = SAVED;
+            saveBtn.setTextColor(Color.parseColor("#8B8B8B"));
+        }
         else
             saveState = UNSAVED;
         jobName = findViewById(R.id.jobName);
@@ -63,8 +113,10 @@ public class RequirementDetail extends AppCompatActivity {
         compName.setText(requirement.getCompanyName());
         majorTV = findViewById(R.id.majorTV);
         majorTV.setText(requirement.getMajor());
-        areaTV = findViewById(R.id.areaTV);
-        areaTV.setText(requirement.getArea());
+        cityTV = findViewById(R.id.cityTV);
+        cityTV.setText(requirement.getCity());
+        districtTV=findViewById(R.id.districtTV);
+        districtTV.setText(requirement.getDistrict());
         salaryTV = findViewById(R.id.salaryTV);
         salaryTV.setText(String.valueOf(requirement.getSalary()));
         degreeTV = findViewById(R.id.degreeTV);
@@ -81,9 +133,7 @@ public class RequirementDetail extends AppCompatActivity {
         benefitTV.setText(requirement.getBenefit());
         endDateTV = findViewById(R.id.endDateTV);
         endDateTV.setText(requirement.getEndDate());
-        saveBtn = findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(saveJob);
-        subscribe = findViewById(R.id.subscribe);
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,16 +141,40 @@ public class RequirementDetail extends AppCompatActivity {
                     Toast.makeText(RequirementDetail.this, "Bạn đã đăng ký công việc này rồi!!",
                             Toast.LENGTH_SHORT).show();
                 else {
-                    database.insert(requirement.getId(), user.getUsername());
-                    Toast.makeText(RequirementDetail.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                    //Thêm người đăng ký xin việc
+                    user.addAppliedId(requirement.getId());
                     requirement.setApplied(requirement.getApplied() + 1);
-                    database.update(requirement.getApplied(), requirement);
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put("/Users/Applied/"+user.getUserId()+"/"+requirement.getId()+"/jobId", requirement.getId());
+                    childUpdates.put("/Jobs/Job List/"+requirement.getId()+"/applied", requirement.getApplied());
+                    childUpdates.put("/Jobs/Detail/"+requirement.getId()+"/applied", requirement.getApplied());
+                    childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/userId", user.getUserId());
+                    childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/isRead", false);
+                    childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/readDate", "false");
+                    DatabaseReference write = FirebaseDatabase.getInstance().getReference();
+                    write.updateChildren(childUpdates)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(RequirementDetail.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(RequirementDetail.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+//                    write.child("Users").child("Applied").child(user.getUserId())
+//                            .child(String.valueOf(user.getNumberOfAppliedId())).setValue(requirement.getId());
+//                    Toast.makeText(RequirementDetail.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    //Thêm người đăng ký xin việc
                     registerState = REGISTERED;
+                    subscribe.setTextColor(Color.parseColor("#8B8B8B"));
+                    subscribe.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 }
             }
         });
-        cursor.close();
+//        cursor.close();
     }
 
     private View.OnClickListener saveJob = new View.OnClickListener() {
@@ -110,11 +184,16 @@ public class RequirementDetail extends AppCompatActivity {
                 Toast.makeText(RequirementDetail.this, "Bạn đã lưu công việc này rồi!!",
                         Toast.LENGTH_SHORT).show();
             else {
-                database.insertSaved (requirement.getId(), user.getUsername());
+                user.addSavedId(requirement.getId());
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/Users/Saved/"+user.getUserId()+"/"+requirement.getId()+"/jobId", requirement.getId());
+                DatabaseReference write = FirebaseDatabase.getInstance().getReference();
+                write.updateChildren(childUpdates);
                 Toast.makeText(RequirementDetail.this, "Đã lưu vào danh sách", Toast.LENGTH_SHORT).show();
                 //Thêm công việc vào danh sách đã lưu
-                database.update(requirement.getApplied(), requirement);
-                registerState = SAVED;
+                saveState = SAVED;
+//                saveBtn.setBackgroundColor(Color.parseColor("#8B8B8B"));
+                saveBtn.setTextColor(Color.parseColor("#8B8B8B"));
             }
         }
     };
@@ -122,7 +201,7 @@ public class RequirementDetail extends AppCompatActivity {
 //    @Override
 //    public void onBackPressed() {
 //        Intent backToMain = new Intent(this, MainActivity.class);
-//        backToMain.putExtra("user", user);
+//        backToMain.putExtra("cv", cv);
 //        startActivity(backToMain);
 //        finish();
 //    }

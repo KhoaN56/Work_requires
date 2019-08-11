@@ -26,20 +26,17 @@
                 android:layout_marginBottom="8dp"
                 android:text="Vị trí cần ứng tuyển"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_jobPos"
+                app:layout_constraintBottom_toBottomOf="@+id/spn_jobPos"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt_jobPos" />
+                app:layout_constraintTop_toTopOf="@+id/spn_jobPos"
+                app:layout_constraintVertical_bias="0.0" />
 
-            <EditText
-                android:id="@+id/txt_jobPos"
+            <Spinner
+                android:id="@+id/spn_jobPos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:hint="Thực tập / thời vụ / ..."
-                android:inputType="textPersonName"
-                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txt_experience"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -81,6 +78,7 @@
 
             <EditText
                 android:id="@+id/txt_date_of_birth"
+                style="@android:style/Widget.Holo.DatePicker"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -92,28 +90,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txt_school"
                 app:layout_constraintTop_toBottomOf="@+id/txt_experience" />
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Quốc tịch"
-                app:layout_constraintBottom_toBottomOf="@+id/spn_country"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/spn_country" />
-
-            <Spinner
-                android:id="@+id/spn_country"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txt_date_of_birth"
-                app:layout_constraintTop_toBottomOf="@+id/txt_date_of_birth" />
 
 
             <TextView
@@ -194,7 +170,7 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txt_date_of_birth"
-                app:layout_constraintTop_toBottomOf="@+id/spn_country" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_date_of_birth" />
 
             <EditText
                 android:id="@+id/txt_school"
@@ -259,7 +235,7 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txt_date_of_birth"
-                app:layout_constraintTop_toBottomOf="@+id/txt_jobPos" />
+                app:layout_constraintTop_toBottomOf="@+id/spn_jobPos" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
