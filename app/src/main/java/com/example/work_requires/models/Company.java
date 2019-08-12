@@ -112,8 +112,8 @@ public class Company implements Serializable{
         return this.jobPosted.contains(jobId);
     }
 
-    public boolean removePostedJob(String jobId){
-        return this.jobPosted.remove(jobId);
+    public void removePostedJob(String jobId){
+        this.jobPosted.remove(jobId);
     }
 
     public void addJob(String jobID){

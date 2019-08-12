@@ -75,7 +75,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public void updateList(){
         notifyDataSetChanged();
-        requirementFullList = requirementList;
+        requirementFullList.clear();
+        requirementFullList.addAll(requirementList);
+        //Nếu viết như bên dưới sẽ chép luôn cả địa chỉ của requirementList
+//        requirementFullList = requirementList;
     }
 
     @Override
@@ -120,7 +123,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             this.requirePos.setText(requirement.getJobName());
             this.companyLogo.setImageResource(R.mipmap.ic_launcher);
             this.salary.setText(String.valueOf(requirement.getSalary()));
-            this.endDate.setText(requirement.getEndDate());
+            this.endDate.setText("Hạn ứng tuyển: "+requirement.getEndDate());
         }
 
         @Override

@@ -4,8 +4,9 @@
     <string name="birthday">Ngày sinh</string>
     <string name="City">Thành phố</string>
     <string name="fullname">Họ tên</string>
-    <string name="email">Email</string>
     <string name="phoneNumber">Số điện thoại</string>
     <string name="district">Quận/Huyện</string>
     <string name="logout">Đăng xuất</string>
+    <string name="noti_seen_profile">đã xem qua hồ sơ của bạn. Hãy cùng xem lại công việc bạn đã đăng ký nhé!</string>
+    <string name="noti_applied_job">vừa ứng tuyển vào công việc của bạn! Hãy xem qua hồ sơ của bạn ấy để không phải bỏ lỡ những ứng viên sáng giá nào!</string>
 </resources>

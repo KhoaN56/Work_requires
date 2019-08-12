@@ -77,13 +77,19 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                frag1.getAdapter().getFilter().filter(s);
-                frag2.getAdapter().getFilter().filter(s);
+                switch (tabLayout.getSelectedTabPosition()){
+                    case 0:
+                        frag1.getAdapter().getFilter().filter(s);
+                        break;
+                    case 1:
+                        frag2.getAdapter().getFilter().filter(s);
+                        break;
+                }
                 return false;
             }
         });
@@ -95,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     private void initialize() {
         Intent intent = getIntent();
         user = (User)intent.getSerializableExtra("user");
+        user.loadAppliedId();
+        user.loadSavedIdList();
         mainViewPager = findViewById(id.mainPager);
         tabLayout = findViewById(id.tabMenu);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
@@ -108,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putSerializable("user", user);
         frag1.setArguments(bundle);
         frag2.setArguments(bundle);
+        frag3.setArguments(bundle);
         pagerAdapter.addFragment(frag1);
         pagerAdapter.addFragment(frag2);
         pagerAdapter.addFragment(frag3);
@@ -139,11 +148,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        getApplication().onTerminate();
-        super.onBackPressed();
     }
 }

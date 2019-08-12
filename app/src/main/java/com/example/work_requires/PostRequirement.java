@@ -78,35 +78,20 @@ public class PostRequirement extends AppCompatActivity {
         benefit = findViewById(R.id.benefit);
         jobName = findViewById(R.id.txt_title);
         amount = findViewById(R.id.amount);
-//        workRequireDatabase = new SQLiteManagement(PostRequirement.this, "Work_Requirement.sqlite", null, 1);
-//        workRequireDatabase.queryData("CREATE TABLE IF NOT EXISTS Recruitment(Id_Recruitment INTEGER " +
-//                "PRIMARY KEY AUTOINCREMENT, Username CHAR(20), JobName CHAR(100), Major NCHAR(50), Area NCHAR(20)," +
-//                "Salary INTEGER, Degree CHAR(15), Position NCHAR(20), Experience INTEGER, Amount INTEGER," +
-//                "Description VARCHAR, Requirement NVARCHAR, Benefit NVARCHAR, End_Date CHAR(10))");
-//        Cursor cursor = workRequireDatabase.getDatasql("SELECT Id_Recruitment FROM Recruitment");
-//        final int id = cursor.getCount() + 1;
+
         user = (Company) getIntent().getSerializableExtra("user");
 
-//        database.child("Areas");
+
         cityList = getLists("/Areas/Cities", city);
-//        listCity.add("Hồ Chí Minh");
-//        listCity.add("Hà Nội");
+
         degreeList = getLists("/Degree",degree);
-//        listDegree.add("Trung cấp");
-//        listDegree.add("Đại học");
+
 
         majorList = getLists("/Major", major);
-//        listMajor.add("Thực phẩm");
-//        listMajor.add("Xây dựng");
-//        listMajor.add("Công nghệ thông tin");
-//        listMajor.add("Bán hàng");
+
 
         workPosList = getLists("/Position", workPos);
-//        listWorkPos.add("Thực tập và dự án");
-//        listWorkPos.add("Nhân viên chính thức");
-//        listWorkPos.add("Nhân viên thời vụ");
-//        listWorkPos.add("Làm thêm ngoài giờ");
-//        listWorkPos.add("Bán thời gian");
+
 
         final List<String> cityKeyList = getKeyLists();
 
@@ -114,8 +99,6 @@ public class PostRequirement extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cityTxt = cityList.get(position);
-//                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-//                database.child("Areas").child("District");
                 String path = "/Areas/District/" + cityKeyList.get(position);
                 districtList = getLists(path, spn_district);
 
@@ -207,12 +190,11 @@ public class PostRequirement extends AppCompatActivity {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                         .getReference("/Company/"+user.getUserId()+"/jobPosted");
                 databaseReference.setValue(user.getJobPosted());
-//                workRequireDatabase.insert(requirement, user);
+
                 Toast.makeText(PostRequirement.this, "Đăng tin thành công!!", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
-//        cursor.close();
     }
 
     private boolean checkDate(String inputDate) {
@@ -224,18 +206,6 @@ public class PostRequirement extends AppCompatActivity {
         }
         return false;
     }
-
-//    private void resetView() {
-//        salary.setText("");
-//        experience.setText("");
-//        endDate.setText("");
-//        requirement.setText("");
-//        description.setText("");
-//        benefit.setText("");
-//        jobName.setText("");
-//        amount.setText("");
-//        jobName.requestFocus();
-//    }
 
     private boolean checkNull() {
         jobNameTxt = jobName.getText().toString().trim();

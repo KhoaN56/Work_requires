@@ -1,13 +1,27 @@
 package com.example.work_requires;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 //import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.models.CVInterview;
+import com.example.work_requires.models.Company;
+import com.example.work_requires.models.Noti;
 import com.example.work_requires.models.User;
+import com.example.work_requires.models.WorkRequirement;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DetailCV extends AppCompatActivity {
 
@@ -25,12 +39,41 @@ public class DetailCV extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_cv);
-        initialize();
+        Intent info = getIntent();
+        user = (User) info.getSerializableExtra("user");
+        DatabaseReference getDetail = FirebaseDatabase.getInstance()
+                .getReference("/Users/Detail/"+user.getUserId());
+        getDetail.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+                initialize();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        Intent intent = getIntent();
+        Company company = (Company) intent.getSerializableExtra("company");
+        String jobId = intent.getStringExtra("requirement");
+        if(!intent.getBooleanExtra("getState", false)){
+            Date m = new Date(System.currentTimeMillis());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+            Noti notification = new Noti(jobId, company.getName(), 1, dateFormat.format(m), false);
+            notification.send("/Users/Notifications/"+user.getUserId());
+        }
+        super.onStart();
     }
 
     private void initialize() {
-        Intent info = getIntent();
-        user = (User) info.getSerializableExtra("user");
+//        Intent info = getIntent();
+//        user = (User) info.getSerializableExtra("user");
 //        managementDatabse= new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
 //        Cursor cursor = managementDatabse.getDatasql("select * from user where str_email='"+user.getUsername()+"'");
 //        if(cursor.moveToNext())

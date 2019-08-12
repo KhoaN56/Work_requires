@@ -83,9 +83,9 @@ public class User implements Serializable {
         return userId;
     }
 
-//    public void setUserId(String userId) {
-//        this.userId = userId;
-//    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;
@@ -135,23 +135,24 @@ public class User implements Serializable {
         this.cv = cv;
     }
 
-//    public int getNumberOfSavedId() {
-//        return savedId.size();
-//    }
+    public int getNumberOfSavedId() {
+        return savedId.size();
+    }
 
     public void addSavedId(@NotNull String jobId) {
         this.savedId.add(jobId);
     }
 
     public void loadSavedIdList(){
-        DatabaseReference database = FirebaseDatabase.getInstance()
+        final DatabaseReference database = FirebaseDatabase.getInstance()
                 .getReference("/Users/Saved/"+this.userId);
         database.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 try {
-                    savedId.add(dataSnapshot.getKey());
-                    loadAppliedId();
+                    String id = dataSnapshot.getKey();
+                    savedId.add(id);
+//                    loadAppliedId();
                 }catch (Exception ex){
                     Log.d("Test query", ex.toString());
                 }
@@ -177,6 +178,9 @@ public class User implements Serializable {
 
             }
         });
+//        do {
+//            Log.d("Notification", "undone");
+//        }while (getNumberOfSavedId()==0);
     }
 
     public void removeSavedId(String jobId){
@@ -209,7 +213,8 @@ public class User implements Serializable {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 try {
-                    appliedId.add(dataSnapshot.getKey());
+                    String id = dataSnapshot.getKey();
+                    appliedId.add(id);
                 }catch (Exception ex){
                     Log.d("Applied ID", dataSnapshot.getKey());
                 }
@@ -235,5 +240,8 @@ public class User implements Serializable {
 
             }
         });
+//        do {
+//            Log.d("Notification", "undone");
+//        }while (getNumberOfAppliedId()==0);
     }
 }

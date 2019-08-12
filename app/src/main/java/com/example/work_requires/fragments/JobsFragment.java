@@ -90,23 +90,6 @@ public class JobsFragment extends Fragment {
         requirementList = new ArrayList<>();
 
         setUpRecyclerView();
-//        workRequireDatabase = new SQLiteManagement(getContext(), "Work_Requirement.sqlite", null, 1);
-//        Cursor cursor = workRequireDatabase.getDatasql("SELECT A.*, B.Name FROM Recruitment AS A, USER AS B " +
-//                "WHERE A.MAJOR = '"+user.getMajor()+"' AND B.USERNAME = A.USERNAME");
-//        while(cursor.moveToNext()){
-//            //Dòng if dùng để kiểm tra hạn tuyển dụng còn hay hết.
-//            if(isStillValid(today, cursor.getString(13))){
-//                requirementList.add(new WorkRequirement(cursor.getInt(0),
-//                        cursor.getString(2),cursor.getString(3),
-//                        cursor.getString(4), cursor.getLong(5),
-//                        cursor.getString(6), cursor.getString(7),
-//                        cursor.getInt(8), cursor.getInt(9),
-//                        cursor.getString(10), cursor.getString( 11),
-//                        cursor.getString(12), cursor.getString(13),
-//                        cursor.getString(15), cursor.getInt(14)
-//                ));
-//            }
-//        }
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("/Jobs/Job List");
             dbRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -115,7 +98,7 @@ public class JobsFragment extends Fragment {
                 assert dummy != null;
                 if(dummy.getMajor().equals(major) && isStillValid(today, dummy.getEndDate())){
                     requirementList.add(dummy);
-                    adapter.notifyDataSetChanged();
+                    adapter.updateList();
                 }
             }
 
@@ -124,14 +107,14 @@ public class JobsFragment extends Fragment {
                 WorkRequirement dummy;
                 dummy = dataSnapshot.getValue(WorkRequirement.class);
                 assert dummy != null;
-                if(dummy.getMajor().equals(major) && isStillValid(today, dummy.getEndDate())){
+                if(dummy.getMajor().equals(major) && isStillValid(today, dummy.getEndDate()))
                     for (WorkRequirement p: requirementList){
                         if(p.getId().equals(dataSnapshot.getKey())){
                             requirementList.set(requirementList.indexOf(p),dummy);
-                            adapter.notifyDataSetChanged();
+                            adapter.updateList();
+                            return;
                         }
                     }
-                }
             }
 
             @Override
@@ -140,11 +123,7 @@ public class JobsFragment extends Fragment {
                 dummy = dataSnapshot.getValue(WorkRequirement.class);
                 assert dummy != null;
                 requirementList.remove(dummy);
-//                for (WorkRequirement p: requirementList)
-//                    if(p.getId().equals(dataSnapshot.getKey())){
-//                        requirementList.remove(p);
-//                        adapter.notifyDataSetChanged();
-//                    }
+                adapter.updateList();
             }
 
             @Override

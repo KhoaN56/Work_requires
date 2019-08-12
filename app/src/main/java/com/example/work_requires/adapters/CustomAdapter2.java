@@ -79,7 +79,8 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
 
     public void updateList(){
         notifyDataSetChanged();
-        requirementFullList = requirementList;
+        requirementFullList.clear();
+        requirementFullList.addAll(requirementList);
     }
 
     @Override

@@ -4,8 +4,9 @@
     <string name="birthday" translatable="false">Birthday</string>
     <string name="City">City</string>
     <string name="fullname">Full name</string>
-    <string name="email">Email</string>
     <string name="district">District</string>
     <string name="logout">Log out</string>
     <string name="phoneNumber">Phone number</string>
+    <string name="noti_seen_profile">have seen your profile. Let\'s take a look back to the job which you have just applied</string>
+    <string name="noti_applied_job">have just applied to your job. Let\'s see their profile so that we\'ll not missed any of them</string>
 </resources>

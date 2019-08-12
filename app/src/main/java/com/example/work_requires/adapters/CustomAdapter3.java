@@ -41,7 +41,6 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter3.ViewHolder viewHolder, int position) {
-//        DatabaseReference
         viewHolder.setter(userList.get(position));
     }
 

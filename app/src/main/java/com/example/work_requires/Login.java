@@ -129,6 +129,7 @@ public class Login extends AppCompatActivity {
                                 Intent intent = new Intent(Login.this, MainActivity.class);
                                 intent.putExtra("user", user);
                                 startActivity(intent);
+                                finish();
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -145,6 +146,7 @@ public class Login extends AppCompatActivity {
                         Intent intent = new Intent(Login.this, MainActivityCompany.class);
                         intent.putExtra("user", company);
                         startActivity(intent);
+                        finish();
                     }
 
                     @Override
@@ -159,35 +161,6 @@ public class Login extends AppCompatActivity {
 
             }
         });
-//        if(userId.equals(database.child("Users").child("User List").child(userId).getKey())){
-//            database.child("Users").child("Detail").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    user = dataSnapshot.getValue(User.class);
-//                    Intent intent = new Intent(Login.this, MainActivity.class);
-//                    intent.putExtra("user", user);
-//                    startActivity(intent);
-//                }
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                }
-//            });
-//        }else {
-//            database.child("Companies").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    company = dataSnapshot.getValue(Company.class);
-//                    Intent intent = new Intent(Login.this, MainActivityCompany.class);
-//                    intent.putExtra("user", company);
-//                    startActivity(intent);
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-//        }
     }
 
     public void checkLogin()
@@ -211,16 +184,6 @@ public class Login extends AppCompatActivity {
                             //Run getUser(FirebaseUser) will get user's info and save directly into
                             //user global variable.
                                 getUser(firebaseUser);
-                            //updateUI(user);
-                            //Move to main screen of user
-//                            if(user != null){
-//                                Intent intent = new Intent(Login.this, MainActivity.class);
-//                                intent.putExtra("user", user);
-//                                startActivity(intent);
-//                            }else {
-//                                Intent intent = new Intent(Login.this, MainActivityCompany.class);
-//                                intent.putExtra("company", company);
-//                                startActivity(intent);
 //                            }
                         } else {
                             // If sign in fails, display a message to the user.
@@ -233,43 +196,5 @@ public class Login extends AppCompatActivity {
                         // ...
                     }
                 });
-
-//        String type;
-//        Cursor cursor = managementDatabse.getDatasql("select * from cv where str_email='"+ str_email +"'");
-//        if(cursor.moveToNext())
-//        {
-//            pass_true= cursor.getString(2);
-//            type = cursor.getString(1);
-//            if(pass.equals(pass_true))
-//            {
-//                Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-////                cv= new User(cursor.getString(0),cursor.getString(2), cursor.getString(1),
-////                        cursor.getString(3),cursor.getString(4), cursor.getString(5),cursor.getString(6),
-////                        cursor.getString(7),cursor.getString(8),cursor.getString(16));
-//                if(type.equals("1"))
-//                {
-//                    //chuyển màn hình chính của nhà tuyển dụng
-//                    Intent intent = new Intent(Login.this, MainActivityCompany.class);
-//                    intent.putExtra("user", user);
-//                    startActivity(intent);
-//                }
-//                else
-//                {
-//                    //chuyển màn hình chính của người tìm việc
-//                    Intent intent = new Intent(Login.this, MainActivity.class);
-//                    intent.putExtra("user", user);
-//                    startActivity(intent);
-//                }
-//            }
-//            else
-//            {
-//                Toast.makeText(this, "Mật khẩu không chính xác. Xin kiểm tra lại", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//        else
-//        {
-//            Toast.makeText(this, "Thông tin đăng nhập không tồn tại. Xin kiểm tra lại", Toast.LENGTH_SHORT).show();
-//        }
-//        cursor.close();
     }
 }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.work_requires.models.Noti;
 import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,14 +58,14 @@ public class RequirementDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requirement_detail);
         Intent info = getIntent();
+        user = (User) info.getSerializableExtra("user");
         requirement = (WorkRequirement) info.getSerializableExtra("requirement");
+//        user.loadAppliedId();
         DatabaseReference getJob = FirebaseDatabase.getInstance().getReference("/Jobs/Detail/"+requirement.getId());
         getJob.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 requirement = dataSnapshot.getValue(WorkRequirement.class);
-                user.loadSavedIdList();
-//                user.loadAppliedId();
                 initialize();
             }
 
@@ -70,7 +74,6 @@ public class RequirementDetail extends AppCompatActivity {
 
             }
         });
-        user = (User) info.getSerializableExtra("user");
 
     }
 
@@ -148,8 +151,6 @@ public class RequirementDetail extends AppCompatActivity {
                     childUpdates.put("/Jobs/Job List/"+requirement.getId()+"/applied", requirement.getApplied());
                     childUpdates.put("/Jobs/Detail/"+requirement.getId()+"/applied", requirement.getApplied());
                     childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/userId", user.getUserId());
-                    childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/isRead", false);
-                    childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/readDate", "false");
                     DatabaseReference write = FirebaseDatabase.getInstance().getReference();
                     write.updateChildren(childUpdates)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -164,10 +165,10 @@ public class RequirementDetail extends AppCompatActivity {
                                     Toast.makeText(RequirementDetail.this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
                                 }
                             });
-//                    write.child("Users").child("Applied").child(user.getUserId())
-//                            .child(String.valueOf(user.getNumberOfAppliedId())).setValue(requirement.getId());
-//                    Toast.makeText(RequirementDetail.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                    //Thêm người đăng ký xin việc
+                    Date m = new Date(System.currentTimeMillis());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+                    Noti noti = new Noti(user.getUserId(), user.getName(), 2, dateFormat.format(m),false, requirement.getId());
+                    noti.send("/Company/Notifications/"+requirement.getIdCompany());
                     registerState = REGISTERED;
                     subscribe.setTextColor(Color.parseColor("#8B8B8B"));
                     subscribe.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -197,12 +198,4 @@ public class RequirementDetail extends AppCompatActivity {
             }
         }
     };
-
-//    @Override
-//    public void onBackPressed() {
-//        Intent backToMain = new Intent(this, MainActivity.class);
-//        backToMain.putExtra("cv", cv);
-//        startActivity(backToMain);
-//        finish();
-//    }
 }

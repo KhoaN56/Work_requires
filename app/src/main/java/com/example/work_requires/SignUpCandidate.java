@@ -29,7 +29,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-//import java.util.Collections;
 import java.util.List;
 
 public class SignUpCandidate extends AppCompatActivity {
@@ -50,7 +49,6 @@ public class SignUpCandidate extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_can);
-
         initialize();
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,18 +70,12 @@ public class SignUpCandidate extends AppCompatActivity {
         final List<String> cityKeyList = getKeyLists();
         cityList = getLists("/Areas/Cities", spn_city);
         listDistrict = new ArrayList<>();
-        adapterDistrict = new ArrayAdapter<>(SignUpCandidate.this,
-                R.layout.support_simple_spinner_dropdown_item, listDistrict);
-//        ArrayAdapter<String> adapterCity= new ArrayAdapter<>(SignUpCandidate.this, R.layout.support_simple_spinner_dropdown_item, cityList);
-//        adapterCity.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-//        spn_city.setAdapter(adapterCity);
         spn_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city = cityList.get(position);
                 listDistrict.clear();
                 listDistrict = getLists("/Areas/District/" + cityKeyList.get(position), spn_district);
-//                adapterDistrict.notifyDataSetChanged();
             }
 
             @Override
@@ -92,11 +84,6 @@ public class SignUpCandidate extends AppCompatActivity {
             }
         });
 
-
-//        adapterDistrict = new ArrayAdapter<>(SignUpCandidate.this,
-//                R.layout.support_simple_spinner_dropdown_item, listDistrict);
-//        adapterDistrict.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-//        spn_district.setAdapter(adapterDistrict);
         spn_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -108,15 +95,6 @@ public class SignUpCandidate extends AppCompatActivity {
                 district = "";
             }
         });
-//        spn_district.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(city.equals("")){
-//                    Toast.makeText(SignUpCandidate.this, "Bạn chưa chọn thành phố",
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
     }
 
@@ -138,32 +116,6 @@ public class SignUpCandidate extends AppCompatActivity {
 
             }
         });
-//        database.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                    list.add(dataSnapshot.getValue(String.class));
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
         return list;
     }
 
@@ -219,6 +171,8 @@ public class SignUpCandidate extends AppCompatActivity {
                                 Intent intent2 = new Intent(SignUpCandidate.this, OnlineCV.class);
                                 intent2.putExtra("user", user);
                                 startActivity(intent2);
+                                //prevent move back...
+                                finish();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("FIREBASE_TAG", "createUserWithEmail:failure", task.getException());

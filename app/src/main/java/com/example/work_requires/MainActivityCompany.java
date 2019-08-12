@@ -26,6 +26,7 @@ import com.example.work_requires.adapters.PagerAdapter;
 import com.example.work_requires.fragments.JobPostedFragment;
 //import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.fragments.MenuFragment;
+import com.example.work_requires.fragments.Notification;
 import com.example.work_requires.models.Company;
 //import com.google.firebase.database.ChildEventListener;
 //import com.google.firebase.database.DataSnapshot;
@@ -45,6 +46,8 @@ public class MainActivityCompany extends AppCompatActivity implements Serializab
 
     //Fragments
     JobPostedFragment frag1;
+    Notification frag2;
+    Notification frag3;
     MenuFragment frag4;
 
     //Pager
@@ -84,7 +87,17 @@ public class MainActivityCompany extends AppCompatActivity implements Serializab
 
             @Override
             public boolean onQueryTextChange(String s) {
-                frag1.getAdapter().getFilter().filter(s);
+                switch (tabLayout.getSelectedTabPosition()){
+                    case 0:
+                        frag1.getAdapter().getFilter().filter(s);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
                 return false;
             }
         });
@@ -96,15 +109,21 @@ public class MainActivityCompany extends AppCompatActivity implements Serializab
         mainViewPager = findViewById(R.id.mainPager);
         tabLayout = findViewById(R.id.tabMenu);
         frag1 = new JobPostedFragment();
+        frag2 = new Notification();
+        frag3 = new Notification();
         Bundle bundle1 = new Bundle();
         bundle1.putSerializable("user", user);
         frag1.setArguments(bundle1);
         frag4 = new MenuFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("user", user);
+        bundle.putSerializable("company user", user);
         frag1.setArguments(bundle);
+        frag2.setArguments(bundle);
+        frag3.setArguments(bundle);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(frag1);
+        pagerAdapter.addFragment(frag2);
+        pagerAdapter.addFragment(frag3);
         pagerAdapter.addFragment(frag4);
         mainViewPager.setAdapter(pagerAdapter);
         mainViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -132,13 +151,6 @@ public class MainActivityCompany extends AppCompatActivity implements Serializab
             }
         });
     }
-
-
-
-
-
-
-
 //    @Override
 //    public void onPointerCaptureChanged(boolean hasCapture) {
 //

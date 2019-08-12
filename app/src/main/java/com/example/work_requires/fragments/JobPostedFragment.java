@@ -52,26 +52,25 @@ public class JobPostedFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_main_comp, container, false);
         this.view = view;
         recyclerView = view.findViewById(R.id.postedRecyclerView);
-        btn_insertReq = view.findViewById(R.id.btn_insertReq);
+        initialize();
         return view;
     }
 
     @Override
     public void onResume() {
-        initialize();
         super.onResume();
     }
 
     private void initialize() {
         Bundle bundle = getArguments();
         assert bundle != null;
-        user = (Company)bundle.getSerializable("user");
+        user = (Company)bundle.getSerializable("company user");
         jobList = new ArrayList<>();
-        setUpRecyclerView();
+//        setUpRecyclerView();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("/Jobs/Job List");
 //        database.addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -81,9 +80,9 @@ public class JobPostedFragment extends Fragment {
 //                    assert dummy != null;
 //                    if(user.isPosted(dummy.getId())){
 //                        jobList.add(dummy);
-//                        adapter.updateList();
 //                    }
 //                }
+//                setUpRecyclerView();
 //            }
 //
 //            @Override
@@ -91,16 +90,17 @@ public class JobPostedFragment extends Fragment {
 //
 //            }
 //        });
+        setUpRecyclerView();
         database.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 WorkRequirement dummy;
                 dummy = dataSnapshot.getValue(WorkRequirement.class);
                 assert dummy != null;
-                if(user.isPosted(dummy.getId())){
+//                if(!user.isPosted(dummy.getId())){
                     jobList.add(dummy);
                     adapter.updateList();
-                }
+//                }
             }
 
             @Override
@@ -161,7 +161,7 @@ public class JobPostedFragment extends Fragment {
                 startActivity(toViewCandidateList);
             }
         });
-        adapter.notifyDataSetChanged();
+        adapter.updateList();
     }
 
     public void deleteRequirement(final int position) {
@@ -171,7 +171,6 @@ public class JobPostedFragment extends Fragment {
         builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                database.delete(workRequirementList.get(position));
                 WorkRequirement jobToRemove = jobList.get(position);
                 jobList.remove(position);
                 user.removePostedJob(jobToRemove.getId());

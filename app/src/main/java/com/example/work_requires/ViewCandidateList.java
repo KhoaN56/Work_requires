@@ -142,21 +142,12 @@ public class ViewCandidateList extends AppCompatActivity {
         adapter.setOnItemClickListener(new CustomAdapter3.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                DatabaseReference getDetail = FirebaseDatabase.getInstance()
-                        .getReference("/Users/Detail/"+userList.get(position).getUserId());
-                getDetail.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Intent toCandidateDetail = new Intent(ViewCandidateList.this, DetailCV.class);
-                        toCandidateDetail.putExtra("user", dataSnapshot.getValue(User.class));
-                        startActivity(toCandidateDetail);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                Intent toCandidateDetail = new Intent(ViewCandidateList.this, DetailCV.class);
+                toCandidateDetail.putExtra("user", userList.get(position));
+                toCandidateDetail.putExtra("company", user);
+                toCandidateDetail.putExtra("requirementId", requirement.getId());
+                toCandidateDetail.putExtra("getState", false);
+                startActivity(toCandidateDetail);
             }
         });
         adapter.notifyDataSetChanged();
