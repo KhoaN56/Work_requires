@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.work_requires.MainActivityCompany;
 import com.example.work_requires.PostRequirement;
 import com.example.work_requires.R;
 import com.example.work_requires.UpdateRequirement;
@@ -56,19 +56,21 @@ public class JobPostedFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_main_comp, container, false);
         this.view = view;
         recyclerView = view.findViewById(R.id.postedRecyclerView);
-        initialize();
         return view;
     }
 
     @Override
     public void onResume() {
+//        if(user.getJobPosted().size()==0)
+        Bundle bundle = getArguments();
+        assert bundle != null;
+        user = (Company)bundle.getSerializable("company user");
+            user.updateJobPosted();
+        initialize();
         super.onResume();
     }
 
     private void initialize() {
-        Bundle bundle = getArguments();
-        assert bundle != null;
-        user = (Company)bundle.getSerializable("company user");
         jobList = new ArrayList<>();
 //        setUpRecyclerView();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("/Jobs/Job List");
@@ -97,10 +99,10 @@ public class JobPostedFragment extends Fragment {
                 WorkRequirement dummy;
                 dummy = dataSnapshot.getValue(WorkRequirement.class);
                 assert dummy != null;
-//                if(!user.isPosted(dummy.getId())){
+                if(user.isPosted(dummy.getId())){
                     jobList.add(dummy);
                     adapter.updateList();
-//                }
+                }
             }
 
             @Override

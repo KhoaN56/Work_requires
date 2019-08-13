@@ -79,6 +79,12 @@ public class JobsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+
+        super.onResume();
+    }
+
     public void init() {
         Bundle bundle = getArguments();
         assert bundle != null;

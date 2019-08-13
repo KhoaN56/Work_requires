@@ -190,7 +190,6 @@
                 android:layout_height="wrap_content"
                 android:text="Mô tả"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/descriptionTV"
                 app:layout_constraintStart_toStartOf="@+id/textView35"
                 app:layout_constraintTop_toTopOf="@+id/descriptionTV" />
 
@@ -211,7 +210,6 @@
                 android:layout_height="wrap_content"
                 android:text="Yêu cầu"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/requirementTV"
                 app:layout_constraintStart_toStartOf="@+id/textView37"
                 app:layout_constraintTop_toTopOf="@+id/requirementTV" />
 
@@ -243,7 +241,6 @@
                 android:layout_height="wrap_content"
                 android:text="Quyền lợi"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/benefitTV"
                 app:layout_constraintStart_toStartOf="@+id/textView39"
                 app:layout_constraintTop_toTopOf="@+id/benefitTV" />
 

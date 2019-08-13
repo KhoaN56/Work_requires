@@ -9,6 +9,7 @@
     <string name="logout">Đăng xuất</string>
     <string name="noti_seen_profile">đã xem qua hồ sơ của bạn. Hãy cùng xem lại công việc bạn đã đăng ký nhé!</string>
     <string name="noti_applied_job">vừa ứng tuyển vào công việc của bạn! Hãy xem qua hồ sơ của bạn ấy để không phải bỏ lỡ những ứng viên sáng giá nào!</string>
+    <string name="personal_infomation">Thông tin cá nhân</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

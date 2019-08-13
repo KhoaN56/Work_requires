@@ -77,7 +77,7 @@ public class JobsSavedFrag extends Fragment {
         assert bundle != null;
         user = (User) bundle.getSerializable("user");
         assert user != null;
-//        user.loadSavedIdList();
+        user.loadSavedIdList();
     }
 
     public void init() {

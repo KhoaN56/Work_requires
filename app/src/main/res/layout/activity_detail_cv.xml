@@ -140,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
+                android:textColor="@color/selectedTab"
                 app:layout_constraintStart_toStartOf="@+id/schoolTV"
                 app:layout_constraintTop_toBottomOf="@+id/sexTV" />
 
@@ -160,6 +161,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="TextView"
+                android:textColor="@color/selectedTab"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/schoolTV"
                 app:layout_constraintTop_toBottomOf="@+id/emailTV" />
@@ -189,7 +191,6 @@
                 android:layout_height="wrap_content"
                 android:text="Vị trí ứng tuyển"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/jobPosTV"
                 app:layout_constraintStart_toStartOf="@+id/textView35"
                 app:layout_constraintTop_toTopOf="@+id/jobPosTV" />
 
@@ -239,7 +240,6 @@
                 android:layout_height="wrap_content"
                 android:text="Trường, cơ sở đào tạo"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/schoolTV"
                 app:layout_constraintStart_toStartOf="@+id/textView39"
                 app:layout_constraintTop_toTopOf="@+id/schoolTV" />
 
@@ -291,7 +291,6 @@
                 android:layout_marginStart="16dp"
                 android:text="Kinh nghiệm làm việc"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/detail_experienceTV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/detail_experienceTV" />
 

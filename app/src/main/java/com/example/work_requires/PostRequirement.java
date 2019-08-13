@@ -186,12 +186,13 @@ public class PostRequirement extends AppCompatActivity {
                         requirementTxt, benefitTxt, endDateTxt, user.getName(), user.getUserId());
                 requirement.setApplied(0);
                 requirement.postRequirement();
-                user.addJob(requirement.getId());
+//                user.addJob(requirement.getId());
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                        .getReference("/Company/"+user.getUserId()+"/jobPosted");
-                databaseReference.setValue(user.getJobPosted());
-
+                        .getReference("/Company/"+user.getUserId()+"/jobPosted/"+user.getJobPosted().size());
+                databaseReference.setValue(requirement.getId());
+//                user.addJob();
                 Toast.makeText(PostRequirement.this, "Đăng tin thành công!!", Toast.LENGTH_SHORT).show();
+//                finish();
                 onBackPressed();
             }
         });

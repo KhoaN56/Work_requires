@@ -9,4 +9,5 @@
     <string name="phoneNumber">Phone number</string>
     <string name="noti_seen_profile">have seen your profile. Let\'s take a look back to the job which you have just applied</string>
     <string name="noti_applied_job">have just applied to your job. Let\'s see their profile so that we\'ll not missed any of them</string>
+    <string name="personal_infomation">Personal infomation</string>
 </resources>

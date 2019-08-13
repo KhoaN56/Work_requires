@@ -1,9 +1,11 @@
 package com.example.work_requires;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 //import com.example.work_requires.models.WorkRequirement;
@@ -71,6 +73,20 @@ public class DetailCV extends AppCompatActivity {
         super.onStart();
     }
 
+    private View.OnClickListener sendMail = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+//            Intent intent = new Intent();
+//            intent.setAction(Intent.ACTION_SEND);
+//            intent.setData(Uri.parse("mailto:"));
+//            intent.setType("text/plain");
+//            intent.putExtra("",);
+            Intent mailClient = new Intent(Intent.ACTION_VIEW);
+            mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ConversationListActivity");
+            startActivity(mailClient);
+        }
+    };
+
     private void initialize() {
 //        Intent info = getIntent();
 //        user = (User) info.getSerializableExtra("user");
@@ -91,6 +107,7 @@ public class DetailCV extends AppCompatActivity {
         sex.setText(cv.getSex());
         email = findViewById(R.id.emailTV);
         email.setText(user.getEmail());
+        email.setOnClickListener(sendMail);
         phone = findViewById(R.id.phoneTV);
         phone.setText(user.getPhone());
         district = findViewById(R.id.districtTV);
