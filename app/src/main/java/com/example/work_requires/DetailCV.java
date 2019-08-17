@@ -73,20 +73,6 @@ public class DetailCV extends AppCompatActivity {
         super.onStart();
     }
 
-    private View.OnClickListener sendMail = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-//            Intent intent = new Intent();
-//            intent.setAction(Intent.ACTION_SEND);
-//            intent.setData(Uri.parse("mailto:"));
-//            intent.setType("text/plain");
-//            intent.putExtra("",);
-            Intent mailClient = new Intent(Intent.ACTION_VIEW);
-            mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ConversationListActivity");
-            startActivity(mailClient);
-        }
-    };
-
     private void initialize() {
 //        Intent info = getIntent();
 //        user = (User) info.getSerializableExtra("user");
@@ -110,6 +96,7 @@ public class DetailCV extends AppCompatActivity {
         email.setOnClickListener(sendMail);
         phone = findViewById(R.id.phoneTV);
         phone.setText(user.getPhone());
+        phone.setOnClickListener(callCandidate);
         district = findViewById(R.id.districtTV);
         district.setText(user.getDistrict());
         jobPos = findViewById(R.id.jobPosTV);
@@ -124,6 +111,30 @@ public class DetailCV extends AppCompatActivity {
         experience.setText(exp == 0?"Chưa có kinh nghiệm":exp+" năm");
         detail_experience = findViewById(R.id.detail_experienceTV);
         detail_experience.setText(cv.getDetail_experience());
-
     }
+    View.OnClickListener callCandidate = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent call = new Intent(Intent.ACTION_DIAL);
+            call.setData(Uri.parse("tel:" + user.getPhone()));
+            if(call.resolveActivity(getPackageManager())!= null){
+                startActivity(call);
+            }
+        }
+    };
+
+    private View.OnClickListener sendMail = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent sendMail = new Intent(Intent.ACTION_SENDTO);
+            //Set for only mail apps would handle this
+            sendMail.setData(Uri.parse("mailto:"));
+            sendMail.putExtra(Intent.EXTRA_EMAIL,new String[]{user.getEmail()});
+//            Intent mailClient = new Intent(Intent.ACTION_VIEW);
+//            mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ConversationListActivity");
+            if (sendMail.resolveActivity(getPackageManager()) != null) {
+                startActivity(sendMail);
+            }
+        }
+    };
 }

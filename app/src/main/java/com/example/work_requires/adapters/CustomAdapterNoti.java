@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.example.work_requires.R;
 import com.example.work_requires.models.Noti;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CustomAdapterNoti extends BaseAdapter {
 
@@ -99,8 +101,11 @@ public class CustomAdapterNoti extends BaseAdapter {
 
     private boolean isMoreThanOneDay(String inputDate) {
         try{
+            //iDate = inputDate
             Date iDate = dateFormat.parse(inputDate);
-            return (today.compareTo(iDate) > 1);    // > 1 la ngay thong bao truoc ngay hien tai 1 ngay
+            long dif = today.getTime() - iDate.getTime();
+            long getDaysDiff = TimeUnit.MILLISECONDS.toDays(dif);
+            return (getDaysDiff >= 1);    // >1 la ngay hien tai cach ngay input hon 1 ngay
         }catch (ParseException e){
             e.printStackTrace();
         }
