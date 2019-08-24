@@ -31,8 +31,8 @@ public class CustomAdapterNoti extends BaseAdapter {
     String mes;
     String mes1;
     String mes2;
-    String mes3;
-    String mes4;
+//    String mes3;
+//    String mes4;
 
     class ViewHolder{
         TextView message, dayTime;
@@ -43,8 +43,8 @@ public class CustomAdapterNoti extends BaseAdapter {
         this.layout = layout;
         this.context = context;
         today = new Date(System.currentTimeMillis());
-        mes1 = context.getString(R.string.noti_seen_profile);
-        mes2 = context.getString(R.string.noti_applied_job);
+        mes1 = "đã xem qua hồ sơ của bạn. Hãy cùng xem lại công việc bạn đã đăng ký nhé!";
+        mes2 = "vừa ứng tuyển vào công việc của bạn! Hãy xem qua hồ sơ của bạn ấy để không phải bỏ lỡ những ứng viên sáng giá nào!";
 //        mes3 = context.getString(R.string.);
 //        mes4 = context.getString(R.string.);
     }

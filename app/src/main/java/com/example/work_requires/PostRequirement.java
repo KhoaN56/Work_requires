@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.work_requires.models.Company;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.WorkRequirement;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,11 +36,11 @@ public class PostRequirement extends AppCompatActivity {
     EditText jobName;
     EditText salary;
     EditText experience, amount;
-    Spinner major, city, degree, workPos, spn_district;
+    Spinner major, city, degree, workPos;
     EditText endDate;
     EditText requirement, description, benefit;
     Button postButton;
-    String salaryTxt="", expTxt="", cityTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", district = "",
+    String salaryTxt="", expTxt="", cityTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="",
             endDateTxt="", jobNameTxt="",requirementTxt="",descriptionTxt="",benefitTxt="", amountTxt="";
 //    SQLiteManagement workRequireDatabase;
     Company user;
@@ -49,7 +50,6 @@ public class PostRequirement extends AppCompatActivity {
 
     //List of data
     List<String>cityList;
-    List<String>districtList;
     List<String>degreeList;
     List<String>majorList;
     List<String>workPosList;
@@ -69,7 +69,6 @@ public class PostRequirement extends AppCompatActivity {
         endDate = findViewById(R.id.editText6);
         major = findViewById(R.id.spn_major);
         city = findViewById(R.id.spn_city);
-        spn_district = findViewById(R.id.spn_district);
         degree = findViewById(R.id.spinner3);
         workPos = findViewById(R.id.spinner4);
         postButton = findViewById(R.id.Dangtin);
@@ -79,7 +78,7 @@ public class PostRequirement extends AppCompatActivity {
         jobName = findViewById(R.id.txt_title);
         amount = findViewById(R.id.amount);
 
-        user = (Company) getIntent().getSerializableExtra("user");
+        user = DataHolder.getCompUser();
 
 
         cityList = getLists("/Areas/Cities", city);
@@ -92,33 +91,15 @@ public class PostRequirement extends AppCompatActivity {
 
         workPosList = getLists("/Position", workPos);
 
-
-        final List<String> cityKeyList = getKeyLists();
-
         city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cityTxt = cityList.get(position);
-                String path = "/Areas/District/" + cityKeyList.get(position);
-                districtList = getLists(path, spn_district);
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 cityTxt ="";
-            }
-        });
-
-        spn_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                district = districtList.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                district = "";
             }
         });
 
@@ -181,7 +162,7 @@ public class PostRequirement extends AppCompatActivity {
                     return;
                 }
                 WorkRequirement requirement;
-                requirement = new WorkRequirement(jobNameTxt, majorTxt, cityTxt, district,Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
+                requirement = new WorkRequirement(jobNameTxt, majorTxt, cityTxt,Long.parseLong(salaryTxt), degreeTxt, workPosTxt,
                         Integer.parseInt(expTxt), Integer.parseInt(amountTxt),descriptionTxt,
                         requirementTxt, benefitTxt, endDateTxt, user.getName(), user.getUserId());
                 requirement.setApplied(0);
@@ -192,8 +173,8 @@ public class PostRequirement extends AppCompatActivity {
                 databaseReference.setValue(requirement.getId());
 //                user.addJob();
                 Toast.makeText(PostRequirement.this, "Đăng tin thành công!!", Toast.LENGTH_SHORT).show();
-//                finish();
                 onBackPressed();
+                finish();
             }
         });
     }
@@ -219,7 +200,7 @@ public class PostRequirement extends AppCompatActivity {
         amountTxt = amount.getText().toString().trim();
         return (!(jobNameTxt.equals("")||salaryTxt.equals("")||expTxt.equals("")|| amountTxt.equals("") ||
                 endDateTxt.equals("")||requirementTxt.equals("")||descriptionTxt.equals("")||
-                benefitTxt.equals("")||cityTxt.equals("")||district.equals("")));
+                benefitTxt.equals("")||cityTxt.equals("")));
     }
 
     private List<String> getLists(String path, final Spinner spinner){

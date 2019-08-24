@@ -81,7 +81,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/spn_degree"
-                    app:layout_constraintTop_toBottomOf="@+id/spn_district" />
+                    app:layout_constraintTop_toBottomOf="@+id/spn_city" />
 
                 <TextView
                     android:id="@+id/NgayKett"
@@ -187,8 +187,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Kinh nghiệm"
-                    app:layout_constraintBottom_toBottomOf="@+id/experience"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/experience" />
 
@@ -216,8 +216,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Yêu cầu"
-                    app:layout_constraintBottom_toBottomOf="@+id/requirement"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/requirement" />
 
@@ -240,8 +240,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Mô tả công việc"
-                    app:layout_constraintBottom_toBottomOf="@+id/description"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/description" />
 
@@ -263,8 +263,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Quyền lợi"
-                    app:layout_constraintBottom_toBottomOf="@+id/benefit"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/benefit" />
 
@@ -303,24 +303,6 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/spn_jobPos"
                     app:layout_constraintTop_toBottomOf="@+id/spn_jobPos" />
-
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/district"
-                    app:layout_constraintBottom_toBottomOf="@+id/spn_district"
-                    app:layout_constraintStart_toStartOf="@+id/khuvuc"
-                    app:layout_constraintTop_toTopOf="@+id/spn_district" />
-
-                <Spinner
-                    android:id="@+id/spn_district"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/spn_city"
-                    app:layout_constraintStart_toStartOf="@+id/spn_city"
-                    app:layout_constraintTop_toBottomOf="@+id/spn_city" />
 
 
             </android.support.constraint.ConstraintLayout>

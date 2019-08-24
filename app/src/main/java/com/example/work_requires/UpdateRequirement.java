@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.WorkRequirement;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,10 +37,10 @@ import java.util.Map;
 public class UpdateRequirement extends AppCompatActivity {
 
     EditText title, salary, amount, requirement, experience, description, benefit, end_date;
-    Spinner major, city, spn_district, degree, workPos;
+    Spinner major, city, degree, workPos;
     WorkRequirement workRequirement;
-    String salaryTxt="", expTxt="", cityTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", district="",
-            endDateTxt="", jobNameTxt="",requirementTxt="",descriptionTxt="",benefitTxt="", amountTxt="";
+    String salaryTxt="", expTxt="", cityTxt ="", majorTxt ="", degreeTxt ="", workPosTxt ="", endDateTxt="",
+            jobNameTxt="",requirementTxt="",descriptionTxt="",benefitTxt="", amountTxt="";
     
     Button btn_save;
     Date today;
@@ -48,7 +49,6 @@ public class UpdateRequirement extends AppCompatActivity {
 
     //List of data
     List<String>cityList;
-    List<String>districtList;
     List<String>degreeList;
     List<String>majorList;
     List<String>workPosList;
@@ -67,8 +67,8 @@ public class UpdateRequirement extends AppCompatActivity {
     }
 
     public void initialize() {
-        Intent info = getIntent();
-        workRequirement = (WorkRequirement) info.getSerializableExtra("work");
+//        Intent info = getIntent();
+        workRequirement = DataHolder.getJob();
 
         today = new Date(System.currentTimeMillis());
         dateFormat = new SimpleDateFormat(pattern);
@@ -81,11 +81,9 @@ public class UpdateRequirement extends AppCompatActivity {
         description= findViewById(R.id.description);
         benefit = findViewById(R.id.benefit);
         end_date= findViewById(R.id.enddate);
-
         title = findViewById(R.id.title);
         major = findViewById(R.id.spn_major);
         city = findViewById(R.id.spn_city);
-        spn_district = findViewById(R.id.spn_district);
         degree = findViewById(R.id.spn_degree);
         workPos = findViewById(R.id.spn_jobPos);
         btn_save = findViewById(R.id.btn_save);
@@ -98,15 +96,11 @@ public class UpdateRequirement extends AppCompatActivity {
 
         workPosList = getLists("/Position", workPos, workRequirement.getWorkPos());
 
-        final List<String> cityKeyList = getKeyLists();
-
-//        city.setSelection(cityList.indexOf(workRequirement.getCity()));
+        city.setSelection(cityList.indexOf(cityTxt));
         city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cityTxt = cityList.get(position);
-                districtList = getLists("/Areas/District/" + cityKeyList.get(position),
-                        spn_district, workRequirement.getDistrict());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -114,21 +108,7 @@ public class UpdateRequirement extends AppCompatActivity {
             }
         });
 
-//        spn_district.setSelection(districtList.indexOf(workRequirement.getDistrict()));
-        spn_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                district = districtList.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                district = workRequirement.getDistrict();
-            }
-        });
-
-
-//        degree.setSelection(degreeList.indexOf(workRequirement.getDegree()));
+        degree.setSelection(degreeList.indexOf(workRequirement.getDegree()));
         degree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -141,7 +121,7 @@ public class UpdateRequirement extends AppCompatActivity {
             }
         });
 
-//        workPos.setSelection(workPosList.indexOf(workRequirement.getWorkPos()));
+        workPos.setSelection(workPosList.indexOf(workRequirement.getWorkPos()));
         workPos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -154,7 +134,7 @@ public class UpdateRequirement extends AppCompatActivity {
             }
         });
 
-//        major.setSelection(majorList.indexOf(workRequirement.getMajor()));
+        major.setSelection(majorList.indexOf(workRequirement.getMajor()));
         major.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -205,7 +185,6 @@ public class UpdateRequirement extends AppCompatActivity {
                         workRequirement.setJobName(jobNameTxt);
                         workRequirement.setMajor(majorTxt);
                         workRequirement.setCity(cityTxt);
-                        workRequirement.setDistrict(district);
                         workRequirement.setSalary(Long.parseLong(salaryTxt));
                         workRequirement.setDegree(degreeTxt);
                         workRequirement.setWorkPos(workPosTxt);
@@ -232,8 +211,6 @@ public class UpdateRequirement extends AppCompatActivity {
                                 Toast.makeText(UpdateRequirement.this, "Xảy ra lỗi trong quá trình xử lí", Toast.LENGTH_SHORT).show();
                             }
                         });
-//                        management= new SQLiteManagement(UpdateRequirement.this, "Work_Requirement.sqlite", null, 1);
-//                        management.update(workRequirement);
                         Toast.makeText(UpdateRequirement.this, "Sửa tin thành công!!", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }

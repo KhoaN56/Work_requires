@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.work_requires.models.Company;
 //import com.example.work_requires.models.User;
+import com.example.work_requires.models.DataHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,14 +36,11 @@ import java.util.List;
 public class SignUpCompany extends AppCompatActivity {
 
     EditText txt_pass, txt_pass_2, txt_name, txt_address, txt_email, txt_phone, txt_fax;
-    Spinner spn_city, spn_district;
-    String district="", pass="", pass2="", name="", address="", email="", phone="", city="", fax= "";
-//    SQLiteManagement sqLiteManagement;
-//    DatabaseReference database;
+    Spinner spn_city;
+    String pass="", pass2="", name="", address="", email="", phone="", city="", fax= "";
     Button btnSignin;
 
     List<String>cityList;
-    List<String>districtList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,37 +62,21 @@ public class SignUpCompany extends AppCompatActivity {
         txt_name = findViewById(R.id.txt_name);
         txt_address = findViewById(R.id.txt_addr);
         spn_city = findViewById(R.id.spn_city);
-        spn_district = findViewById(R.id.spn_district);
         txt_email = findViewById(R.id.txt_mail);
         txt_phone = findViewById(R.id.txt_phone);
         txt_fax = findViewById(R.id.txt_fax);
         btnSignin = findViewById(R.id.btnSignUp);
 
-        final List<String> cityKeyList = getKeyLists();
         cityList = getLists("/Areas/Cities", spn_city);
         spn_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city = cityList.get(position);
-//                districtList.clear();
-                districtList = getLists("/Areas/District/"+cityKeyList.get(position), spn_district);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 city ="";
-            }
-        });
-
-        spn_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                district = districtList.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                district = "";
             }
         });
 
@@ -121,38 +103,6 @@ public class SignUpCompany extends AppCompatActivity {
         return list;
     }
 
-    private List<String> getKeyLists(){
-        final List<String>keyList = new ArrayList<>();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference("/Areas/Cities");
-        database.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                keyList.add(dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return keyList;
-    }
-
     public void signUp(){
         if(checked()){
 //            sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
@@ -170,11 +120,12 @@ public class SignUpCompany extends AppCompatActivity {
                                 FirebaseUser firebaseUser = auth.getCurrentUser();
                                 assert firebaseUser != null;
                                 String userId = firebaseUser.getUid();
-                                Company user = new Company(userId, name, email, phone, fax, address, city, district);
+                                Company user = new Company(userId, name, email, phone, fax, address, city);
                                 //update user info
                                 user.signUpUser(userId);
                                 Intent intent2 = new Intent(SignUpCompany.this, MainActivityCompany.class);
-                                intent2.putExtra("user", user);
+//                                intent2.putExtra("user", user);
+                                DataHolder.setCompUser(user);
                                 startActivity(intent2);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -195,17 +146,6 @@ public class SignUpCompany extends AppCompatActivity {
     }
 
     private boolean checked() {
-//        int count = 0;
-//        username = txt_username.getText().toString();
-//        sqLiteManagement = new SQLiteManagement(this, "Work_Requirement.sqlite", null, 1);
-//        Cursor cursor = sqLiteManagement.getDatasql("select count(*) from cv where str_email='" + username + "'");
-//        if (cursor.moveToNext()) {
-//            count = cursor.getInt(0);
-//            if (count != 0) {
-//                errorAlert("Tên đăng nhập đã tồn tại, xin kiểm tra lại");
-//                return false;
-//            }
-//        }
         pass = txt_pass.getText().toString();
         pass2 = txt_pass_2.getText().toString();
         if (!pass.equals(pass2)) {
@@ -218,12 +158,11 @@ public class SignUpCompany extends AppCompatActivity {
         phone = txt_phone.getText().toString();
         fax = txt_phone.getText().toString();
         if (city.equals("") || pass.equals("") || pass2.equals("") || name.equals("") || fax.equals("") ||
-                address.equals("") || email.equals("") || phone.equals("") || district.equals(""))
+                address.equals("") || email.equals("") || phone.equals(""))
         {
             errorAlert("Bạn chưa nhập đủ thông tin!!");
             return false;
         }
-//        cursor.close();
         return true;
     }
 }

@@ -15,7 +15,6 @@ public class WorkRequirement implements Serializable {
     private String companyName;
     private String major;
     private String city;
-    private String district;
     private long salary;
     private String degree;
     private String workPos;
@@ -42,14 +41,13 @@ public class WorkRequirement implements Serializable {
         this.applied = applied;
     }
 
-    public WorkRequirement(String jobName, String major, String city, String district, long salary, String degree,
+    public WorkRequirement(String jobName, String major, String city, long salary, String degree,
                            String workPos, int experience, int amount, String description, String requirement,
                            String benefit, String endDate, String companyName, String compID){//, int salary) {
         this.jobName = jobName;
         this.companyName = companyName;
         this.major = major;
         this.city = city;
-        this.district = district;
         this.salary = salary;
         this.degree = degree;
         this.workPos = workPos;
@@ -171,14 +169,6 @@ public class WorkRequirement implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
     }
 
     public long getSalary() {

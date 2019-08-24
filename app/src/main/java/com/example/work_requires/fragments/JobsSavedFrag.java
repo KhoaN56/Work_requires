@@ -16,6 +16,7 @@ import com.example.work_requires.MainActivity;
 import com.example.work_requires.R;
 import com.example.work_requires.RequirementDetail;
 import com.example.work_requires.adapters.CustomAdapter;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.models.User;
 import com.google.firebase.database.ChildEventListener;
@@ -73,9 +74,9 @@ public class JobsSavedFrag extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        assert bundle != null;
-        user = (User) bundle.getSerializable("user");
+//        Bundle bundle = getArguments();
+////        assert bundle != null;
+        user = DataHolder.getNormalUser();
         assert user != null;
         user.loadSavedIdList();
     }
@@ -88,8 +89,9 @@ public class JobsSavedFrag extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if(user.isSaved(dataSnapshot.getKey())){
-                    savedList.add(dataSnapshot.getValue(WorkRequirement.class));
+                    savedList.add(0,dataSnapshot.getValue(WorkRequirement.class));
                     adapter.updateList();
+                    onResume();
                 }
             }
 
@@ -107,6 +109,7 @@ public class JobsSavedFrag extends Fragment {
                 savedList.remove(dummy);
                 user.removeSavedId(dummy.getId());
                 adapter.updateList();
+                onResume();
             }
 
             @Override
@@ -131,8 +134,10 @@ public class JobsSavedFrag extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent toDetail = new Intent(getContext(), RequirementDetail.class);
-                toDetail.putExtra("requirement", savedList.get(position));
-                toDetail.putExtra("user", user);
+//                toDetail.putExtra("requirement", savedList.get(position));
+//                toDetail.putExtra("user", user);
+                DataHolder.clearData();
+                DataHolder.setJob(savedList.get(position));
                 startActivity(toDetail);
             }
         });

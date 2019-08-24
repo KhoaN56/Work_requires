@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.work_requires.adapters.CustomAdapter3;
 import com.example.work_requires.models.Company;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.models.User;
 import com.google.firebase.database.ChildEventListener;
@@ -56,8 +57,8 @@ public class ViewCandidateList extends AppCompatActivity {
     }
 
     private void initialize() {
-        user = (Company)getIntent().getSerializableExtra("user");
-        requirement = (WorkRequirement)getIntent().getSerializableExtra("requirement");
+        user = DataHolder.getCompUser();
+        requirement = DataHolder.getJob();
         title = findViewById(R.id.title);
         title.setText(requirement.getJobName());
 //        database = new SQLiteManagement(ViewCandidateList.this, "Work_Requirement.sqlite",null, 1);
@@ -100,6 +101,7 @@ public class ViewCandidateList extends AppCompatActivity {
                 if(userIds.contains(dataSnapshot.getKey())){
                     userList.add(dataSnapshot.getValue(User.class));
                     adapter.notifyDataSetChanged();
+                    onRestart();
                 }
             }
 
@@ -108,6 +110,7 @@ public class ViewCandidateList extends AppCompatActivity {
                 if(userIds.contains(dataSnapshot.getKey())){
                     userList.set(userIds.indexOf(dataSnapshot.getKey()),dataSnapshot.getValue(User.class));
                     adapter.notifyDataSetChanged();
+                    onRestart();
                 }
             }
 
@@ -117,6 +120,7 @@ public class ViewCandidateList extends AppCompatActivity {
                     userList.remove(dataSnapshot.getValue(User.class));
                     userIds.remove(dataSnapshot.getKey());
                     adapter.notifyDataSetChanged();
+                    onRestart();
                 }
             }
 
@@ -142,12 +146,33 @@ public class ViewCandidateList extends AppCompatActivity {
         adapter.setOnItemClickListener(new CustomAdapter3.OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                Intent toCandidateDetail = new Intent(ViewCandidateList.this, DetailCV.class);
-                toCandidateDetail.putExtra("user", userList.get(position));
-                toCandidateDetail.putExtra("company", user);
-                toCandidateDetail.putExtra("requirementId", requirement.getId());
-                toCandidateDetail.putExtra("getState", false);
-                startActivity(toCandidateDetail);
+                final Intent toCandidateDetail = new Intent(ViewCandidateList.this, DetailCV.class);
+//                toCandidateDetail.putExtra("user", userList.get(position));
+//                toCandidateDetail.putExtra("company", user);
+                toCandidateDetail.putExtra("requirement", requirement.getId());
+//                toCandidateDetail.putExtra("getState", false);
+                DataHolder.clearAll();
+//                DataHolder.setJob(requirement);
+                DataHolder.setCompUser(user);
+                DataHolder.setNormalUser(userList.get(position));
+                DataHolder.setJob(requirement);
+                DatabaseReference checkIsRead = FirebaseDatabase.getInstance()
+                        .getReference("/Jobs/Applied/"+requirement.getId()+"/"+userList.get(position).getUserId()+"/isRead");
+                checkIsRead.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue(Boolean.class))
+                            toCandidateDetail.putExtra("getState", true);
+                        else
+                            toCandidateDetail.putExtra("getState", false);
+                        startActivity(toCandidateDetail);
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
         adapter.notifyDataSetChanged();

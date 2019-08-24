@@ -16,6 +16,7 @@ import com.example.work_requires.MainActivity;
 import com.example.work_requires.R;
 import com.example.work_requires.RequirementDetail;
 import com.example.work_requires.adapters.CustomAdapter;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.models.User;
 import com.google.firebase.database.ChildEventListener;
@@ -103,7 +104,7 @@ public class JobsFragment extends Fragment {
                 WorkRequirement dummy = dataSnapshot.getValue(WorkRequirement.class);
                 assert dummy != null;
                 if(dummy.getMajor().equals(major) && isStillValid(today, dummy.getEndDate())){
-                    requirementList.add(dummy);
+                    requirementList.add(0,dummy);
                     adapter.updateList();
                 }
             }
@@ -158,8 +159,10 @@ public class JobsFragment extends Fragment {
             @Override
             public void onClick(int position) {
             Intent toDetail = new Intent(getContext(), RequirementDetail.class);
-            toDetail.putExtra("requirement", requirementList.get(position));
-            toDetail.putExtra("user", user);
+            DataHolder.clearData();
+            DataHolder.setJob(requirementList.get(position));
+//            toDetail.putExtra("requirement", requirementList.get(position));
+//            toDetail.putExtra("user", user);
             startActivity(toDetail);
         }
         });

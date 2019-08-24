@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SeeProfileCandidate">
+    tools:context=".SeeProfileCompany">
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,13 +18,13 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fullname"
+                android:text="Tên công ty"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_name"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/txt_name" />
@@ -34,22 +35,42 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:autofillHints=""
                 android:ems="10"
-                android:hint="Tên của bạn"
                 android:inputType="textPersonName"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txt_mail"
+                app:layout_constraintStart_toStartOf="@+id/txt_phone"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Địa chỉ"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_addr"
+                app:layout_constraintStart_toStartOf="@+id/textView14"
+                app:layout_constraintTop_toTopOf="@+id/txt_addr" />
+
+            <EditText
+                android:id="@+id/txt_addr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txt_fax"
+                app:layout_constraintTop_toBottomOf="@+id/txt_fax" />
 
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="23dp"
                 android:text="@string/City"
                 app:layout_constraintBottom_toBottomOf="@+id/spn_city"
-                app:layout_constraintStart_toStartOf="@+id/textView6"
+                app:layout_constraintStart_toStartOf="@+id/textView11"
                 app:layout_constraintTop_toTopOf="@+id/spn_city" />
 
             <Spinner
@@ -59,8 +80,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txt_phone"
-                app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
+                app:layout_constraintStart_toStartOf="@+id/txt_addr"
+                app:layout_constraintTop_toBottomOf="@+id/txt_addr" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -81,8 +102,8 @@
                 android:inputType="textEmailAddress"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/txt_phone"
+                app:layout_constraintHorizontal_bias="0.505"
+                app:layout_constraintStart_toStartOf="@+id/txt_name"
                 app:layout_constraintTop_toBottomOf="@+id/txt_name" />
 
             <TextView
@@ -99,7 +120,7 @@
                 android:id="@+id/txt_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
@@ -108,6 +129,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/txt_mail" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fax"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_fax"
+                app:layout_constraintStart_toStartOf="@+id/textView6"
+                app:layout_constraintTop_toTopOf="@+id/txt_fax" />
+
+            <EditText
+                android:id="@+id/txt_fax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txt_phone"
+                app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
 
             <Button
                 android:id="@+id/btnUpdate"
@@ -128,5 +171,4 @@
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
 </android.support.constraint.ConstraintLayout>

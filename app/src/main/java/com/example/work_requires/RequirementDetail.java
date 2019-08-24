@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.Noti;
 import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.models.User;
@@ -47,28 +48,28 @@ public class RequirementDetail extends AppCompatActivity {
 
     //Component
     TextView majorTV, cityTV, salaryTV, degreeTV, workPosTV, expTV, descriptionTV, requireTV, benefitTV,
-    endDateTV, jobName, compName, districtTV;
+    endDateTV, jobName, compName;
     Button subscribe, saveBtn;
 
-    //Database
-//    SQLiteManagement database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requirement_detail);
-        Intent info = getIntent();
-        user = (User) info.getSerializableExtra("user");
-        requirement = (WorkRequirement) info.getSerializableExtra("requirement");
-//        user.loadAppliedId();
+//        Intent info = getIntent();
+        user = DataHolder.getNormalUser();
+        requirement = DataHolder.getJob();
         DatabaseReference getJob = FirebaseDatabase.getInstance().getReference("/Jobs/Detail/"+requirement.getId());
         getJob.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                requirement = dataSnapshot.getValue(WorkRequirement.class);
-                initialize();
+                if(dataSnapshot.exists()){
+                    requirement = dataSnapshot.getValue(WorkRequirement.class);
+                    initialize();
+                }else {
+                    Toast.makeText(RequirementDetail.this, "Công việc đã bị xóa", Toast.LENGTH_SHORT).show();
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -118,8 +119,6 @@ public class RequirementDetail extends AppCompatActivity {
         majorTV.setText(requirement.getMajor());
         cityTV = findViewById(R.id.cityTV);
         cityTV.setText(requirement.getCity());
-        districtTV=findViewById(R.id.districtTV);
-        districtTV.setText(requirement.getDistrict());
         salaryTV = findViewById(R.id.salaryTV);
         salaryTV.setText(String.valueOf(requirement.getSalary()));
         degreeTV = findViewById(R.id.degreeTV);
@@ -151,6 +150,8 @@ public class RequirementDetail extends AppCompatActivity {
                     childUpdates.put("/Jobs/Job List/"+requirement.getId()+"/applied", requirement.getApplied());
                     childUpdates.put("/Jobs/Detail/"+requirement.getId()+"/applied", requirement.getApplied());
                     childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/userId", user.getUserId());
+                    childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/isRead", false);
+//                    childUpdates.put("/Jobs/Applied/"+requirement.getId()+"/"+user.getUserId()+"/userId", user.getUserId());
                     DatabaseReference write = FirebaseDatabase.getInstance().getReference();
                     write.updateChildren(childUpdates)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -175,7 +176,6 @@ public class RequirementDetail extends AppCompatActivity {
                 }
             }
         });
-//        cursor.close();
     }
 
     private View.OnClickListener saveJob = new View.OnClickListener() {
@@ -193,7 +193,6 @@ public class RequirementDetail extends AppCompatActivity {
                 Toast.makeText(RequirementDetail.this, "Đã lưu vào danh sách", Toast.LENGTH_SHORT).show();
                 //Thêm công việc vào danh sách đã lưu
                 saveState = SAVED;
-//                saveBtn.setBackgroundColor(Color.parseColor("#8B8B8B"));
                 saveBtn.setTextColor(Color.parseColor("#8B8B8B"));
             }
         }

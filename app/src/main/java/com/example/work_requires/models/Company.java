@@ -22,7 +22,6 @@ public class Company implements Serializable{
     private String fax;
     private String address;
     private String city;
-    private String district;
 
     private List<String>jobPosted;
 
@@ -30,7 +29,7 @@ public class Company implements Serializable{
         jobPosted = new ArrayList<>();
     }
 
-    public Company(String userId, String name, String email, String phone, String fax, String address, String city, String district) {
+    public Company(String userId, String name, String email, String phone, String fax, String address, String city) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -38,7 +37,6 @@ public class Company implements Serializable{
         this.fax = fax;
         this.address = address;
         this.city = city;
-        this.district = district;
         jobPosted = new ArrayList<>();
     }
 
@@ -98,14 +96,6 @@ public class Company implements Serializable{
         this.city = city;
     }
 
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
     public List<String> getJobPosted() {
         return jobPosted;
     }
@@ -156,13 +146,16 @@ public class Company implements Serializable{
 
     public void addJob(String jobID){
         this.jobPosted.add(jobID);
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-//                .getReference("/Company/"+this.userId+"/jobPosted");
-//        databaseReference.setValue(this.jobPosted);
     }
 
     public void signUpUser(String userId) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         database.child("Company").child(userId).setValue(this);
+        if(jobPosted.size()!=0)
+            for(String id:jobPosted){
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                reference.child("/Jobs/Job List/"+id+"/companyName").setValue(this.name);
+                reference.child("/Jobs/Detail/"+id+"/companyName").setValue(this.name);
+            }
     }
 }

@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.work_requires.models.Company;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,14 +32,13 @@ import com.google.firebase.database.annotations.NotNull;
 
 public class Login extends AppCompatActivity {
 
-    Button btnSignUp, btnLogin;
-//    SQLiteManagement managementDatabse;
-    EditText email, text_pass;
-    String str_email ="", pass="";
-    FirebaseAuth auth;
-    DatabaseReference database;
-    User user;
-    Company company;
+    private Button btnSignUp, btnLogin;
+    private EditText email, text_pass;
+    private String str_email ="", pass="";
+    private FirebaseAuth auth;
+    private DatabaseReference database;
+    private User user;
+    private Company company;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +127,7 @@ public class Login extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 user = dataSnapshot.getValue(User.class);
                                 Intent intent = new Intent(Login.this, MainActivity.class);
-                                intent.putExtra("user", user);
+                                DataHolder.setNormalUser(user);
                                 startActivity(intent);
                                 finish();
                             }
@@ -144,7 +144,8 @@ public class Login extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         company = dataSnapshot.getValue(Company.class);
                         Intent intent = new Intent(Login.this, MainActivityCompany.class);
-                        intent.putExtra("user", company);
+//                        intent.putExtra("user", company);
+                        DataHolder.setCompUser(company);
                         startActivity(intent);
                         finish();
                     }

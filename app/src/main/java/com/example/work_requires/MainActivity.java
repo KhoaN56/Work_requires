@@ -23,7 +23,11 @@ import com.example.work_requires.fragments.JobsFragment;
 import com.example.work_requires.fragments.JobsSavedFrag;
 import com.example.work_requires.fragments.MenuFragment;
 import com.example.work_requires.fragments.Notification;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //import java.text.SimpleDateFormat;
 //import java.util.List;
@@ -60,11 +64,19 @@ public class MainActivity extends AppCompatActivity {
     Notification frag3;
     MenuFragment frag4;
 
+    private List<String> name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main_can);
         initialize();
+    }
+
+    @Override
+    protected void onResume() {
+        setUpTabLayout();
+        super.onResume();
     }
 
     @Override
@@ -99,10 +111,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        Intent intent = getIntent();
-        user = (User)intent.getSerializableExtra("user");
+//        Intent intent = getIntent();
+        user = DataHolder.getNormalUser();
         user.loadAppliedId();
         user.loadSavedIdList();
+        name =  new ArrayList<>();
+        name.add("Thông tin tuyển dụng");
+        name.add("Công việc đã lưu");
+        name.add("Thông báo");
+        name.add("Menu");
         mainViewPager = findViewById(id.mainPager);
         tabLayout = findViewById(id.tabMenu);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
@@ -117,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         frag1.setArguments(bundle);
         frag2.setArguments(bundle);
         frag3.setArguments(bundle);
+        frag4.setArguments(bundle);
         pagerAdapter.addFragment(frag1);
         pagerAdapter.addFragment(frag2);
         pagerAdapter.addFragment(frag3);
@@ -125,17 +143,19 @@ public class MainActivity extends AppCompatActivity {
         mainViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 //        tabLayout.setupWithViewPager(mainViewPager);
         setUpTabLayout();
-
+        DataHolder.setNormalUser(user);
     }
 
     private void setUpTabLayout() {
-        tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
+
+        tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.d("Tab position", String.valueOf(tab.getPosition()));
                 mainViewPager.setCurrentItem(tab.getPosition());
                 tab.getIcon().setColorFilter(Color.parseColor("#0044CE"), PorterDuff.Mode.SRC_IN);
+                getSupportActionBar().setTitle(name.get(tab.getPosition()));
             }
 
             @Override

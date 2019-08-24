@@ -3,16 +3,11 @@ package com.example.work_requires.models;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-//import android.widget.Toast;
-
-//import com.example.work_requires.Login;
-import com.example.work_requires.Login;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.io.Serializable;
@@ -30,7 +25,6 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String city;
-    private String district;
     private CVInterview cv;
 
     //Danh sách các công việc được lưu
@@ -51,13 +45,12 @@ public class User implements Serializable {
     }
 
     //Khởi tạo thông tin cơ bản
-    public User(@NotNull String userId, String name,@NotNull String email, String phone, String city, String district) {
+    public User(@NotNull String userId, String name,@NotNull String email, String phone, String city) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.city = city;
-        this.district = district;
         this.savedId = new ArrayList<>();
         this.appliedId = new ArrayList<>();
     }
@@ -74,9 +67,20 @@ public class User implements Serializable {
         database.child("Users").child("User List").child(this.userId).child("name").setValue(this.name);
         database.child("Users").child("User List").child(this.userId).child("cv").child("experience").setValue(this.cv.getExperience());
         database.child("Users").child("User List").child(this.userId).child("userId").setValue(this.userId);
-//        database.child("Users").child("Basic info").child(userId).child("email").setValue(this.email);
-//        database.child("Users").child("Basic info").child(userId).child("phone").setValue(this.phone);
-//        database.child("Users").push().child("Basic info").child(userId).child("city").setValue(this.city);
+    }
+
+    public void upDateCV(){
+        DatabaseReference database;
+        database = FirebaseDatabase.getInstance().getReference();
+        database.child("Users").child("User List").child(this.userId).child("cv").child("experience").setValue(this.cv.getExperience());
+        database.child("Users").child("Detail").child(this.userId).child("cv").setValue(this.cv);
+    }
+
+    public void updateProfile(){
+        DatabaseReference database;
+        database = FirebaseDatabase.getInstance().getReference();
+        database.child("Users").child("Detail").child(this.userId).setValue(this);
+        database.child("Users").child("User List").child(this.userId).child("name").setValue(this.name);
     }
 
     public String getUserId() {
@@ -111,20 +115,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-//    public void setPhone(String phone) {
-//        this.phone = phone;
-//    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
     }
 
     public CVInterview getCv() {
@@ -178,9 +174,6 @@ public class User implements Serializable {
 
             }
         });
-//        do {
-//            Log.d("Notification", "undone");
-//        }while (getNumberOfSavedId()==0);
     }
 
     public void removeSavedId(String jobId){
@@ -240,8 +233,5 @@ public class User implements Serializable {
 
             }
         });
-//        do {
-//            Log.d("Notification", "undone");
-//        }while (getNumberOfAppliedId()==0);
     }
 }

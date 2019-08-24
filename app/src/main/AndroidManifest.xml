@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SeeProfileCandidate"></activity>
+        <activity android:name=".SeeProfileCompany"
+            android:label="Thông tin cá nhân"/>
+        <activity
+            android:name=".ViewPersonalCV"
+            android:label="Hồ sơ xin việc" />
+        <activity
+            android:name=".SeeProfileCandidate"
+            android:label="Thông tin cá nhân" />
         <activity
             android:name=".UpdateRequirement"
             android:label="Sửa tin tuyển dụng" />
@@ -27,7 +35,9 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SENDTO" />
+
                 <data android:scheme="mailto" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

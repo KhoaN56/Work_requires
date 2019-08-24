@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +21,7 @@ import com.example.work_requires.UpdateRequirement;
 import com.example.work_requires.ViewCandidateList;
 import com.example.work_requires.adapters.CustomAdapter2;
 import com.example.work_requires.models.Company;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.WorkRequirement;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -64,7 +64,7 @@ public class JobPostedFragment extends Fragment {
 //        if(user.getJobPosted().size()==0)
         Bundle bundle = getArguments();
         assert bundle != null;
-        user = (Company)bundle.getSerializable("company user");
+        user = DataHolder.getCompUser();
             user.updateJobPosted();
         initialize();
         super.onResume();
@@ -100,8 +100,9 @@ public class JobPostedFragment extends Fragment {
                 dummy = dataSnapshot.getValue(WorkRequirement.class);
                 assert dummy != null;
                 if(user.isPosted(dummy.getId())){
-                    jobList.add(dummy);
+                    jobList.add(0,dummy);
                     adapter.updateList();
+//                    onResume();
                 }
             }
 
@@ -113,6 +114,7 @@ public class JobPostedFragment extends Fragment {
                 if(user.isPosted(dummy.getId())){
                     jobList.set(user.getIndexOfPostedJob(dummy.getId()), dummy);
                     adapter.updateList();
+//                    onResume();
                 }
             }
 
@@ -124,6 +126,7 @@ public class JobPostedFragment extends Fragment {
                 if(user.isPosted(dummy.getId())){
                     jobList.remove(user.getIndexOfPostedJob(dummy.getId()));
                     adapter.updateList();
+                    onResume();
                 }
             }
 
@@ -158,8 +161,9 @@ public class JobPostedFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent toViewCandidateList = new Intent(getContext(), ViewCandidateList.class);
-                toViewCandidateList.putExtra("requirement", jobList.get(position));
-                toViewCandidateList.putExtra("user", user);
+//                toViewCandidateList.putExtra("requirement", jobList.get(position));
+//                toViewCandidateList.putExtra("user", user);
+                DataHolder.setJob(jobList.get(position));
                 startActivity(toViewCandidateList);
             }
         });
@@ -205,7 +209,7 @@ public class JobPostedFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Intent edit = new Intent(getContext(), UpdateRequirement.class);
-                edit.putExtra("work", dataSnapshot.getValue(WorkRequirement.class));
+                DataHolder.setJob(dataSnapshot.getValue(WorkRequirement.class));
                 startActivity(edit);
             }
 

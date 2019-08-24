@@ -11,6 +11,7 @@ import android.widget.TextView;
 //import com.example.work_requires.models.WorkRequirement;
 import com.example.work_requires.models.CVInterview;
 import com.example.work_requires.models.Company;
+import com.example.work_requires.models.DataHolder;
 import com.example.work_requires.models.Noti;
 import com.example.work_requires.models.User;
 import com.example.work_requires.models.WorkRequirement;
@@ -36,13 +37,14 @@ public class DetailCV extends AppCompatActivity {
 
     //Component
     TextView date_of_birth, sex, email, phone, jobPos, degree, school, classify, experience,
-            detail_experience, name, major, city, district;
+            detail_experience, name, major, city;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_cv);
-        Intent info = getIntent();
-        user = (User) info.getSerializableExtra("user");
+//        Intent info = getIntent();
+        user = DataHolder.getNormalUser();
+//        requirement = DataHolder.getJob();
         DatabaseReference getDetail = FirebaseDatabase.getInstance()
                 .getReference("/Users/Detail/"+user.getUserId());
         getDetail.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -62,13 +64,17 @@ public class DetailCV extends AppCompatActivity {
     @Override
     protected void onStart() {
         Intent intent = getIntent();
-        Company company = (Company) intent.getSerializableExtra("company");
+        Company company = DataHolder.getCompUser();
         String jobId = intent.getStringExtra("requirement");
         if(!intent.getBooleanExtra("getState", false)){
             Date m = new Date(System.currentTimeMillis());
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yyyy");
             Noti notification = new Noti(jobId, company.getName(), 1, dateFormat.format(m), false);
             notification.send("/Users/Notifications/"+user.getUserId());
+            DatabaseReference updateState = FirebaseDatabase.getInstance()
+                    .getReference("/Jobs/Applied/"+jobId+"/"+user.getUserId()+"/isRead");
+            updateState.setValue(true);
+//            DataHolder.clearNormalUser();
         }
         super.onStart();
     }
@@ -97,8 +103,6 @@ public class DetailCV extends AppCompatActivity {
         phone = findViewById(R.id.phoneTV);
         phone.setText(user.getPhone());
         phone.setOnClickListener(callCandidate);
-        district = findViewById(R.id.districtTV);
-        district.setText(user.getDistrict());
         jobPos = findViewById(R.id.jobPosTV);
         jobPos.setText(cv.getJobPos());
         degree = findViewById(R.id.degreeTV);
